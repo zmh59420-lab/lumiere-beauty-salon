@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>حجوزاتي | LUMIÈRE</title>
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
+
+        <a href="index.html" class="profile-btn">
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+        <div class="logo">
+
+            <h1>LUMIÈRE</h1>
+
+            <span>
+                BEAUTY SALON
+            </span>
+
+        </div>
+
+
+        <div style="width: 42px;"></div>
+
+    </header>
+
+
+
+    <!-- =========================
+         PAGE
+    ========================== -->
+
+    <main class="booking-page">
+
+
+        <!-- عنوان الصفحة -->
+
+        <div class="booking-title">
+
+            <span>
+                مواعيدك في مكان واحد
+            </span>
+
+            <h1>
+                حجوزاتي
+            </h1>
+
+            <p>
+                يمكنكِ متابعة حجوزاتك القادمة والسابقة
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             TABS
+        ========================== -->
+
+        <div class="appointments-tabs">
+
+
+            <button type="button" class="appointment-tab active" data-filter="upcoming">
+
+                القادمة
+
+            </button>
+
+
+            <button type="button" class="appointment-tab" data-filter="previous">
+
+                السابقة
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             BOOKINGS
+        ========================== -->
+
+        <div id="appointmentsList" class="appointments-list">
+
+        </div>
+
+
+
+        <!-- =========================
+             EMPTY
+        ========================== -->
+
+        <div id="emptyAppointments" class="empty-appointments">
+
+
+            <div class="empty-appointments-icon">
+
+                <i class="fa-regular fa-calendar"></i>
+
+            </div>
+
+
+            <h2>
+                لا توجد حجوزات
+            </h2>
+
+
+            <p>
+                حجوزاتك ستظهر هنا بعد تأكيد الموعد
+            </p>
+
+
+            <a href="booking.html" class="empty-booking-btn">
+
+                احجزي موعدك الآن
+
+            </a>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="appointments.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>حجز موعد | LUMIÈRE</title>
+
+
+    <!-- ملف التصميم -->
+    <link rel="stylesheet" href="style.css">
+
+
+    <!-- خط Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+
+    <!-- الأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================================
+         HEADER
+    ========================================= -->
+
+    <header class="header">
+
+
+        <!-- الرجوع للرئيسية -->
+
+        <a href="index.html" class="profile-btn">
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+        <!-- الشعار -->
+
+        <div class="logo">
+
+            <h1>
+                LUMIÈRE
+            </h1>
+
+            <span>
+                BEAUTY SALON
+            </span>
+
+        </div>
+
+
+        <!-- للمحافظة على الشعار في المنتصف -->
+
+        <div style="width: 42px;"></div>
+
+
+    </header>
+
+
+
+    <!-- ========================================
+         BOOKING PAGE
+    ========================================= -->
+
+    <main class="booking-page">
+
+
+        <!-- عنوان الصفحة -->
+
+        <div class="booking-title">
+
+            <span>
+                موعدكِ المثالي يبدأ هنا
+            </span>
+
+            <h1>
+                احجزي موعدك
+            </h1>
+
+            <p>
+                اختاري الخدمة المناسبة لكِ
+                وسنكمل الحجز بخطوات بسيطة
+            </p>
+
+        </div>
+
+
+
+        <!-- ========================================
+             BOOKING STEPS
+        ========================================= -->
+
+        <div class="booking-steps">
+
+
+            <div class="step active">
+
+                <strong>1</strong>
+
+                <span>
+                    الخدمة
+                </span>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>2</strong>
+
+                <span>
+                    الموظفة
+                </span>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>3</strong>
+
+                <span>
+                    الموعد
+                </span>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>4</strong>
+
+                <span>
+                    التأكيد
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ========================================
+             CHOOSE SERVICE
+        ========================================= -->
+
+        <section class="choose-service">
+
+
+            <h2>
+                اختاري الخدمة
+            </h2>
+
+
+            <p>
+                وش الخدمة اللي حابة تحجزينها؟
+            </p>
+
+
+
+            <!-- ========================================
+                 SEARCH
+            ========================================= -->
+
+            <div class="service-search">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text" id="serviceSearch" placeholder="ابحثي عن خدمة..." autocomplete="off"
+                    aria-label="البحث عن خدمة">
+
+            </div>
+
+
+
+            <!-- ========================================
+                 SERVICES
+            ========================================= -->
+
+            <div class="booking-services">
+
+
+                <!-- ====================================
+                     الشعر
+                ===================================== -->
+
+                <button class="booking-service-card" type="button" data-service="الشعر">
+
+                    <!-- المفضلة -->
+
+                    <span class="favorite-btn" data-favorite="الشعر" role="button" aria-label="إضافة الشعر إلى المفضلة">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </span>
+
+
+                    <div class="service-icon">
+
+                        <i class="fa-solid fa-scissors"></i>
+
+                    </div>
+
+
+                    <h3>
+                        الشعر
+                    </h3>
+
+
+                    <span class="service-description">
+                        قص، تصفيف وصبغات
+                    </span>
+
+
+                </button>
+
+
+
+                <!-- ====================================
+                     الأظافر
+                ===================================== -->
+
+                <button class="booking-service-card" type="button" data-service="الأظافر">
+
+                    <!-- المفضلة -->
+
+                    <span class="favorite-btn" data-favorite="الأظافر" role="button"
+                        aria-label="إضافة الأظافر إلى المفضلة">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </span>
+
+
+                    <div class="service-icon">
+
+                        <i class="fa-regular fa-hand"></i>
+
+                    </div>
+
+
+                    <h3>
+                        الأظافر
+                    </h3>
+
+
+                    <span class="service-description">
+                        مانيكير وبديكير
+                    </span>
+
+
+                </button>
+
+
+
+                <!-- ====================================
+                     البشرة
+                ===================================== -->
+
+                <button class="booking-service-card" type="button" data-service="البشرة">
+
+                    <!-- المفضلة -->
+
+                    <span class="favorite-btn" data-favorite="البشرة" role="button"
+                        aria-label="إضافة البشرة إلى المفضلة">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </span>
+
+
+                    <div class="service-icon">
+
+                        <i class="fa-regular fa-face-smile"></i>
+
+                    </div>
+
+
+                    <h3>
+                        البشرة
+                    </h3>
+
+
+                    <span class="service-description">
+                        تنظيف وعناية
+                    </span>
+
+
+                </button>
+
+
+
+                <!-- ====================================
+                     المكياج
+                ===================================== -->
+
+                <button class="booking-service-card" type="button" data-service="المكياج">
+
+                    <!-- المفضلة -->
+
+                    <span class="favorite-btn" data-favorite="المكياج" role="button"
+                        aria-label="إضافة المكياج إلى المفضلة">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </span>
+
+
+                    <div class="service-icon">
+
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                    </div>
+
+
+                    <h3>
+                        المكياج
+                    </h3>
+
+
+                    <span class="service-description">
+                        مكياج لجميع المناسبات
+                    </span>
+
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- ========================================
+                 NO SEARCH RESULTS
+            ========================================= -->
+
+            <p id="noServicesMessage" style="display: none;">
+                ما لقينا خدمة بهذا الاسم
+            </p>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ========================================
+         JAVASCRIPT
+    ========================================= -->
+
+    <script src="booking.js"></script>
+
+
+</body>
+
+</html>

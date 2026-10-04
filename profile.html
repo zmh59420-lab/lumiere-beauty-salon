@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>حسابي | LUMIÈRE</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
+
+        <a href="index.html" class="profile-btn">
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+        <div class="logo">
+
+            <h1>LUMIÈRE</h1>
+
+            <span>BEAUTY SALON</span>
+
+        </div>
+
+
+        <div style="width: 42px;"></div>
+
+    </header>
+
+
+
+    <!-- =========================
+         PROFILE PAGE
+    ========================== -->
+
+    <main class="profile-page">
+
+
+        <!-- =========================
+             عنوان الصفحة
+        ========================== -->
+
+        <div class="booking-title">
+
+            <span>
+                أهلاً بكِ
+            </span>
+
+            <h1>
+                حسابي
+            </h1>
+
+            <p>
+                أديري بياناتك وحجوزاتك من مكان واحد
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             PROFILE CARD
+        ========================== -->
+
+        <section class="profile-main-card">
+
+
+            <div class="profile-avatar">
+
+                <i class="fa-regular fa-user"></i>
+
+            </div>
+
+
+            <div class="profile-main-info">
+
+                <span>
+                    مرحباً بكِ
+                </span>
+
+                <h2 id="profileName">
+                    عميلة LUMIÈRE
+                </h2>
+
+                <p id="profilePhone">
+                    أضيفي بياناتك الشخصية
+                </p>
+
+            </div>
+
+
+            <button type="button" id="editProfileBtn" class="edit-profile-btn">
+
+                <i class="fa-regular fa-pen-to-square"></i>
+
+                تعديل
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             QUICK OPTIONS
+        ========================== -->
+
+        <section class="profile-options">
+
+
+            <!-- حجوزاتي -->
+
+            <a href="appointments.html" class="profile-option-card">
+
+                <div class="profile-option-icon">
+
+                    <i class="fa-regular fa-calendar-check"></i>
+
+                </div>
+
+
+                <div class="profile-option-info">
+
+                    <h3>
+                        حجوزاتي
+                    </h3>
+
+                    <p>
+                        عرض ومتابعة جميع حجوزاتك
+                    </p>
+
+                </div>
+
+
+                <i class="fa-solid fa-chevron-left"></i>
+
+            </a>
+
+
+
+            <!-- حجز جديد -->
+
+            <a href="booking.html" class="profile-option-card">
+
+                <div class="profile-option-icon">
+
+                    <i class="fa-solid fa-calendar-plus"></i>
+
+                </div>
+
+
+                <div class="profile-option-info">
+
+                    <h3>
+                        حجز جديد
+                    </h3>
+
+                    <p>
+                        احجزي موعداً جديداً
+                    </p>
+
+                </div>
+
+
+                <i class="fa-solid fa-chevron-left"></i>
+
+            </a>
+
+
+
+            <!-- بياناتي -->
+
+            <button type="button" id="personalInfoBtn" class="profile-option-card">
+
+                <div class="profile-option-icon">
+
+                    <i class="fa-regular fa-address-card"></i>
+
+                </div>
+
+
+                <div class="profile-option-info">
+
+                    <h3>
+                        بياناتي الشخصية
+                    </h3>
+
+                    <p>
+                        الاسم ورقم الجوال
+                    </p>
+
+                </div>
+
+
+                <i class="fa-solid fa-chevron-left"></i>
+
+            </button>
+
+
+
+            <!-- تواصل معنا -->
+
+            <button type="button" class="profile-option-card" id="contactBtn">
+
+                <div class="profile-option-icon">
+
+                    <i class="fa-regular fa-comment-dots"></i>
+
+                </div>
+
+
+                <div class="profile-option-info">
+
+                    <h3>
+                        تواصلي معنا
+                    </h3>
+
+                    <p>
+                        نحن هنا لمساعدتك
+                    </p>
+
+                </div>
+
+
+                <i class="fa-solid fa-chevron-left"></i>
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             FAVORITE SERVICES
+        ========================================= -->
+
+        <section class="profile-favorites">
+
+
+            <div class="favorites-header">
+
+                <div>
+
+                    <span>
+                        اختياراتك
+                    </span>
+
+                    <h2>
+                        خدماتي المفضلة
+                    </h2>
+
+                </div>
+
+
+                <div class="favorites-heart">
+
+                    <i class="fa-solid fa-heart"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- الخدمات المحفوظة -->
+
+            <div class="favorites-list" id="favoritesList">
+            </div>
+
+
+
+            <!-- تظهر إذا لم توجد مفضلة -->
+
+            <div class="favorites-empty" id="favoritesEmpty">
+
+                <div class="favorites-empty-icon">
+
+                    <i class="fa-regular fa-heart"></i>
+
+                </div>
+
+
+                <h3>
+                    ما عندك خدمات مفضلة حتى الآن
+                </h3>
+
+
+                <p>
+                    اضغطي على القلب بجانب أي خدمة
+                    عشان تلقينها هنا بسرعة
+                </p>
+
+
+                <a href="booking.html" class="favorites-browse-btn">
+
+                    تصفحي الخدمات
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             EDIT PROFILE FORM
+        ========================== -->
+
+        <section class="profile-edit-section" id="profileEditSection">
+
+
+            <div class="profile-edit-header">
+
+                <div>
+
+                    <span>
+                        بيانات الحساب
+                    </span>
+
+                    <h2>
+                        تعديل بياناتي
+                    </h2>
+
+                </div>
+
+
+                <button type="button" id="closeProfileEdit">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+
+            <!-- الاسم -->
+
+            <div class="profile-input-group">
+
+                <label for="customerName">
+                    الاسم
+                </label>
+
+
+                <div class="profile-input-box">
+
+                    <i class="fa-regular fa-user"></i>
+
+                    <input type="text" id="customerName" placeholder="اكتبي اسمك">
+
+                </div>
+
+            </div>
+
+
+
+            <!-- الجوال -->
+
+            <div class="profile-input-group">
+
+                <label for="customerPhone">
+                    رقم الجوال
+                </label>
+
+
+                <div class="profile-input-box">
+
+                    <i class="fa-solid fa-phone"></i>
+
+                    <input type="tel" id="customerPhone" placeholder="05xxxxxxxx" maxlength="10">
+
+                </div>
+
+            </div>
+
+
+
+            <!-- حفظ -->
+
+            <button type="button" id="saveProfileBtn" class="save-profile-btn">
+
+                حفظ البيانات
+
+                <i class="fa-solid fa-check"></i>
+
+            </button>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ========================================
+         CONTACT MODAL
+    ========================================= -->
+
+    <div class="contact-modal" id="contactModal">
+
+
+        <!-- الخلفية -->
+
+        <div class="contact-modal-overlay" id="contactOverlay">
+        </div>
+
+
+
+        <!-- نافذة التواصل -->
+
+        <div class="contact-modal-card">
+
+
+            <!-- إغلاق -->
+
+            <button type="button" class="contact-close-btn" id="closeContactBtn" aria-label="إغلاق">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+
+
+            <!-- العنوان -->
+
+            <div class="contact-modal-header">
+
+                <div class="contact-logo-icon">
+
+                    <i class="fa-regular fa-comments"></i>
+
+                </div>
+
+
+                <span>
+                    نحن هنا من أجلكِ
+                </span>
+
+
+                <h2>
+                    تواصلي معنا
+                </h2>
+
+
+                <p>
+                    يسعد فريق LUMIÈRE بخدمتك والإجابة
+                    عن استفساراتك
+                </p>
+
+            </div>
+
+
+
+            <!-- وسائل التواصل -->
+
+            <div class="contact-options">
+
+
+                <!-- واتساب -->
+
+                <a href="#" class="contact-option whatsapp-contact" id="whatsappContact">
+
+                    <div class="contact-option-icon">
+
+                        <i class="fa-brands fa-whatsapp"></i>
+
+                    </div>
+
+
+                    <div class="contact-option-info">
+
+                        <span>
+                            واتساب
+                        </span>
+
+                        <strong>
+                            راسلينا مباشرة
+                        </strong>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+
+                <!-- اتصال -->
+
+                <a href="#" class="contact-option" id="phoneContact">
+
+                    <div class="contact-option-icon">
+
+                        <i class="fa-solid fa-phone"></i>
+
+                    </div>
+
+
+                    <div class="contact-option-info">
+
+                        <span>
+                            اتصال
+                        </span>
+
+                        <strong>
+                            اتصلي بالصالون
+                        </strong>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+
+                <!-- الموقع -->
+
+                <a href="#" class="contact-option" id="locationContact">
+
+                    <div class="contact-option-icon">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                    </div>
+
+
+                    <div class="contact-option-info">
+
+                        <span>
+                            موقعنا
+                        </span>
+
+                        <strong>
+                            عرض الموقع على الخريطة
+                        </strong>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+            </div>
+
+
+
+            <!-- أوقات العمل -->
+
+            <div class="contact-working-hours">
+
+
+                <div class="working-hours-title">
+
+                    <i class="fa-regular fa-clock"></i>
+
+                    <span>
+                        أوقات العمل
+                    </span>
+
+                </div>
+
+
+
+                <div class="working-hours-row">
+
+                    <span>
+                        السبت - الخميس
+                    </span>
+
+                    <strong>
+                        10:00 ص - 10:00 م
+                    </strong>
+
+                </div>
+
+
+
+                <div class="working-hours-row">
+
+                    <span>
+                        الجمعة
+                    </span>
+
+                    <strong>
+                        4:00 م - 10:00 م
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         BOTTOM NAV
+    ========================== -->
+
+    <nav class="bottom-nav">
+
+
+        <!-- الرئيسية -->
+
+        <a href="index.html" class="nav-item">
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+                الرئيسية
+            </span>
+
+        </a>
+
+
+
+        <!-- الخدمات -->
+
+        <a href="booking.html" class="nav-item">
+
+            <i class="fa-solid fa-border-all"></i>
+
+            <span>
+                الخدمات
+            </span>
+
+        </a>
+
+
+
+        <!-- احجزي -->
+
+        <a href="booking.html" class="nav-item booking">
+
+            <div class="booking-icon">
+
+                <i class="fa-solid fa-calendar-plus"></i>
+
+            </div>
+
+            <span>
+                احجزي
+            </span>
+
+        </a>
+
+
+
+        <!-- حجوزاتي -->
+
+        <a href="appointments.html" class="nav-item">
+
+            <i class="fa-regular fa-calendar-check"></i>
+
+            <span>
+                حجوزاتي
+            </span>
+
+        </a>
+
+
+
+        <!-- حسابي -->
+
+        <a href="profile.html" class="nav-item active">
+
+            <i class="fa-regular fa-user"></i>
+
+            <span>
+                حسابي
+            </span>
+
+        </a>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="profile.js"></script>
+
+
+</body>
+
+</html>

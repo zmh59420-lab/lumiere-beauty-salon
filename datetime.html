@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>اختيار الموعد | LUMIÈRE</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================================
+         HEADER
+    ========================================= -->
+
+    <header class="header">
+
+        <a href="staff.html" class="profile-btn">
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+        <div class="logo">
+
+            <h1>
+                LUMIÈRE
+            </h1>
+
+            <span>
+                BEAUTY SALON
+            </span>
+
+        </div>
+
+
+        <div style="width: 42px;"></div>
+
+    </header>
+
+
+
+    <!-- ========================================
+         PAGE
+    ========================================= -->
+
+    <main class="booking-page">
+
+
+        <!-- ========================================
+             عنوان الصفحة
+        ========================================= -->
+
+        <div class="booking-title">
+
+            <span>
+                الخطوة الثالثة
+            </span>
+
+            <h1>
+                اختاري الموعد
+            </h1>
+
+            <p>
+                حددي اليوم والوقت المناسب لكِ
+            </p>
+
+        </div>
+
+
+
+        <!-- ========================================
+             خطوات الحجز
+        ========================================= -->
+
+        <div class="booking-steps">
+
+
+            <div class="step">
+
+                <strong>
+
+                    <i class="fa-solid fa-check"></i>
+
+                </strong>
+
+                <span>
+                    الخدمة
+                </span>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>
+
+                    <i class="fa-solid fa-check"></i>
+
+                </strong>
+
+                <span>
+                    الموظفة
+                </span>
+
+            </div>
+
+
+            <div class="step active">
+
+                <strong>
+                    3
+                </strong>
+
+                <span>
+                    الموعد
+                </span>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>
+                    4
+                </strong>
+
+                <span>
+                    التأكيد
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ========================================
+             ملخص الاختيارات
+        ========================================= -->
+
+        <div class="selected-booking-info">
+
+            <span>
+                تفاصيل حجزك
+            </span>
+
+            <h3 id="summaryService">
+                الخدمة
+            </h3>
+
+            <p id="summaryStaff">
+                الموظفة
+            </p>
+
+        </div>
+
+
+
+        <!-- ========================================
+             أقرب موعد متاح
+        ========================================= -->
+
+        <section class="quick-appointment-box">
+
+
+            <div class="quick-appointment-info">
+
+                <div class="quick-appointment-icon">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        تبين أسرع موعد؟
+                    </h3>
+
+                    <p>
+                        نختار لكِ أقرب موعد متاح تلقائياً
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button type="button" id="nearestAppointmentBtn" class="nearest-appointment-btn">
+
+                <i class="fa-solid fa-bolt"></i>
+
+                أقرب موعد متاح
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             اختيار التاريخ
+        ========================================= -->
+
+        <section class="datetime-section">
+
+
+            <div class="datetime-heading">
+
+
+                <div class="datetime-icon">
+
+                    <i class="fa-regular fa-calendar"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        اختاري اليوم
+                    </h2>
+
+                    <p>
+                        حددي تاريخ الموعد المناسب لكِ
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="date-input-box">
+
+                <input type="date" id="bookingDate">
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             اختيار الوقت
+        ========================================= -->
+
+        <section class="datetime-section">
+
+
+            <div class="datetime-heading">
+
+
+                <div class="datetime-icon">
+
+                    <i class="fa-regular fa-clock"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        اختاري الوقت
+                    </h2>
+
+                    <p>
+                        الأوقات المتاحة لهذا اليوم
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="time-slots">
+
+
+                <button type="button" class="time-slot" data-time="10:00 صباحاً">
+                    10:00 صباحاً
+                </button>
+
+
+                <button type="button" class="time-slot" data-time="11:30 صباحاً">
+                    11:30 صباحاً
+                </button>
+
+
+                <button type="button" class="time-slot" data-time="1:00 مساءً">
+                    1:00 مساءً
+                </button>
+
+
+                <button type="button" class="time-slot" data-time="2:30 مساءً">
+                    2:30 مساءً
+                </button>
+
+
+                <button type="button" class="time-slot" data-time="4:00 مساءً">
+                    4:00 مساءً
+                </button>
+
+
+                <button type="button" class="time-slot" data-time="5:30 مساءً">
+                    5:30 مساءً
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             زر المتابعة
+        ========================================= -->
+
+        <button type="button" id="continueBooking" class="continue-booking-btn" disabled>
+
+            متابعة إلى تأكيد الحجز
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </button>
+
+
+    </main>
+
+
+
+    <!-- ========================================
+         JAVASCRIPT
+    ========================================= -->
+
+    <script src="datetime.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LUMIÈRE Beauty Salon</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================================
+         HEADER
+    ========================================= -->
+
+    <header class="header">
+
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="فتح القائمة">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+
+        <div class="logo">
+
+            <h1>LUMIÈRE</h1>
+
+            <span>BEAUTY SALON</span>
+
+        </div>
+
+
+        <!-- يمين الهيدر -->
+
+        <div class="header-actions">
+
+
+            <!-- الإشعارات -->
+
+            <a href="notifications.html" class="notification-header-btn" aria-label="الإشعارات">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span class="notification-badge" id="notificationBadge">
+                    0
+                </span>
+
+            </a>
+
+
+            <!-- حسابي -->
+
+            <a href="profile.html" class="profile-btn">
+
+                <i class="fa-regular fa-user"></i>
+
+            </a>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ========================================
+         SIDE MENU
+    ========================================= -->
+
+    <div class="side-menu" id="sideMenu">
+
+
+        <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+
+
+        <aside class="side-menu-panel">
+
+
+            <div class="side-menu-header">
+
+
+                <div class="side-menu-logo">
+
+                    <h2>
+                        LUMIÈRE
+                    </h2>
+
+                    <span>
+                        BEAUTY SALON
+                    </span>
+
+                </div>
+
+
+                <button type="button" class="side-menu-close" id="sideMenuClose" aria-label="إغلاق القائمة">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- الترحيب -->
+
+            <div class="side-menu-welcome">
+
+                <div class="side-menu-welcome-icon">
+
+                    <i class="fa-regular fa-user"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        أهلاً بكِ
+                    </span>
+
+                    <h3 id="menuCustomerName">
+                        عميلة LUMIÈRE
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- روابط القائمة -->
+
+            <nav class="side-menu-links">
+
+
+                <!-- الرئيسية -->
+
+                <a href="index.html" class="side-menu-link active">
+
+                    <div class="side-menu-link-icon">
+
+                        <i class="fa-solid fa-house"></i>
+
+                    </div>
+
+
+                    <div class="side-menu-link-text">
+
+                        <strong>
+                            الرئيسية
+                        </strong>
+
+                        <span>
+                            العودة للصفحة الرئيسية
+                        </span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+
+                <!-- الخدمات -->
+
+                <a href="booking.html" class="side-menu-link">
+
+                    <div class="side-menu-link-icon">
+
+                        <i class="fa-solid fa-border-all"></i>
+
+                    </div>
+
+
+                    <div class="side-menu-link-text">
+
+                        <strong>
+                            الخدمات
+                        </strong>
+
+                        <span>
+                            تصفحي جميع خدماتنا
+                        </span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+
+                <!-- حجز جديد -->
+
+                <a href="booking.html" class="side-menu-link">
+
+                    <div class="side-menu-link-icon">
+
+                        <i class="fa-regular fa-calendar-plus"></i>
+
+                    </div>
+
+
+                    <div class="side-menu-link-text">
+
+                        <strong>
+                            حجز جديد
+                        </strong>
+
+                        <span>
+                            احجزي موعدك الآن
+                        </span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+
+                <!-- حجوزاتي -->
+
+                <a href="appointments.html" class="side-menu-link">
+
+                    <div class="side-menu-link-icon">
+
+                        <i class="fa-regular fa-calendar-check"></i>
+
+                    </div>
+
+
+                    <div class="side-menu-link-text">
+
+                        <strong>
+                            حجوزاتي
+                        </strong>
+
+                        <span>
+                            تابعي مواعيدك وحجوزاتك
+                        </span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+
+                <!-- ==================================
+                     إشعاراتي
+                =================================== -->
+
+                <a href="notifications.html" class="side-menu-link">
+
+                    <div class="side-menu-link-icon side-notification-icon">
+
+                        <i class="fa-regular fa-bell"></i>
+
+                        <span class="side-notification-badge" id="sideNotificationBadge">
+                            0
+                        </span>
+
+                    </div>
+
+
+                    <div class="side-menu-link-text">
+
+                        <strong>
+                            إشعاراتي
+                        </strong>
+
+                        <span>
+                            تحديثات الحجوزات والمواعيد
+                        </span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+
+                <!-- حسابي -->
+
+                <a href="profile.html" class="side-menu-link">
+
+                    <div class="side-menu-link-icon">
+
+                        <i class="fa-regular fa-user"></i>
+
+                    </div>
+
+
+                    <div class="side-menu-link-text">
+
+                        <strong>
+                            حسابي
+                        </strong>
+
+                        <span>
+                            بياناتك وخدماتك المفضلة
+                        </span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+
+
+                <!-- تواصلي معنا -->
+
+                <button type="button" class="side-menu-link" id="menuContactBtn">
+
+                    <div class="side-menu-link-icon">
+
+                        <i class="fa-regular fa-comment-dots"></i>
+
+                    </div>
+
+
+                    <div class="side-menu-link-text">
+
+                        <strong>
+                            تواصلي معنا
+                        </strong>
+
+                        <span>
+                            نحن هنا لمساعدتك
+                        </span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </button>
+
+
+            </nav>
+
+
+
+            <div class="side-menu-footer">
+
+                <i class="fa-solid fa-heart"></i>
+
+                <span>
+                    جمالك يبدأ من LUMIÈRE
+                </span>
+
+            </div>
+
+
+        </aside>
+
+    </div>
+
+
+
+    <!-- ========================================
+         HERO
+    ========================================= -->
+
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+
+        <div class="hero-content">
+
+            <span class="small-title">
+                أهلاً بكِ في LUMIÈRE
+            </span>
+
+
+            <h2>
+                جمالكِ
+                <br>
+                في مكان واحد
+            </h2>
+
+
+            <p>
+                خدمات تجميل وعناية مصممة خصيصاً لكِ
+            </p>
+
+
+            <button class="main-btn" type="button" id="heroBookingBtn">
+
+                احجزي موعدك الآن
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         SERVICES
+    ========================================= -->
+
+    <section class="services">
+
+
+        <div class="section-title">
+
+            <div>
+
+                <span>
+                    اكتشفي خدماتنا
+                </span>
+
+                <h2>
+                    ماذا تحتاجين اليوم؟
+                </h2>
+
+            </div>
+
+
+            <a href="booking.html">
+                عرض الكل
+            </a>
+
+        </div>
+
+
+
+        <div class="services-grid">
+
+
+            <a href="booking.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+
+                <h3>الشعر</h3>
+
+                <p>
+                    قص، صبغات وعناية
+                </p>
+
+            </a>
+
+
+            <a href="booking.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-regular fa-hand"></i>
+                </div>
+
+                <h3>الأظافر</h3>
+
+                <p>
+                    مانيكير وبديكير
+                </p>
+
+            </a>
+
+
+            <a href="booking.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-regular fa-face-smile"></i>
+                </div>
+
+                <h3>البشرة</h3>
+
+                <p>
+                    تنظيف وعناية
+                </p>
+
+            </a>
+
+
+            <a href="booking.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+
+                <h3>المكياج</h3>
+
+                <p>
+                    إطلالات لكل مناسبة
+                </p>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         OFFER
+    ========================================= -->
+
+    <section class="offers">
+
+        <div class="offer-card">
+
+            <div class="offer-content">
+
+                <span>
+                    عرض خاص
+                </span>
+
+
+                <h2>
+                    دلّلي نفسكِ
+                    <br>
+                    واستمتعي بالجمال
+                </h2>
+
+
+                <p>
+                    خصم يصل إلى 20% على خدمات مختارة
+                </p>
+
+
+                <button type="button" id="offersBtn">
+
+                    اكتشفي العروض
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         POPULAR SERVICES
+    ========================================= -->
+
+    <section class="popular">
+
+
+        <div class="section-title">
+
+            <div>
+
+                <span>
+                    الأكثر طلباً
+                </span>
+
+                <h2>
+                    خدمات تحبها عميلاتنا
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="popular-list">
+
+
+            <div class="popular-card">
+
+                <div class="popular-info">
+
+                    <div class="mini-icon">
+                        <i class="fa-regular fa-hand"></i>
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            مانيكير جل
+                        </h3>
+
+                        <p>
+                            عناية كاملة بالأظافر
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="price">
+
+                    <strong>120</strong>
+
+                    <span>ر.س</span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="popular-card">
+
+                <div class="popular-info">
+
+                    <div class="mini-icon">
+                        <i class="fa-solid fa-scissors"></i>
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            قص وتصفيف الشعر
+                        </h3>
+
+                        <p>
+                            قص وتصفيف احترافي
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="price">
+
+                    <strong>120</strong>
+
+                    <span>ر.س</span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         CONTACT
+    ========================================= -->
+
+    <section class="home-contact" id="homeContact">
+
+
+        <div class="home-contact-heading">
+
+            <span>
+                نحن هنا من أجلكِ
+            </span>
+
+            <h2>
+                تواصلي معنا
+            </h2>
+
+            <p>
+                لأي استفسار أو مساعدة، فريق LUMIÈRE
+                يسعد بخدمتكِ
+            </p>
+
+        </div>
+
+
+
+        <div class="home-contact-grid">
+
+
+            <a href="#" class="home-contact-card" id="homeWhatsapp">
+
+                <div class="home-contact-icon">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+
+
+                <div class="home-contact-info">
+
+                    <span>واتساب</span>
+
+                    <h3>
+                        راسلينا مباشرة
+                    </h3>
+
+                    <p>
+                        للاستفسارات والحجوزات
+                    </p>
+
+                </div>
+
+
+                <div class="home-contact-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+
+            </a>
+
+
+
+            <a href="#" class="home-contact-card" id="homePhone">
+
+                <div class="home-contact-icon">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+
+
+                <div class="home-contact-info">
+
+                    <span>اتصال</span>
+
+                    <h3>
+                        اتصلي بالصالون
+                    </h3>
+
+                    <p>
+                        يسعدنا الرد عليكِ
+                    </p>
+
+                </div>
+
+
+                <div class="home-contact-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+
+            </a>
+
+
+
+            <a href="#" class="home-contact-card" id="homeLocation">
+
+                <div class="home-contact-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+
+                <div class="home-contact-info">
+
+                    <span>موقعنا</span>
+
+                    <h3>
+                        زوري LUMIÈRE
+                    </h3>
+
+                    <p>
+                        عرض الموقع على الخريطة
+                    </p>
+
+                </div>
+
+
+                <div class="home-contact-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+
+            </a>
+
+
+        </div>
+
+
+
+        <div class="home-working-hours">
+
+
+            <div class="home-working-title">
+
+                <div class="home-working-icon">
+                    <i class="fa-regular fa-clock"></i>
+                </div>
+
+
+                <div>
+
+                    <span>
+                        مواعيد الصالون
+                    </span>
+
+                    <h3>
+                        أوقات العمل
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="home-working-times">
+
+
+                <div class="home-working-row">
+
+                    <span>
+                        السبت - الخميس
+                    </span>
+
+                    <strong>
+                        10:00 ص - 10:00 م
+                    </strong>
+
+                </div>
+
+
+                <div class="home-working-row">
+
+                    <span>
+                        الجمعة
+                    </span>
+
+                    <strong>
+                        4:00 م - 10:00 م
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ========================================
+         BOTTOM NAVIGATION
+    ========================================= -->
+
+    <nav class="bottom-nav">
+
+
+        <a href="index.html" class="nav-item active">
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>الرئيسية</span>
+
+        </a>
+
+
+        <a href="booking.html" class="nav-item">
+
+            <i class="fa-solid fa-border-all"></i>
+
+            <span>الخدمات</span>
+
+        </a>
+
+
+        <a href="booking.html" class="nav-item booking">
+
+            <div class="booking-icon">
+
+                <i class="fa-solid fa-calendar-plus"></i>
+
+            </div>
+
+            <span>احجزي</span>
+
+        </a>
+
+
+        <a href="appointments.html" class="nav-item">
+
+            <i class="fa-regular fa-calendar-check"></i>
+
+            <span>حجوزاتي</span>
+
+        </a>
+
+
+        <a href="profile.html" class="nav-item">
+
+            <i class="fa-regular fa-user"></i>
+
+            <span>حسابي</span>
+
+        </a>
+
+
+    </nav>
+
+
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
