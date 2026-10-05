@@ -19,7 +19,9 @@
 
 <body>
 
-    <!-- HEADER -->
+    <!-- ========================================
+         HEADER
+    ========================================= -->
 
     <header class="header">
 
@@ -35,11 +37,14 @@
     </header>
 
 
-    <!-- SUCCESS PAGE -->
+    <!-- ========================================
+         SUCCESS PAGE
+    ========================================= -->
 
     <main class="booking-page">
 
         <section class="success-card">
+
 
             <!-- علامة النجاح -->
 
@@ -63,7 +68,9 @@
             </p>
 
 
-            <!-- رقم الحجز -->
+            <!-- ========================================
+                 رقم الحجز
+            ========================================= -->
 
             <div class="booking-number-box">
 
@@ -78,9 +85,14 @@
             </div>
 
 
-            <!-- تفاصيل الحجز -->
+            <!-- ========================================
+                 تفاصيل الحجز
+            ========================================= -->
 
             <div class="success-details">
+
+
+                <!-- الخدمة -->
 
                 <div class="success-detail-row">
 
@@ -96,6 +108,8 @@
                 </div>
 
 
+                <!-- الموظفة -->
+
                 <div class="success-detail-row">
 
                     <div class="success-detail-icon">
@@ -110,6 +124,8 @@
                 </div>
 
 
+                <!-- التاريخ -->
+
                 <div class="success-detail-row">
 
                     <div class="success-detail-icon">
@@ -123,6 +139,8 @@
 
                 </div>
 
+
+                <!-- الوقت -->
 
                 <div class="success-detail-row">
 
@@ -140,7 +158,9 @@
             </div>
 
 
-            <!-- السعر -->
+            <!-- ========================================
+                 السعر
+            ========================================= -->
 
             <div class="success-price">
 
@@ -149,16 +169,64 @@
                 </span>
 
                 <div>
-                    <strong id="successPrice">0</strong>
-                    <span>ر.س</span>
+
+                    <strong id="successPrice">
+                        0
+                    </strong>
+
+                    <span>
+                        ر.س
+                    </span>
+
                 </div>
 
             </div>
 
 
-            <!-- الأزرار -->
+            <!-- ========================================
+                 إضافة الموعد للتقويم
+            ========================================= -->
+
+            <div class="calendar-save-box">
+
+                <div class="calendar-save-icon">
+                    <i class="fa-regular fa-calendar-plus"></i>
+                </div>
+
+                <div class="calendar-save-text">
+
+                    <strong>
+                        لا تنسي موعدكِ
+                    </strong>
+
+                    <span>
+                        أضيفي الحجز إلى تقويمك لتتذكري الموعد
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================================
+                 الأزرار
+            ========================================= -->
 
             <div class="success-buttons">
+
+
+                <!-- إضافة للتقويم -->
+
+                <button type="button" class="add-calendar-btn" id="addCalendarBtn">
+
+                    <i class="fa-regular fa-calendar-plus"></i>
+
+                    إضافة الموعد للتقويم
+
+                </button>
+
+
+                <!-- العودة للرئيسية -->
 
                 <a href="index.html" class="success-home-btn">
 
@@ -168,11 +236,39 @@
 
                 </a>
 
+
             </div>
 
         </section>
 
     </main>
+
+
+    <!-- ========================================
+         رسالة نجاح إضافة التقويم
+    ========================================= -->
+
+    <div class="calendar-toast" id="calendarToast">
+
+        <div class="calendar-toast-icon">
+
+            <i class="fa-solid fa-check"></i>
+
+        </div>
+
+        <div>
+
+            <strong>
+                تم تجهيز الموعد
+            </strong>
+
+            <span>
+                افتحي ملف التقويم لإضافته إلى جهازك
+            </span>
+
+        </div>
+
+    </div>
 
 
     <script src="success.js"></script>

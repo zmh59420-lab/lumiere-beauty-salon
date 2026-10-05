@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>إدارة الحجوزات | LUMIÈRE</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body class="admin-dashboard-body">
+
+    <div class="admin-layout">
+
+        <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+        <aside class="admin-sidebar" id="adminSidebar">
+
+            <div class="admin-sidebar-logo">
+                <h1>LUMIÈRE</h1>
+                <span>BEAUTY SALON</span>
+            </div>
+
+
+            <div class="admin-sidebar-user">
+
+                <div class="admin-sidebar-avatar">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+
+                <div>
+                    <strong>إدارة الصالون</strong>
+                    <span>Administrator</span>
+                </div>
+
+            </div>
+
+
+            <nav class="admin-menu">
+
+                <a href="admin-dashboard.html" class="admin-menu-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>الرئيسية</span>
+                </a>
+
+
+                <a href="admin-bookings.html" class="admin-menu-item active">
+
+                    <i class="fa-regular fa-calendar-check"></i>
+
+                    <span>الحجوزات</span>
+
+                    <span class="admin-menu-count" id="sidebarBookingsCount">
+                        0
+                    </span>
+
+                </a>
+
+
+                <a href="admin-customers.html" class="admin-menu-item">
+                    <i class="fa-regular fa-user"></i>
+                    <span>العملاء</span>
+                </a>
+
+
+                <a href="admin-staff.html" class="admin-menu-item">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span>الموظفات</span>
+                </a>
+
+
+                <a href="admin-services.html" class="admin-menu-item">
+                    <i class="fa-solid fa-scissors"></i>
+                    <span>الخدمات</span>
+                </a>
+
+
+                <a href="admin-offers.html" class="admin-menu-item">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>العروض</span>
+                </a>
+
+
+                <a href="admin-settings.html" class="admin-menu-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>الإعدادات</span>
+                </a>
+
+            </nav>
+
+
+            <div class="admin-sidebar-bottom">
+
+                <a href="index.html" class="admin-customer-site">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <span>موقع العملاء</span>
+                </a>
+
+
+                <button type="button" class="admin-logout-btn" id="adminLogoutBtn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>تسجيل الخروج</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ==========================================
+         MAIN
+    =========================================== -->
+
+        <main class="admin-main">
+
+            <!-- TOPBAR -->
+
+            <header class="admin-topbar">
+
+                <div class="admin-topbar-right">
+
+                    <button type="button" class="admin-mobile-menu" id="adminMobileMenu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+
+                    <div>
+                        <span class="admin-page-small">
+                            لوحة الإدارة
+                        </span>
+
+                        <h2>الحجوزات</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="admin-topbar-left">
+
+                    <div class="admin-current-date">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        <span id="adminCurrentDate">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="admin-topbar-profile">
+
+                        <div>
+                            <strong>LUMIÈRE</strong>
+                            <span>الإدارة</span>
+                        </div>
+
+                        <div class="admin-topbar-avatar">
+                            <i class="fa-regular fa-user"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- ==========================================
+             CONTENT
+        =========================================== -->
+
+            <div class="admin-content">
+
+                <!-- PAGE HEADING -->
+
+                <section class="admin-bookings-heading">
+
+                    <div>
+
+                        <span>إدارة الحجوزات</span>
+
+                        <h1>جميع الحجوزات</h1>
+
+                        <p>
+                            أضيفي الحجوزات وعدّلي المواعيد والحالات أو احذفي الحجز.
+                        </p>
+
+                    </div>
+
+
+                    <div class="admin-bookings-heading-icon">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+
+                </section>
+
+
+                <!-- ==========================================
+                 STATS
+            =========================================== -->
+
+                <section class="admin-bookings-mini-stats">
+
+                    <div class="admin-booking-mini-card">
+
+                        <span>إجمالي الحجوزات</span>
+
+                        <strong id="adminAllBookings">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-booking-mini-card">
+
+                        <span>المؤكدة</span>
+
+                        <strong id="adminConfirmedBookings">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-booking-mini-card">
+
+                        <span>المكتملة</span>
+
+                        <strong id="adminCompletedBookings">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-booking-mini-card">
+
+                        <span>الملغية</span>
+
+                        <strong id="adminCancelledBookings">
+                            0
+                        </strong>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ==========================================
+                 BOOKINGS MANAGEMENT
+            =========================================== -->
+
+                <section class="admin-panel admin-bookings-management">
+
+                    <div class="admin-services-toolbar">
+
+                        <div>
+
+                            <span class="admin-customers-small">
+                                إدارة المواعيد
+                            </span>
+
+                            <h2>
+                                قائمة الحجوزات
+                            </h2>
+
+                        </div>
+
+
+                        <div class="admin-services-toolbar-actions">
+
+                            <!-- SEARCH -->
+
+                            <div class="admin-booking-search">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <input type="text" id="adminBookingSearch" placeholder="ابحثي عن حجز...">
+
+                            </div>
+
+
+                            <!-- ADD -->
+
+                            <button type="button" class="admin-add-service-btn" id="adminAddBookingBtn">
+                                <i class="fa-solid fa-plus"></i>
+                                إضافة حجز
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FILTERS -->
+
+                    <div class="admin-service-filters">
+
+                        <button type="button" class="admin-filter-btn admin-service-filter active" data-filter="all">
+                            الكل
+                        </button>
+
+
+                        <button type="button" class="admin-filter-btn admin-service-filter" data-filter="مؤكد">
+                            المؤكدة
+                        </button>
+
+
+                        <button type="button" class="admin-filter-btn admin-service-filter" data-filter="مكتمل">
+                            المكتملة
+                        </button>
+
+
+                        <button type="button" class="admin-filter-btn admin-service-filter" data-filter="ملغي">
+                            الملغية
+                        </button>
+
+                    </div>
+
+
+                    <!-- RESULTS -->
+
+                    <div class="admin-bookings-results">
+
+                        <span>
+                            النتائج
+                        </span>
+
+                        <strong id="adminBookingResultsCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <!-- TABLE -->
+
+                    <div class="admin-table-wrapper">
+
+                        <table class="admin-bookings-table admin-full-bookings-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>رقم الحجز</th>
+                                    <th>العميلة</th>
+                                    <th>الخدمة</th>
+                                    <th>الموظفة</th>
+                                    <th>التاريخ</th>
+                                    <th>الوقت</th>
+                                    <th>السعر</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="adminBookingsTableBody">
+                                <!-- JavaScript -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- EMPTY -->
+
+                    <div class="admin-empty-state" id="adminBookingsEmpty" style="display:none;">
+
+                        <div class="admin-empty-icon">
+                            <i class="fa-regular fa-calendar-xmark"></i>
+                        </div>
+
+                        <strong>
+                            لا توجد حجوزات
+                        </strong>
+
+                        <span>
+                            ستظهر الحجوزات هنا
+                        </span>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+     ADD / EDIT BOOKING MODAL
+===================================================== -->
+
+    <div class="admin-booking-modal" id="adminBookingFormModal">
+
+        <div class="admin-booking-modal-overlay" id="adminBookingFormOverlay"></div>
+
+
+        <div class="admin-booking-modal-box admin-service-modal-box admin-booking-form-box">
+
+            <button type="button" class="admin-booking-modal-close" id="adminBookingFormClose">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+
+            <div class="admin-booking-modal-icon">
+                <i class="fa-regular fa-calendar-plus"></i>
+            </div>
+
+
+            <span class="admin-booking-modal-small">
+                إدارة الحجز
+            </span>
+
+
+            <h2 id="adminBookingFormTitle">
+                إضافة حجز جديد
+            </h2>
+
+
+            <p class="admin-service-modal-description">
+                أدخلي بيانات العميلة والموعد والخدمة
+            </p>
+
+
+            <form id="adminBookingForm">
+
+                <!-- CUSTOMER -->
+
+                <div class="admin-booking-form-grid">
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminBookingCustomerName">
+                            اسم العميلة
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-regular fa-user"></i>
+
+                            <input type="text" id="adminBookingCustomerName" placeholder="اسم العميلة" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminBookingCustomerPhone">
+                            رقم الجوال
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+
+                            <input type="tel" id="adminBookingCustomerPhone" maxlength="10" placeholder="05XXXXXXXX"
+                                dir="ltr" required>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SERVICE / STAFF -->
+
+                <div class="admin-booking-form-grid">
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminBookingService">
+                            الخدمة
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-solid fa-scissors"></i>
+
+                            <select id="adminBookingService" required>
+                                <option value="">
+                                    اختاري الخدمة
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminBookingStaff">
+                            الموظفة
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-regular fa-user"></i>
+
+                            <select id="adminBookingStaff" required>
+                                <option value="">
+                                    اختاري الموظفة
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DATE / TIME -->
+
+                <div class="admin-booking-form-grid">
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminBookingDate">
+                            التاريخ
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <input type="date" id="adminBookingDate" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminBookingTime">
+                            الوقت
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-regular fa-clock"></i>
+
+                            <input type="time" id="adminBookingTime" required>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRICE / STATUS -->
+
+                <div class="admin-booking-form-grid">
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminBookingPrice">
+                            السعر
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-solid fa-sack-dollar"></i>
+
+                            <input type="number" id="adminBookingPrice" min="0" placeholder="0" required>
+
+                            <span class="admin-input-suffix">
+                                ر.س
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminBookingStatus">
+                            حالة الحجز
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            <select id="adminBookingStatus">
+
+                                <option value="مؤكد">
+                                    مؤكد
+                                </option>
+
+                                <option value="مكتمل">
+                                    مكتمل
+                                </option>
+
+                                <option value="ملغي">
+                                    ملغي
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NOTES -->
+
+                <div class="admin-service-form-group">
+
+                    <label for="adminBookingNotes">
+                        ملاحظات
+                    </label>
+
+
+                    <div class="admin-service-textarea">
+
+                        <i class="fa-regular fa-note-sticky"></i>
+
+                        <textarea id="adminBookingNotes" rows="3" placeholder="أي ملاحظات على الحجز..."></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-service-form-error" id="adminBookingFormError"></div>
+
+
+                <button type="submit" class="admin-modal-save-btn">
+                    <i class="fa-regular fa-floppy-disk"></i>
+                    حفظ الحجز
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     BOOKING DETAILS MODAL
+===================================================== -->
+
+    <div class="admin-booking-modal" id="adminBookingModal">
+
+        <div class="admin-booking-modal-overlay" id="adminBookingModalOverlay"></div>
+
+
+        <div class="admin-booking-modal-box">
+
+            <button type="button" class="admin-booking-modal-close" id="adminBookingModalClose">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+
+            <div class="admin-booking-modal-icon">
+                <i class="fa-regular fa-calendar-check"></i>
+            </div>
+
+
+            <span class="admin-booking-modal-small">
+                تفاصيل الحجز
+            </span>
+
+
+            <h2 id="adminModalService">
+                -
+            </h2>
+
+
+            <p id="adminModalBookingNumber">
+                -
+            </p>
+
+
+            <div class="admin-booking-details-list">
+
+                <div>
+                    <span>اسم العميلة</span>
+                    <strong id="adminModalCustomerName">-</strong>
+                </div>
+
+
+                <div>
+                    <span>رقم الجوال</span>
+                    <strong id="adminModalCustomerPhone">-</strong>
+                </div>
+
+
+                <div>
+                    <span>الموظفة</span>
+                    <strong id="adminModalStaff">-</strong>
+                </div>
+
+
+                <div>
+                    <span>التاريخ</span>
+                    <strong id="adminModalDate">-</strong>
+                </div>
+
+
+                <div>
+                    <span>الوقت</span>
+                    <strong id="adminModalTime">-</strong>
+                </div>
+
+
+                <div>
+                    <span>السعر</span>
+                    <strong id="adminModalPrice">-</strong>
+                </div>
+
+            </div>
+
+
+            <div class="admin-service-form-group">
+
+                <label>
+                    الملاحظات
+                </label>
+
+                <div class="admin-customer-notes-box">
+                    <p id="adminModalNotes">
+                        لا توجد ملاحظات
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="admin-service-form-group">
+
+                <label for="adminModalStatus">
+                    حالة الحجز
+                </label>
+
+
+                <div class="admin-service-input">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    <select id="adminModalStatus">
+
+                        <option value="مؤكد">
+                            مؤكد
+                        </option>
+
+                        <option value="مكتمل">
+                            مكتمل
+                        </option>
+
+                        <option value="ملغي">
+                            ملغي
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button type="button" class="admin-modal-save-btn" id="adminModalSaveBtn">
+                <i class="fa-regular fa-floppy-disk"></i>
+                حفظ الحالة
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     DELETE BOOKING
+===================================================== -->
+
+    <div class="admin-booking-modal" id="adminDeleteBookingModal">
+
+        <div class="admin-booking-modal-overlay" id="adminDeleteBookingOverlay"></div>
+
+
+        <div class="admin-booking-modal-box admin-delete-service-box">
+
+            <div class="admin-delete-service-icon">
+                <i class="fa-regular fa-trash-can"></i>
+            </div>
+
+
+            <span class="admin-booking-modal-small">
+                حذف الحجز
+            </span>
+
+
+            <h2>
+                هل تريدين حذف الحجز؟
+            </h2>
+
+
+            <p>
+                سيتم حذف هذا الحجز من النظام.
+            </p>
+
+
+            <div class="admin-delete-service-actions">
+
+                <button type="button" class="admin-delete-cancel-btn" id="adminDeleteBookingCancel">
+                    تراجع
+                </button>
+
+
+                <button type="button" class="admin-delete-confirm-btn" id="adminDeleteBookingConfirm">
+                    <i class="fa-regular fa-trash-can"></i>
+                    حذف الحجز
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     TOAST
+===================================================== -->
+
+    <div class="admin-success-toast" id="adminSuccessToast">
+
+        <div>
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <span id="adminSuccessToastText">
+            تم الحفظ بنجاح
+        </span>
+
+    </div>
+
+
+    <!-- MOBILE SIDEBAR OVERLAY -->
+
+    <div class="admin-sidebar-overlay" id="adminSidebarOverlay"></div>
+
+
+    <script src="admin-bookings.js"></script>
+
+</body>
+
+</html>

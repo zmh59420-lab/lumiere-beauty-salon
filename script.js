@@ -27,13 +27,321 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==================================================
+    // الخدمات الأكثر طلباً
+    // الضغط على الكرت = حجز الخدمة
+    // ==================================================
+
+    const popularCards =
+        document.querySelectorAll(".popular-card[data-service]");
+
+
+    popularCards.forEach(function (card) {
+
+        card.style.cursor = "pointer";
+        card.setAttribute("tabindex", "0");
+
+
+        card.addEventListener("click", function () {
+
+            const category =
+                card.getAttribute("data-category");
+
+            const serviceName =
+                card.getAttribute("data-service");
+
+            const price =
+                card.getAttribute("data-price");
+
+            const isOffer =
+                card.getAttribute("data-offer");
+
+
+            // حفظ الخدمة
+
+            localStorage.setItem(
+                "selectedService",
+                category
+            );
+
+            localStorage.setItem(
+                "selectedServiceName",
+                serviceName
+            );
+
+            localStorage.setItem(
+                "selectedServicePrice",
+                price
+            );
+
+
+            // هل الخدمة عليها عرض؟
+
+            if (isOffer === "true") {
+
+                localStorage.setItem(
+                    "selectedOffer",
+                    "true"
+                );
+
+            } else {
+
+                localStorage.removeItem(
+                    "selectedOffer"
+                );
+
+            }
+
+
+            // تنظيف بيانات الحجز السابق
+
+            localStorage.removeItem("selectedStaff");
+            localStorage.removeItem("selectedDate");
+            localStorage.removeItem("selectedTime");
+            localStorage.removeItem("bookingNotes");
+            localStorage.removeItem("editingBookingNumber");
+
+
+            // الانتقال لاختيار الموظفة
+
+            window.location.href = "staff.html";
+
+        });
+
+
+        // دعم زر Enter من الكيبورد
+
+        card.addEventListener("keydown", function (event) {
+
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+
+                event.preventDefault();
+                card.click();
+
+            }
+
+        });
+
+    });
+
+
+    // ==================================================
+    // المفضلة
+    // ==================================================
+
+    const favoriteButtons =
+        document.querySelectorAll(".popular-favorite-btn");
+
+
+    // قراءة المفضلة الحالية
+
+    function getFavorites() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem("favoriteServices")
+            ) || [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    // ==================================================
+    // هل الخدمة موجودة في المفضلة؟
+    // ==================================================
+
+    function isFavorite(serviceName) {
+
+        const favorites = getFavorites();
+
+        return favorites.some(function (item) {
+
+            return item.name === serviceName;
+
+        });
+
+    }
+
+
+    // ==================================================
+    // تغيير شكل القلب
+    // ==================================================
+
+    function updateFavoriteButton(button) {
+
+        const serviceName =
+            button.getAttribute("data-favorite-service");
+
+        const icon =
+            button.querySelector("i");
+
+
+        if (!icon) return;
+
+
+        if (isFavorite(serviceName)) {
+
+            icon.classList.remove("fa-regular");
+            icon.classList.add("fa-solid");
+
+            button.classList.add("active");
+
+            button.setAttribute(
+                "aria-label",
+                "إزالة " + serviceName + " من المفضلة"
+            );
+
+        } else {
+
+            icon.classList.remove("fa-solid");
+            icon.classList.add("fa-regular");
+
+            button.classList.remove("active");
+
+            button.setAttribute(
+                "aria-label",
+                "إضافة " + serviceName + " للمفضلة"
+            );
+
+        }
+
+    }
+
+
+    // تحديث القلوب عند فتح الصفحة
+
+    favoriteButtons.forEach(function (button) {
+
+        updateFavoriteButton(button);
+
+
+        button.addEventListener("click", function (event) {
+
+            // مهم:
+            // منع ضغطة القلب من تشغيل ضغطة الكرت
+
+            event.preventDefault();
+            event.stopPropagation();
+
+
+            const category =
+                button.getAttribute(
+                    "data-favorite-category"
+                );
+
+            const serviceName =
+                button.getAttribute(
+                    "data-favorite-service"
+                );
+
+            const price =
+                button.getAttribute(
+                    "data-favorite-price"
+                );
+
+
+            let favorites =
+                getFavorites();
+
+
+            const favoriteIndex =
+                favorites.findIndex(function (item) {
+
+                    return item.name === serviceName;
+
+                });
+
+
+            // =========================================
+            // إذا موجودة نحذفها
+            // =========================================
+
+            if (favoriteIndex !== -1) {
+
+                favorites.splice(
+                    favoriteIndex,
+                    1
+                );
+
+            }
+
+            // =========================================
+            // إذا مو موجودة نضيفها
+            // =========================================
+
+            else {
+
+                favorites.push({
+
+                    category: category,
+
+                    name: serviceName,
+
+                    price: Number(price),
+
+                    offer: true
+
+                });
+
+            }
+
+
+            // حفظ المفضلة
+
+            localStorage.setItem(
+                "favoriteServices",
+                JSON.stringify(favorites)
+            );
+
+
+            // تحديث شكل القلب
+
+            updateFavoriteButton(button);
+
+        });
+
+    });
+
+
+    // ==================================================
+    // منع Enter على القلب من تشغيل الكرت
+    // ==================================================
+
+    favoriteButtons.forEach(function (button) {
+
+        button.addEventListener("keydown", function (event) {
+
+            event.stopPropagation();
+
+        });
+
+    });
+
+
+    // ==================================================
     // القائمة الجانبية
     // ==================================================
 
-    const menuBtn = document.getElementById("menuBtn");
-    const sideMenu = document.getElementById("sideMenu");
-    const sideMenuClose = document.getElementById("sideMenuClose");
-    const sideMenuOverlay = document.getElementById("sideMenuOverlay");
+    const menuBtn =
+        document.getElementById("menuBtn");
+
+    const sideMenu =
+        document.getElementById("sideMenu");
+
+    const sideMenuClose =
+        document.getElementById("sideMenuClose");
+
+    const sideMenuOverlay =
+        document.getElementById("sideMenuOverlay");
+
 
     function openSideMenu() {
 
@@ -41,7 +349,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         sideMenu.classList.add("show");
 
-        document.body.style.overflow = "hidden";
+        document.body.style.overflow =
+            "hidden";
+
     }
 
 
@@ -51,22 +361,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
         sideMenu.classList.remove("show");
 
-        document.body.style.overflow = "";
+        document.body.style.overflow =
+            "";
+
     }
 
 
     if (menuBtn) {
-        menuBtn.addEventListener("click", openSideMenu);
+
+        menuBtn.addEventListener(
+            "click",
+            openSideMenu
+        );
+
     }
 
 
     if (sideMenuClose) {
-        sideMenuClose.addEventListener("click", closeSideMenu);
+
+        sideMenuClose.addEventListener(
+            "click",
+            closeSideMenu
+        );
+
     }
 
 
     if (sideMenuOverlay) {
-        sideMenuOverlay.addEventListener("click", closeSideMenu);
+
+        sideMenuOverlay.addEventListener(
+            "click",
+            closeSideMenu
+        );
+
     }
 
 
@@ -77,7 +404,9 @@ document.addEventListener("DOMContentLoaded", function () {
             sideMenu &&
             sideMenu.classList.contains("show")
         ) {
+
             closeSideMenu();
+
         }
 
     });
@@ -94,10 +423,14 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.getItem("customerName");
 
 
-    if (menuCustomerName && savedCustomerName) {
+    if (
+        menuCustomerName &&
+        savedCustomerName
+    ) {
 
         menuCustomerName.textContent =
             savedCustomerName;
+
     }
 
 
@@ -114,24 +447,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (menuContactBtn) {
 
-        menuContactBtn.addEventListener("click", function () {
+        menuContactBtn.addEventListener(
+            "click",
+            function () {
 
-            closeSideMenu();
+                closeSideMenu();
 
-            if (homeContact) {
 
-                setTimeout(function () {
+                if (homeContact) {
 
-                    homeContact.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
+                    setTimeout(function () {
 
-                }, 250);
+                        homeContact.scrollIntoView({
+
+                            behavior: "smooth",
+                            block: "start"
+
+                        });
+
+                    }, 250);
+
+                }
 
             }
+        );
 
-        });
     }
 
 
@@ -176,28 +516,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 booking.status || "مؤكد";
 
 
-            // حجز ملغي
-
             if (status === "ملغي") {
 
                 ids.push(
                     "cancelled-" + bookingNumber
                 );
 
-            }
-
-            // حجز مؤكد
-
-            else {
+            } else {
 
                 ids.push(
                     "confirmed-" + bookingNumber
                 );
 
 
-                // تذكير
-
-                if (booking.date && booking.time) {
+                if (
+                    booking.date &&
+                    booking.time
+                ) {
 
                     ids.push(
                         "reminder-" + bookingNumber
@@ -211,6 +546,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         return ids;
+
     }
 
 
@@ -233,11 +569,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         return unread.length;
+
     }
 
 
     // ==================================================
-    // عرض الرقم على الجرس
+    // عرض عدد الإشعارات
     // ==================================================
 
     function updateNotificationBadges() {
@@ -258,7 +595,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 : count;
 
 
-        // الجرس فوق
+        // جرس الهيدر
 
         if (notificationBadge) {
 
@@ -270,9 +607,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 notificationBadge.style.display =
                     "flex";
 
-            }
-
-            else {
+            } else {
 
                 notificationBadge.style.display =
                     "none";
@@ -282,7 +617,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // الإشعارات داخل القائمة
+        // جرس القائمة
 
         if (sideNotificationBadge) {
 
@@ -294,9 +629,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 sideNotificationBadge.style.display =
                     "flex";
 
-            }
-
-            else {
+            } else {
 
                 sideNotificationBadge.style.display =
                     "none";
@@ -315,10 +648,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // تحديث الإشعارات عند تغير التخزين
     // ==================================================
 
-    window.addEventListener("storage", function () {
+    window.addEventListener(
+        "storage",
+        function () {
 
-        updateNotificationBadges();
+            updateNotificationBadges();
 
-    });
+        }
+    );
 
 });

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>إدارة العروض | LUMIÈRE</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body class="admin-dashboard-body">
+
+    <div class="admin-layout">
+
+        <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+        <aside class="admin-sidebar" id="adminSidebar">
+
+            <div class="admin-sidebar-logo">
+                <h1>LUMIÈRE</h1>
+                <span>BEAUTY SALON</span>
+            </div>
+
+            <div class="admin-sidebar-user">
+
+                <div class="admin-sidebar-avatar">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+
+                <div>
+                    <strong>إدارة الصالون</strong>
+                    <span>Administrator</span>
+                </div>
+
+            </div>
+
+            <nav class="admin-menu">
+
+                <a href="admin-dashboard.html" class="admin-menu-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>الرئيسية</span>
+                </a>
+
+                <a href="admin-bookings.html" class="admin-menu-item">
+
+                    <i class="fa-regular fa-calendar-check"></i>
+
+                    <span>الحجوزات</span>
+
+                    <span class="admin-menu-count" id="sidebarBookingsCount">
+                        0
+                    </span>
+
+                </a>
+
+                <a href="admin-customers.html" class="admin-menu-item">
+                    <i class="fa-regular fa-user"></i>
+                    <span>العملاء</span>
+                </a>
+
+                <a href="admin-staff.html" class="admin-menu-item">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span>الموظفات</span>
+                </a>
+
+                <a href="admin-services.html" class="admin-menu-item">
+                    <i class="fa-solid fa-scissors"></i>
+                    <span>الخدمات</span>
+                </a>
+
+                <a href="admin-offers.html" class="admin-menu-item active">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>العروض</span>
+                </a>
+
+                <a href="admin-settings.html" class="admin-menu-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>الإعدادات</span>
+                </a>
+
+            </nav>
+
+            <div class="admin-sidebar-bottom">
+
+                <a href="index.html" class="admin-customer-site">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <span>موقع العملاء</span>
+                </a>
+
+                <button type="button" class="admin-logout-btn" id="adminLogoutBtn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>تسجيل الخروج</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+        <main class="admin-main">
+
+            <!-- TOPBAR -->
+
+            <header class="admin-topbar">
+
+                <div class="admin-topbar-right">
+
+                    <button type="button" class="admin-mobile-menu" id="adminMobileMenu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div>
+
+                        <span class="admin-page-small">
+                            لوحة الإدارة
+                        </span>
+
+                        <h2>العروض</h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-topbar-left">
+
+                    <div class="admin-current-date">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        <span id="adminCurrentDate">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="admin-topbar-profile">
+
+                        <div>
+                            <strong>LUMIÈRE</strong>
+                            <span>الإدارة</span>
+                        </div>
+
+                        <div class="admin-topbar-avatar">
+                            <i class="fa-regular fa-user"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+            <div class="admin-content">
+
+                <!-- HEADING -->
+
+                <section class="admin-bookings-heading">
+
+                    <div>
+
+                        <span>إدارة العروض</span>
+
+                        <h1>عروض LUMIÈRE</h1>
+
+                        <p>
+                            أنشئي عروض الصالون وعدّلي الأسعار والتواريخ وتحكمي في ظهور كل عرض.
+                        </p>
+
+                    </div>
+
+
+                    <div class="admin-bookings-heading-icon">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+
+                </section>
+
+
+                <!-- =====================================================
+                 STATS
+            ====================================================== -->
+
+                <section class="admin-bookings-mini-stats">
+
+                    <div class="admin-booking-mini-card">
+
+                        <span>إجمالي العروض</span>
+
+                        <strong id="adminOffersTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-booking-mini-card">
+
+                        <span>العروض النشطة</span>
+
+                        <strong id="adminOffersActive">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-booking-mini-card">
+
+                        <span>المتوقفة / المنتهية</span>
+
+                        <strong id="adminOffersInactive">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-booking-mini-card">
+
+                        <span>متوسط الخصم</span>
+
+                        <div class="admin-customer-money">
+
+                            <strong id="adminOffersAverage">
+                                0
+                            </strong>
+
+                            <small>%</small>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =====================================================
+                 OFFERS MANAGEMENT
+            ====================================================== -->
+
+                <section class="admin-panel admin-bookings-management">
+
+                    <div class="admin-services-toolbar">
+
+                        <div>
+
+                            <span class="admin-customers-small">
+                                العروض والخصومات
+                            </span>
+
+                            <h2>
+                                جميع العروض
+                            </h2>
+
+                        </div>
+
+
+                        <div class="admin-services-toolbar-actions">
+
+                            <!-- SEARCH -->
+
+                            <div class="admin-booking-search">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <input type="text" id="adminOfferSearch" placeholder="ابحثي عن عرض...">
+
+                            </div>
+
+
+                            <!-- ADD -->
+
+                            <button type="button" class="admin-add-service-btn" id="adminAddOfferBtn">
+                                <i class="fa-solid fa-plus"></i>
+                                إضافة عرض
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FILTERS -->
+
+                    <div class="admin-service-filters">
+
+                        <button type="button" class="admin-offer-filter admin-service-filter active" data-filter="all">
+                            الكل
+                        </button>
+
+                        <button type="button" class="admin-offer-filter admin-service-filter" data-filter="active">
+                            النشطة
+                        </button>
+
+                        <button type="button" class="admin-offer-filter admin-service-filter" data-filter="inactive">
+                            المتوقفة / المنتهية
+                        </button>
+
+                    </div>
+
+
+                    <!-- RESULTS -->
+
+                    <div class="admin-bookings-results">
+
+                        <span>النتائج</span>
+
+                        <strong id="adminOfferResultsCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <!-- TABLE -->
+
+                    <div class="admin-table-wrapper">
+
+                        <table class="admin-bookings-table admin-full-bookings-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>العرض</th>
+                                    <th>الخدمة</th>
+                                    <th>السعر الأصلي</th>
+                                    <th>سعر العرض</th>
+                                    <th>الخصم</th>
+                                    <th>تاريخ الانتهاء</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="adminOffersTableBody">
+                                <!-- JavaScript -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- EMPTY -->
+
+                    <div class="admin-empty-state" id="adminOffersEmpty" style="display:none;">
+
+                        <div class="admin-empty-icon">
+                            <i class="fa-solid fa-tags"></i>
+                        </div>
+
+                        <strong>
+                            لا توجد عروض
+                        </strong>
+
+                        <span>
+                            أضيفي أول عرض للصالون
+                        </span>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+     ADD / EDIT OFFER
+===================================================== -->
+
+    <div class="admin-booking-modal" id="adminOfferFormModal">
+
+        <div class="admin-booking-modal-overlay" id="adminOfferFormOverlay"></div>
+
+
+        <div class="admin-booking-modal-box admin-service-modal-box admin-booking-form-box">
+
+            <button type="button" class="admin-booking-modal-close" id="adminOfferFormClose">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+
+            <div class="admin-booking-modal-icon">
+                <i class="fa-solid fa-tag"></i>
+            </div>
+
+
+            <span class="admin-booking-modal-small">
+                بيانات العرض
+            </span>
+
+
+            <h2 id="adminOfferFormTitle">
+                إضافة عرض جديد
+            </h2>
+
+
+            <p class="admin-service-modal-description">
+                حددي الخدمة والسعر ومدة العرض
+            </p>
+
+
+            <form id="adminOfferForm">
+
+                <!-- OFFER NAME -->
+
+                <div class="admin-service-form-group">
+
+                    <label for="adminOfferName">
+                        اسم العرض
+                        <span>*</span>
+                    </label>
+
+
+                    <div class="admin-service-input">
+
+                        <i class="fa-solid fa-tag"></i>
+
+                        <input type="text" id="adminOfferName" placeholder="مثال: عرض العناية الملكية" required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SERVICE -->
+
+                <div class="admin-service-form-group">
+
+                    <label for="adminOfferService">
+                        الخدمة
+                        <span>*</span>
+                    </label>
+
+
+                    <div class="admin-service-input">
+
+                        <i class="fa-solid fa-scissors"></i>
+
+                        <select id="adminOfferService" required>
+
+                            <option value="">
+                                اختاري الخدمة
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRICES -->
+
+                <div class="admin-booking-form-grid">
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminOfferOriginalPrice">
+                            السعر الأصلي
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-solid fa-sack-dollar"></i>
+
+                            <input type="number" id="adminOfferOriginalPrice" min="1" placeholder="200" required>
+
+                            <span class="admin-input-suffix">
+                                ر.س
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminOfferPrice">
+                            سعر العرض
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-solid fa-tags"></i>
+
+                            <input type="number" id="adminOfferPrice" min="1" placeholder="150" required>
+
+                            <span class="admin-input-suffix">
+                                ر.س
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DATES -->
+
+                <div class="admin-booking-form-grid">
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminOfferStartDate">
+                            تاريخ البداية
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <input type="date" id="adminOfferStartDate">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-service-form-group">
+
+                        <label for="adminOfferEndDate">
+                            تاريخ الانتهاء
+                        </label>
+
+
+                        <div class="admin-service-input">
+
+                            <i class="fa-regular fa-calendar-check"></i>
+
+                            <input type="date" id="adminOfferEndDate">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="admin-service-form-group">
+
+                    <label for="adminOfferStatus">
+                        حالة العرض
+                    </label>
+
+
+                    <div class="admin-service-input">
+
+                        <i class="fa-solid fa-toggle-on"></i>
+
+                        <select id="adminOfferStatus">
+
+                            <option value="active">
+                                نشط
+                            </option>
+
+                            <option value="inactive">
+                                متوقف
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="admin-service-form-group">
+
+                    <label for="adminOfferDescription">
+                        وصف العرض
+                    </label>
+
+
+                    <div class="admin-service-textarea">
+
+                        <i class="fa-regular fa-note-sticky"></i>
+
+                        <textarea id="adminOfferDescription" rows="4"
+                            placeholder="مثال: عرض خاص لفترة محدودة..."></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                <div class="admin-service-form-error" id="adminOfferFormError"></div>
+
+
+                <!-- SAVE -->
+
+                <button type="submit" class="admin-modal-save-btn">
+                    <i class="fa-regular fa-floppy-disk"></i>
+                    حفظ العرض
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     DELETE OFFER
+===================================================== -->
+
+    <div class="admin-booking-modal" id="adminDeleteOfferModal">
+
+        <div class="admin-booking-modal-overlay" id="adminDeleteOfferOverlay"></div>
+
+
+        <div class="admin-booking-modal-box admin-delete-service-box">
+
+            <div class="admin-delete-service-icon">
+                <i class="fa-regular fa-trash-can"></i>
+            </div>
+
+
+            <span class="admin-booking-modal-small">
+                حذف العرض
+            </span>
+
+
+            <h2>
+                هل تريدين حذف العرض؟
+            </h2>
+
+
+            <p>
+                سيتم حذف العرض نهائيًا من قائمة العروض.
+            </p>
+
+
+            <div class="admin-delete-service-actions">
+
+                <button type="button" class="admin-delete-cancel-btn" id="adminDeleteOfferCancel">
+                    تراجع
+                </button>
+
+
+                <button type="button" class="admin-delete-confirm-btn" id="adminDeleteOfferConfirm">
+                    <i class="fa-regular fa-trash-can"></i>
+                    حذف العرض
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     TOAST
+===================================================== -->
+
+    <div class="admin-success-toast" id="adminOfferToast">
+
+        <div>
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <span id="adminOfferToastText">
+            تم الحفظ بنجاح
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+     MOBILE SIDEBAR OVERLAY
+===================================================== -->
+
+    <div class="admin-sidebar-overlay" id="adminSidebarOverlay"></div>
+
+
+    <script src="admin-offers.js"></script>
+
+</body>
+
+</html>

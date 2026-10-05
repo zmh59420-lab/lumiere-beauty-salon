@@ -23,7 +23,9 @@
 <body>
 
 
-    <!-- HEADER -->
+    <!-- =========================================
+         HEADER
+    ========================================== -->
 
     <header class="header">
 
@@ -38,7 +40,9 @@
 
             <h1>LUMIÈRE</h1>
 
-            <span>BEAUTY SALON</span>
+            <span>
+                BEAUTY SALON
+            </span>
 
         </div>
 
@@ -49,7 +53,9 @@
 
 
 
-    <!-- PAGE -->
+    <!-- =========================================
+         PAGE
+    ========================================== -->
 
     <main class="booking-page">
 
@@ -74,7 +80,9 @@
 
 
 
-        <!-- خطوات الحجز -->
+        <!-- =========================================
+             خطوات الحجز
+        ========================================== -->
 
         <div class="booking-steps">
 
@@ -85,34 +93,48 @@
                     <i class="fa-solid fa-check"></i>
                 </strong>
 
-                <span>الخدمة</span>
+                <span>
+                    الخدمة
+                </span>
 
             </div>
 
 
             <div class="step active">
 
-                <strong>2</strong>
+                <strong>
+                    2
+                </strong>
 
-                <span>الموظفة</span>
-
-            </div>
-
-
-            <div class="step">
-
-                <strong>3</strong>
-
-                <span>الموعد</span>
+                <span>
+                    الموظفة
+                </span>
 
             </div>
 
 
             <div class="step">
 
-                <strong>4</strong>
+                <strong>
+                    3
+                </strong>
 
-                <span>التأكيد</span>
+                <span>
+                    الموعد
+                </span>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>
+                    4
+                </strong>
+
+                <span>
+                    التأكيد
+                </span>
 
             </div>
 
@@ -121,7 +143,9 @@
 
 
 
-        <!-- الخدمة المختارة -->
+        <!-- =========================================
+             الخدمة المختارة
+        ========================================== -->
 
         <div class="selected-booking-info">
 
@@ -141,7 +165,9 @@
 
 
 
-        <!-- الموظفات -->
+        <!-- =========================================
+             الموظفات
+        ========================================== -->
 
         <section class="staff-section">
 
@@ -154,91 +180,49 @@
             </p>
 
 
-            <div class="staff-list">
+            <!--
+                مهم:
+                الموظفات ستتم إضافتهن هنا تلقائياً
+                من لوحة الإدارة عن طريق staff.js
+            -->
+
+            <div class="staff-list" id="customerStaffList">
+
+                <!-- الموظفات من JavaScript -->
+
+            </div>
 
 
-                <!-- الموظفة 1 -->
+            <!-- =====================================
+                 حالة عدم وجود موظفات
+            ====================================== -->
 
-                <button class="staff-card" type="button" data-staff="سارة">
+            <div class="staff-empty-state" id="customerStaffEmpty" style="display: none;">
 
-                    <div class="staff-avatar">
+                <div class="staff-empty-icon">
 
-                        <i class="fa-regular fa-user"></i>
+                    <i class="fa-solid fa-user-group"></i>
 
-                    </div>
-
-                    <div class="staff-info">
-
-                        <h3>
-                            سارة
-                        </h3>
-
-                        <span>
-                            أخصائية تجميل
-                        </span>
-
-                    </div>
-
-                    <i class="fa-solid fa-chevron-left"></i>
-
-                </button>
+                </div>
 
 
-
-                <!-- الموظفة 2 -->
-
-                <button class="staff-card" type="button" data-staff="نورة">
-
-                    <div class="staff-avatar">
-
-                        <i class="fa-regular fa-user"></i>
-
-                    </div>
-
-                    <div class="staff-info">
-
-                        <h3>
-                            نورة
-                        </h3>
-
-                        <span>
-                            أخصائية تجميل
-                        </span>
-
-                    </div>
-
-                    <i class="fa-solid fa-chevron-left"></i>
-
-                </button>
+                <h3>
+                    لا توجد موظفات متاحات حالياً
+                </h3>
 
 
+                <p>
+                    يرجى المحاولة لاحقاً أو اختيار خدمة أخرى
+                </p>
 
-                <!-- الموظفة 3 -->
 
-                <button class="staff-card" type="button" data-staff="ريم">
+                <a href="booking.html" class="staff-empty-back">
 
-                    <div class="staff-avatar">
+                    <i class="fa-solid fa-arrow-right"></i>
 
-                        <i class="fa-regular fa-user"></i>
+                    العودة للخدمات
 
-                    </div>
-
-                    <div class="staff-info">
-
-                        <h3>
-                            ريم
-                        </h3>
-
-                        <span>
-                            أخصائية تجميل
-                        </span>
-
-                    </div>
-
-                    <i class="fa-solid fa-chevron-left"></i>
-
-                </button>
-
+                </a>
 
             </div>
 
@@ -247,6 +231,10 @@
 
     </main>
 
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
 
     <script src="staff.js"></script>
 

@@ -1,34 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ========================================
-    // القسم المختار
-    // نقرأه أولاً من الرابط
-    // وإذا غير موجود نقرأه من localStorage
-    // ========================================
+    // =====================================================
+    // معرفة القسم المختار
+    // =====================================================
 
-    const urlParams =
+    const params =
         new URLSearchParams(window.location.search);
 
     const categoryFromUrl =
-        urlParams.get("service");
+        params.get("service");
 
     const categoryFromStorage =
         localStorage.getItem("selectedService");
 
     const selectedCategory =
-        categoryFromUrl || categoryFromStorage;
+        categoryFromUrl ||
+        categoryFromStorage ||
+        "الشعر";
 
 
-    // إذا القسم جاء من الرابط نحفظه أيضاً
     if (categoryFromUrl) {
 
         localStorage.setItem(
             "selectedService",
             categoryFromUrl
         );
-
     }
 
+
+    // =====================================================
+    // عناصر الصفحة
+    // =====================================================
 
     const categoryTitle =
         document.getElementById("categoryTitle");
@@ -37,236 +39,426 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("servicesList");
 
 
-    // ========================================
-    // الخدمات والأسعار
-    // ========================================
-
-    const services = {
-
-        "الشعر": [
-
-            {
-                name: "قص الشعر",
-                description: "قص وتنسيق الشعر",
-                price: 80
-            },
-
-            {
-                name: "استشوار",
-                description: "تصفيف الشعر باحترافية",
-                price: 70
-            },
-
-            {
-                name: "صبغة شعر",
-                description: "صبغة كاملة للشعر",
-                price: 250
-            },
-
-            {
-                name: "علاج الشعر",
-                description: "جلسة عناية وترطيب للشعر",
-                price: 150
-            }
-
-        ],
-
-
-        "الأظافر": [
-
-            {
-                name: "مانيكير",
-                description: "تنظيف وعناية بالأظافر",
-                price: 70
-            },
-
-            {
-                name: "بديكير",
-                description: "عناية وتنظيف للقدمين",
-                price: 90
-            },
-
-            {
-                name: "مانيكير جل",
-                description: "مانيكير مع طلاء جل",
-                price: 120
-            },
-
-            {
-                name: "تركيب أظافر",
-                description: "تركيب وتنسيق الأظافر",
-                price: 150
-            }
-
-        ],
-
-
-        "البشرة": [
-
-            {
-                name: "تنظيف بشرة",
-                description: "تنظيف وعناية بالبشرة",
-                price: 150
-            },
-
-            {
-                name: "هيدرافيشل",
-                description: "تنظيف وترطيب عميق للبشرة",
-                price: 300
-            },
-
-            {
-                name: "جلسة نضارة",
-                description: "عناية لإشراقة ونضارة البشرة",
-                price: 250
-            }
-
-        ],
-
-
-        "المكياج": [
-
-            {
-                name: "مكياج ناعم",
-                description: "إطلالة ناعمة وطبيعية",
-                price: 200
-            },
-
-            {
-                name: "مكياج مناسبات",
-                description: "مكياج متكامل للمناسبات",
-                price: 300
-            },
-
-            {
-                name: "مكياج عروس",
-                description: "مكياج خاص للعروس",
-                price: 700
-            }
-
-        ]
-
-    };
-
-
-    // ========================================
-    // جلب المفضلة
-    // ========================================
-
-    let favorites =
-        JSON.parse(
-            localStorage.getItem("favoriteServices")
-        ) || [];
-
-
-    // ========================================
-    // اسم القسم
-    // ========================================
-
     if (categoryTitle) {
 
         categoryTitle.textContent =
-            selectedCategory || "اختاري الخدمة";
-
+            selectedCategory;
     }
 
 
-    // ========================================
-    // إذا ما فيه قسم صحيح
-    // ========================================
+    // =====================================================
+    // قراءة الخدمات من لوحة الإدارة
+    // =====================================================
 
-    if (
-        !selectedCategory ||
-        !services[selectedCategory]
-    ) {
+    function getAdminServices() {
 
-        servicesList.innerHTML = `
+        try {
 
-            <p class="no-services">
-                لا توجد خدمات متاحة حالياً
-            </p>
+            const saved =
+                localStorage.getItem("lumiereServices");
 
-        `;
 
-        return;
+            if (saved === null) {
+                return [];
+            }
 
+
+            const parsed =
+                JSON.parse(saved);
+
+
+            return Array.isArray(parsed)
+                ? parsed
+                : [];
+
+        } catch (error) {
+
+            console.error(
+                "خطأ في قراءة الخدمات:",
+                error
+            );
+
+            return [];
+        }
     }
 
 
-    // ========================================
-    // التحقق هل الخدمة مفضلة
-    // ========================================
+    // =====================================================
+    // هل الخدمة نشطة؟
+    // =====================================================
+
+    function isServiceActive(service) {
+
+        const status =
+            String(
+                service.status || "active"
+            )
+                .trim()
+                .toLowerCase();
+
+
+        return (
+            status !== "inactive" &&
+            status !== "غير نشطة" &&
+            status !== "متوقفة"
+        );
+    }
+
+
+    // =====================================================
+    // مقارنة الأقسام
+    // =====================================================
+
+    function normalizeCategory(value) {
+
+        return String(value || "")
+            .trim()
+            .replace(/\s+/g, " ")
+            .toLowerCase();
+    }
+
+
+    // =====================================================
+    // خدمات القسم الحالي
+    // =====================================================
+
+    const allServices =
+        getAdminServices();
+
+
+    const currentServices =
+        allServices.filter(function (service) {
+
+            const sameCategory =
+                normalizeCategory(service.category) ===
+                normalizeCategory(selectedCategory);
+
+
+            return (
+                sameCategory &&
+                isServiceActive(service)
+            );
+        });
+
+
+    // =====================================================
+    // حماية النصوص
+    // =====================================================
+
+    function escapeHTML(value) {
+
+        const div =
+            document.createElement("div");
+
+
+        div.textContent =
+            value === undefined ||
+            value === null
+                ? ""
+                : String(value);
+
+
+        return div.innerHTML;
+    }
+
+
+    // =====================================================
+    // قراءة المفضلة
+    // =====================================================
+
+    function getFavorites() {
+
+        try {
+
+            const favorites =
+                JSON.parse(
+                    localStorage.getItem(
+                        "favoriteServices"
+                    )
+                );
+
+
+            return Array.isArray(favorites)
+                ? favorites
+                : [];
+
+        } catch (error) {
+
+            return [];
+        }
+    }
+
+
+    // =====================================================
+    // هل الخدمة في المفضلة؟
+    // =====================================================
 
     function isFavorite(serviceName) {
 
-        return favorites.some(function (item) {
+        const favorites =
+            getFavorites();
 
-            return item.name === serviceName;
 
-        });
+        return favorites.some(
+            function (item) {
 
+                return (
+                    item.name === serviceName
+                );
+            }
+        );
     }
 
 
-    // ========================================
-    // عرض الخدمات
-    // ========================================
+    // =====================================================
+    // إضافة / حذف المفضلة
+    // =====================================================
 
-    services[selectedCategory].forEach(
-        function (service) {
+    function toggleFavorite(service) {
 
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "detail-service-card";
+        let favorites =
+            getFavorites();
 
 
-            const favorite =
-                isFavorite(service.name);
+        const index =
+            favorites.findIndex(
+                function (item) {
+
+                    return (
+                        item.name === service.name
+                    );
+                }
+            );
 
 
-            card.innerHTML = `
+        // حذف من المفضلة
+        if (index !== -1) {
 
-                <button
-                    type="button"
-                    class="service-favorite-btn ${favorite ? "active" : ""}"
-                    aria-label="إضافة للمفضلة"
-                >
+            favorites.splice(
+                index,
+                1
+            );
 
-                    <i class="${
-                        favorite
-                            ? "fa-solid"
-                            : "fa-regular"
-                    } fa-heart"></i>
+        } else {
 
-                </button>
+            // إضافة للمفضلة
+
+            favorites.push({
+
+                id:
+                    service.id || "",
+
+                category:
+                    service.category ||
+                    selectedCategory,
+
+                name:
+                    service.name,
+
+                price:
+                    Number(
+                        service.price || 0
+                    ),
+
+                offer:
+                    false
+
+            });
+        }
 
 
-                <div class="detail-service-info">
+        localStorage.setItem(
+            "favoriteServices",
+            JSON.stringify(favorites)
+        );
+    }
 
-                    <h3>
-                        ${service.name}
-                    </h3>
 
-                    <p>
-                        ${service.description}
-                    </p>
+    // =====================================================
+    // تنسيق السعر
+    // =====================================================
+
+    function formatPrice(price) {
+
+        const number =
+            Number(price || 0);
+
+
+        if (Number.isNaN(number)) {
+            return "0";
+        }
+
+
+        return number.toLocaleString(
+            "en-US"
+        );
+    }
+
+
+    // =====================================================
+    // عرض رسالة عدم وجود خدمات
+    // =====================================================
+
+    function showEmptyState() {
+
+        if (!servicesList) {
+            return;
+        }
+
+
+        servicesList.innerHTML = `
+
+            <div class="services-empty-state">
+
+                <div class="services-empty-icon">
+
+                    <i class="fa-solid fa-spa"></i>
 
                 </div>
 
 
-                <div class="detail-service-price">
+                <h3>
+                    لا توجد خدمات متاحة حالياً
+                </h3>
 
-                    <div>
 
-                        <strong>
-                            ${service.price}
-                        </strong>
+                <p>
+                    لا توجد خدمات نشطة في قسم
+                    ${escapeHTML(selectedCategory)}
+                    حالياً
+                </p>
 
-                        <span>
+
+                <a
+                    href="booking.html"
+                    class="services-empty-back"
+                >
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                    العودة للأقسام
+
+                </a>
+
+            </div>
+        `;
+    }
+
+
+    // =====================================================
+    // عرض الخدمات
+    // =====================================================
+
+    function renderServices() {
+
+        if (!servicesList) {
+            return;
+        }
+
+
+        servicesList.innerHTML = "";
+
+
+        // =============================================
+        // لا توجد خدمات
+        // =============================================
+
+        if (currentServices.length === 0) {
+
+            showEmptyState();
+
+            return;
+        }
+
+
+        // =============================================
+        // إنشاء الخدمات
+        // =============================================
+
+        currentServices.forEach(
+            function (service) {
+
+                const serviceName =
+                    service.name ||
+                    "خدمة LUMIÈRE";
+
+
+                const description =
+                    service.description ||
+                    "خدمة مميزة من LUMIÈRE";
+
+
+                const price =
+                    Number(
+                        service.price || 0
+                    );
+
+
+                const serviceCard =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                serviceCard.className =
+                    "service-item";
+
+
+                // =====================================
+                // المفضلة
+                // =====================================
+
+                const favorite =
+                    isFavorite(serviceName);
+
+
+                const favoriteClass =
+                    favorite
+                        ? "fa-solid"
+                        : "fa-regular";
+
+
+                const activeClass =
+                    favorite
+                        ? "active"
+                        : "";
+
+
+                // =====================================
+                // محتوى الخدمة
+                // =====================================
+
+                serviceCard.innerHTML = `
+
+                    <button
+                        type="button"
+                        class="service-favorite-btn ${activeClass}"
+                        aria-label="المفضلة"
+                    >
+
+                        <i class="${favoriteClass} fa-heart"></i>
+
+                    </button>
+
+
+                    <div class="service-item-info">
+
+                        <h3>
+                            ${escapeHTML(serviceName)}
+                        </h3>
+
+
+                        <p>
+                            ${escapeHTML(description)}
+                        </p>
+
+
+                        <strong class="service-normal-price">
+
+                            ${formatPrice(price)}
                             ر.س
-                        </span>
+
+                        </strong>
 
                     </div>
 
@@ -275,170 +467,190 @@ document.addEventListener("DOMContentLoaded", function () {
                         type="button"
                         class="select-service-btn"
                     >
-                        اختيار
+
+                        اختاري
+
                     </button>
-
-                </div>
-
-            `;
+                `;
 
 
-            // ========================================
-            // زر المفضلة
-            // ========================================
+                // =====================================
+                // زر المفضلة
+                // =====================================
 
-            const favoriteButton =
-                card.querySelector(
-                    ".service-favorite-btn"
+                const favoriteButton =
+                    serviceCard.querySelector(
+                        ".service-favorite-btn"
+                    );
+
+
+                const favoriteIcon =
+                    favoriteButton.querySelector(
+                        "i"
+                    );
+
+
+                favoriteButton.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+
+                        toggleFavorite(
+                            service
+                        );
+
+
+                        if (
+                            isFavorite(
+                                serviceName
+                            )
+                        ) {
+
+                            favoriteIcon.classList.remove(
+                                "fa-regular"
+                            );
+
+                            favoriteIcon.classList.add(
+                                "fa-solid"
+                            );
+
+                            favoriteButton.classList.add(
+                                "active"
+                            );
+
+                        } else {
+
+                            favoriteIcon.classList.remove(
+                                "fa-solid"
+                            );
+
+                            favoriteIcon.classList.add(
+                                "fa-regular"
+                            );
+
+                            favoriteButton.classList.remove(
+                                "active"
+                            );
+                        }
+                    }
                 );
 
 
-            favoriteButton.addEventListener(
-                "click",
-                function () {
+                // =====================================
+                // اختيار الخدمة
+                // =====================================
 
-                    const favoriteIndex =
-                        favorites.findIndex(
-                            function (item) {
-
-                                return (
-                                    item.name ===
-                                    service.name
-                                );
-
-                            }
-                        );
-
-
-                    // =================================
-                    // إذا موجودة نحذفها
-                    // =================================
-
-                    if (favoriteIndex !== -1) {
-
-                        favorites.splice(
-                            favoriteIndex,
-                            1
-                        );
-
-
-                        favoriteButton.classList.remove(
-                            "active"
-                        );
-
-
-                        favoriteButton.innerHTML = `
-                            <i class="fa-regular fa-heart"></i>
-                        `;
-
-                    }
-
-
-                    // =================================
-                    // إذا مو موجودة نضيفها
-                    // =================================
-
-                    else {
-
-                        favorites.push({
-
-                            name:
-                                service.name,
-
-                            description:
-                                service.description,
-
-                            price:
-                                service.price,
-
-                            category:
-                                selectedCategory
-
-                        });
-
-
-                        favoriteButton.classList.add(
-                            "active"
-                        );
-
-
-                        favoriteButton.innerHTML = `
-                            <i class="fa-solid fa-heart"></i>
-                        `;
-
-                    }
-
-
-                    // =================================
-                    // حفظ المفضلة
-                    // =================================
-
-                    localStorage.setItem(
-
-                        "favoriteServices",
-
-                        JSON.stringify(
-                            favorites
-                        )
-
+                const selectButton =
+                    serviceCard.querySelector(
+                        ".select-service-btn"
                     );
 
-                }
-            );
+
+                selectButton.addEventListener(
+                    "click",
+                    function () {
+
+                        // القسم
+                        localStorage.setItem(
+                            "selectedService",
+                            service.category ||
+                            selectedCategory
+                        );
 
 
-            // ========================================
-            // زر اختيار الخدمة
-            // ========================================
+                        // اسم الخدمة
+                        localStorage.setItem(
+                            "selectedServiceName",
+                            serviceName
+                        );
 
-            const selectButton =
-                card.querySelector(
-                    ".select-service-btn"
+
+                        // السعر
+                        localStorage.setItem(
+                            "selectedServicePrice",
+                            String(price)
+                        );
+
+
+                        // ID الخدمة
+                        if (service.id) {
+
+                            localStorage.setItem(
+                                "selectedServiceId",
+                                service.id
+                            );
+
+                        } else {
+
+                            localStorage.removeItem(
+                                "selectedServiceId"
+                            );
+                        }
+
+
+                        // هذه خدمة عادية وليست عرض
+                        localStorage.removeItem(
+                            "selectedOffer"
+                        );
+
+                        localStorage.removeItem(
+                            "selectedOfferId"
+                        );
+
+                        localStorage.removeItem(
+                            "selectedOfferName"
+                        );
+
+
+                        // تنظيف الحجز السابق
+                        localStorage.removeItem(
+                            "selectedStaff"
+                        );
+
+                        localStorage.removeItem(
+                            "selectedStaffId"
+                        );
+
+                        localStorage.removeItem(
+                            "selectedDate"
+                        );
+
+                        localStorage.removeItem(
+                            "selectedTime"
+                        );
+
+                        localStorage.removeItem(
+                            "bookingNotes"
+                        );
+
+                        localStorage.removeItem(
+                            "editingBookingNumber"
+                        );
+
+
+                        // الانتقال لاختيار الموظفة
+                        window.location.href =
+                            "staff.html";
+                    }
                 );
 
 
-            selectButton.addEventListener(
-                "click",
-                function () {
-
-                    // هذا حجز جديد
-                    localStorage.removeItem(
-                        "editingBookingNumber"
-                    );
+                servicesList.appendChild(
+                    serviceCard
+                );
+            }
+        );
+    }
 
 
-                    // حفظ القسم
-                    localStorage.setItem(
-                        "selectedService",
-                        selectedCategory
-                    );
+    // =====================================================
+    // START
+    // =====================================================
 
-
-                    // حفظ اسم الخدمة
-                    localStorage.setItem(
-                        "selectedServiceName",
-                        service.name
-                    );
-
-
-                    // حفظ السعر
-                    localStorage.setItem(
-                        "selectedServicePrice",
-                        service.price
-                    );
-
-
-                    // الانتقال لصفحة الموظفة
-                    window.location.href =
-                        "staff.html";
-
-                }
-            );
-
-
-            servicesList.appendChild(card);
-
-        }
-    );
+    renderServices();
 
 });

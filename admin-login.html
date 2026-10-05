@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>تسجيل دخول الإدارة | LUMIÈRE</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+
+<body class="admin-login-body">
+
+
+    <!-- ========================================
+         ADMIN LOGIN
+    ========================================= -->
+
+    <main class="admin-login-page">
+
+
+        <section class="admin-login-card">
+
+
+            <!-- LOGO -->
+
+            <div class="admin-login-logo">
+
+                <h1>
+                    LUMIÈRE
+                </h1>
+
+                <span>
+                    BEAUTY SALON
+                </span>
+
+            </div>
+
+
+            <!-- ICON -->
+
+            <div class="admin-login-icon">
+
+                <i class="fa-solid fa-user-shield"></i>
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <div class="admin-login-title">
+
+                <span>
+                    لوحة الإدارة
+                </span>
+
+                <h2>
+                    مرحباً بعودتكِ
+                </h2>
+
+                <p>
+                    سجلي الدخول لإدارة الصالون والحجوزات
+                </p>
+
+            </div>
+
+
+            <!-- ========================================
+                 LOGIN FORM
+            ========================================= -->
+
+            <form class="admin-login-form" id="adminLoginForm">
+
+
+                <!-- EMAIL -->
+
+                <div class="admin-input-group">
+
+                    <label for="adminEmail">
+                        البريد الإلكتروني
+                    </label>
+
+
+                    <div class="admin-input-box">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+
+                        <input type="email" id="adminEmail" placeholder="admin@lumiere.com" autocomplete="email"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="admin-input-group">
+
+                    <label for="adminPassword">
+                        كلمة المرور
+                    </label>
+
+
+                    <div class="admin-input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+
+                        <input type="password" id="adminPassword" placeholder="أدخلي كلمة المرور"
+                            autocomplete="current-password" required>
+
+
+                        <button type="button" class="admin-password-toggle" id="adminPasswordToggle"
+                            aria-label="إظهار كلمة المرور">
+
+                            <i class="fa-regular fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                <div class="admin-login-error" id="adminLoginError">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    <span>
+                        البريد الإلكتروني أو كلمة المرور غير صحيحة
+                    </span>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button type="submit" class="admin-login-btn">
+
+                    <span>
+                        تسجيل الدخول
+                    </span>
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </button>
+
+
+            </form>
+
+
+            <!-- CUSTOMER WEBSITE -->
+
+            <a href="index.html" class="admin-back-home">
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+                العودة لموقع العملاء
+
+            </a>
+
+
+            <!-- FOOTER -->
+
+            <div class="admin-login-footer">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <span>
+                    منطقة مخصصة لإدارة LUMIÈRE
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <script src="admin-login.js"></script>
+
+</body>
+
+</html>

@@ -9,20 +9,14 @@
 
     <title>حجوزاتي | LUMIÈRE</title>
 
-
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
-
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
@@ -31,16 +25,14 @@
 <body>
 
 
-    <!-- =========================
+    <!-- ========================================
          HEADER
-    ========================== -->
+    ========================================= -->
 
     <header class="header">
 
-        <a href="index.html" class="profile-btn">
-
+        <a href="index.html" class="profile-btn" aria-label="العودة">
             <i class="fa-solid fa-arrow-right"></i>
-
         </a>
 
 
@@ -48,9 +40,7 @@
 
             <h1>LUMIÈRE</h1>
 
-            <span>
-                BEAUTY SALON
-            </span>
+            <span>BEAUTY SALON</span>
 
         </div>
 
@@ -61,74 +51,60 @@
 
 
 
-    <!-- =========================
-         PAGE
-    ========================== -->
+    <!-- ========================================
+         APPOINTMENTS PAGE
+    ========================================= -->
 
-    <main class="booking-page">
+    <main class="appointments-page">
 
-
-        <!-- عنوان الصفحة -->
 
         <div class="booking-title">
 
-            <span>
-                مواعيدك في مكان واحد
-            </span>
+            <span>مواعيدك</span>
 
-            <h1>
-                حجوزاتي
-            </h1>
+            <h1>حجوزاتي</h1>
 
             <p>
-                يمكنكِ متابعة حجوزاتك القادمة والسابقة
+                تابعي حجوزاتك ومواعيدك بسهولة
             </p>
 
         </div>
 
 
 
-        <!-- =========================
+        <!-- ========================================
              TABS
-        ========================== -->
+        ========================================= -->
 
-        <div class="appointments-tabs">
-
+        <div class="appointment-tabs">
 
             <button type="button" class="appointment-tab active" data-filter="upcoming">
-
                 القادمة
-
             </button>
 
 
             <button type="button" class="appointment-tab" data-filter="previous">
-
                 السابقة
-
             </button>
 
-
         </div>
 
 
 
-        <!-- =========================
-             BOOKINGS
-        ========================== -->
+        <!-- ========================================
+             APPOINTMENTS LIST
+        ========================================= -->
 
-        <div id="appointmentsList" class="appointments-list">
-
+        <div class="appointments-list" id="appointmentsList">
         </div>
 
 
 
-        <!-- =========================
-             EMPTY
-        ========================== -->
+        <!-- ========================================
+             EMPTY STATE
+        ========================================= -->
 
-        <div id="emptyAppointments" class="empty-appointments">
-
+        <div class="empty-appointments" id="emptyAppointments" style="display: none;">
 
             <div class="empty-appointments-icon">
 
@@ -143,16 +119,13 @@
 
 
             <p>
-                حجوزاتك ستظهر هنا بعد تأكيد الموعد
+                لم يتم العثور على حجوزات في هذا القسم
             </p>
 
 
-            <a href="booking.html" class="empty-booking-btn">
-
-                احجزي موعدك الآن
-
+            <a href="booking.html" class="main-btn">
+                احجزي موعداً
             </a>
-
 
         </div>
 
@@ -161,9 +134,386 @@
 
 
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
+    <!-- ========================================
+         BOOKING DETAILS MODAL
+    ========================================= -->
+
+    <div class="booking-details-modal" id="bookingDetailsModal">
+
+        <div class="booking-details-overlay" id="bookingDetailsOverlay">
+        </div>
+
+
+        <div class="booking-details-box">
+
+
+            <button type="button" class="booking-details-close" id="bookingDetailsClose" aria-label="إغلاق">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+
+            <div class="booking-details-icon">
+
+                <i class="fa-regular fa-calendar-check"></i>
+
+            </div>
+
+
+            <span class="booking-details-small">
+                تفاصيل الموعد
+            </span>
+
+
+            <h2 id="detailsService">
+                الخدمة
+            </h2>
+
+
+            <div class="booking-details-number">
+
+                رقم الحجز
+
+                <strong id="detailsNumber">
+                    -
+                </strong>
+
+            </div>
+
+
+
+            <!-- حالة الحجز -->
+
+            <div class="booking-details-status-row">
+
+                <span>
+                    حالة الحجز
+                </span>
+
+                <strong class="booking-details-status" id="detailsStatus">
+                    -
+                </strong>
+
+            </div>
+
+
+
+            <!-- التفاصيل -->
+
+            <div class="booking-details-grid">
+
+
+                <div class="booking-details-item">
+
+                    <div class="booking-details-item-icon">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            الموظفة
+                        </span>
+
+                        <strong id="detailsStaff">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="booking-details-item">
+
+                    <div class="booking-details-item-icon">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            التاريخ
+                        </span>
+
+                        <strong id="detailsDate">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="booking-details-item">
+
+                    <div class="booking-details-item-icon">
+                        <i class="fa-regular fa-clock"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            الوقت
+                        </span>
+
+                        <strong id="detailsTime">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="booking-details-item">
+
+                    <div class="booking-details-item-icon">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            السعر
+                        </span>
+
+                        <strong>
+                            <span id="detailsPrice">-</span>
+                            ر.س
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- الملاحظات -->
+
+            <div class="booking-details-notes">
+
+                <div class="booking-details-notes-title">
+
+                    <i class="fa-regular fa-message"></i>
+
+                    <span>
+                        ملاحظات الحجز
+                    </span>
+
+                </div>
+
+
+                <p id="detailsNotes">
+                    لا توجد ملاحظات
+                </p>
+
+            </div>
+
+
+
+            <!-- التقييم إذا كان موجود -->
+
+            <div class="booking-details-rating" id="detailsRatingBox" style="display: none;">
+
+                <div class="booking-details-rating-title">
+
+                    <span>
+                        تقييمك للخدمة
+                    </span>
+
+                    <div id="detailsRatingStars"></div>
+
+                </div>
+
+
+                <p id="detailsReview"></p>
+
+            </div>
+
+
+
+            <!-- زر الإغلاق -->
+
+            <button type="button" class="booking-details-done" id="bookingDetailsDone">
+
+                تم
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         CANCEL BOOKING MODAL
+    ========================================= -->
+
+    <div class="cancel-modal" id="cancelModal">
+
+        <div class="cancel-modal-overlay" id="cancelModalOverlay">
+        </div>
+
+
+        <div class="cancel-modal-box">
+
+
+            <div class="cancel-modal-icon">
+
+                <i class="fa-regular fa-calendar-xmark"></i>
+
+            </div>
+
+
+            <span class="cancel-modal-small">
+                إلغاء الموعد
+            </span>
+
+
+            <h2>
+                هل أنتِ متأكدة؟
+            </h2>
+
+
+            <p>
+                سيتم إلغاء هذا الحجز ولن يعود ضمن
+                مواعيدك القادمة، ويمكنكِ إعادة الحجز
+                لاحقاً في أي وقت.
+            </p>
+
+
+            <div class="cancel-modal-actions">
+
+
+                <button type="button" class="cancel-modal-back" id="cancelModalBack">
+                    تراجعي
+                </button>
+
+
+                <button type="button" class="cancel-modal-confirm" id="cancelModalConfirm">
+                    نعم، إلغاء الحجز
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         CANCEL SUCCESS MESSAGE
+    ========================================= -->
+
+    <div class="cancel-success-toast" id="cancelSuccessToast">
+
+        <div class="cancel-success-icon">
+
+            <i class="fa-solid fa-check"></i>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                تم إلغاء الحجز
+            </strong>
+
+            <span>
+                يمكنكِ إعادة الحجز في أي وقت
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         BOTTOM NAVIGATION
+    ========================================= -->
+
+    <nav class="bottom-nav">
+
+
+        <a href="index.html" class="nav-item">
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+                الرئيسية
+            </span>
+
+        </a>
+
+
+
+        <a href="booking.html" class="nav-item">
+
+            <i class="fa-solid fa-border-all"></i>
+
+            <span>
+                الخدمات
+            </span>
+
+        </a>
+
+
+
+        <a href="booking.html" class="nav-item booking">
+
+            <div class="booking-icon">
+
+                <i class="fa-solid fa-calendar-plus"></i>
+
+            </div>
+
+            <span>
+                احجزي
+            </span>
+
+        </a>
+
+
+
+        <a href="appointments.html" class="nav-item active">
+
+            <i class="fa-regular fa-calendar-check"></i>
+
+            <span>
+                حجوزاتي
+            </span>
+
+        </a>
+
+
+
+        <a href="profile.html" class="nav-item">
+
+            <i class="fa-regular fa-user"></i>
+
+            <span>
+                حسابي
+            </span>
+
+        </a>
+
+
+    </nav>
+
+
 
     <script src="appointments.js"></script>
 

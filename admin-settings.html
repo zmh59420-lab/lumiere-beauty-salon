@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>الإعدادات | LUMIÈRE</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body class="admin-body">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <div class="admin-brand">
+            <h1>LUMIÈRE</h1>
+            <span>BEAUTY SALON</span>
+        </div>
+
+
+        <div class="admin-user-card">
+
+            <div class="admin-user-icon">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+
+            <div>
+                <strong>إدارة الصالون</strong>
+                <span>Administrator</span>
+            </div>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <a href="admin-dashboard.html" class="admin-nav-item">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>الرئيسية</span>
+            </a>
+
+            <a href="admin-bookings.html" class="admin-nav-item">
+                <i class="fa-regular fa-calendar-check"></i>
+                <span>الحجوزات</span>
+                <small id="sidebarBookingsCount">0</small>
+            </a>
+
+            <a href="admin-customers.html" class="admin-nav-item">
+                <i class="fa-regular fa-user"></i>
+                <span>العملاء</span>
+            </a>
+
+            <a href="admin-staff.html" class="admin-nav-item">
+                <i class="fa-solid fa-user-group"></i>
+                <span>الموظفات</span>
+            </a>
+
+            <a href="admin-services.html" class="admin-nav-item">
+                <i class="fa-solid fa-scissors"></i>
+                <span>الخدمات</span>
+            </a>
+
+            <a href="admin-offers.html" class="admin-nav-item">
+                <i class="fa-solid fa-tags"></i>
+                <span>العروض</span>
+            </a>
+
+            <a href="admin-settings.html" class="admin-nav-item active">
+                <i class="fa-solid fa-gear"></i>
+                <span>الإعدادات</span>
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="index.html" class="admin-site-link">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                موقع العملاء
+            </a>
+
+            <button type="button" id="adminLogoutBtn" class="admin-logout-btn">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                تسجيل الخروج
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <div class="admin-sidebar-overlay" id="adminSidebarOverlay"></div>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="admin-main">
+
+
+        <header class="admin-topbar">
+
+            <div>
+                <span class="admin-page-label">لوحة الإدارة</span>
+                <h2>الإعدادات</h2>
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <span id="adminCurrentDate"></span>
+
+                <button type="button" id="adminMobileMenu" class="admin-mobile-menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <div class="admin-content">
+
+
+            <!-- INTRO -->
+
+            <section class="admin-page-intro">
+
+                <div>
+                    <span>إعدادات LUMIÈRE</span>
+                    <h1>إعدادات الصالون</h1>
+                    <p>
+                        تحكمي ببيانات الصالون وأوقات العمل وإعدادات الحجز.
+                    </p>
+                </div>
+
+                <div class="admin-settings-intro-icon">
+                    <i class="fa-solid fa-sliders"></i>
+                </div>
+
+            </section>
+
+
+            <!-- FORM -->
+
+            <form id="adminSettingsForm">
+
+
+                <!-- بيانات الصالون -->
+
+                <section class="admin-settings-card">
+
+                    <div class="admin-settings-card-header">
+
+                        <div class="admin-settings-card-icon">
+                            <i class="fa-regular fa-building"></i>
+                        </div>
+
+                        <div>
+                            <h2>بيانات الصالون</h2>
+                            <p>المعلومات الأساسية وبيانات التواصل.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-settings-grid">
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingSalonName">
+                                اسم الصالون
+                            </label>
+
+                            <input type="text" id="settingSalonName" placeholder="LUMIÈRE Beauty Salon">
+
+                        </div>
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingPhone">
+                                رقم التواصل
+                            </label>
+
+                            <input type="tel" id="settingPhone" placeholder="05xxxxxxxx" dir="ltr">
+
+                        </div>
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingWhatsapp">
+                                رقم واتساب
+                            </label>
+
+                            <input type="tel" id="settingWhatsapp" placeholder="9665xxxxxxxx" dir="ltr">
+
+                        </div>
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingEmail">
+                                البريد الإلكتروني
+                            </label>
+
+                            <input type="email" id="settingEmail" placeholder="hello@lumiere.com" dir="ltr">
+
+                        </div>
+
+
+                        <div class="admin-form-group admin-form-full">
+
+                            <label for="settingAddress">
+                                عنوان الصالون
+                            </label>
+
+                            <input type="text" id="settingAddress" placeholder="اكتبي عنوان الصالون">
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- ساعات العمل -->
+
+                <section class="admin-settings-card">
+
+                    <div class="admin-settings-card-header">
+
+                        <div class="admin-settings-card-icon">
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+
+                        <div>
+                            <h2>ساعات العمل</h2>
+                            <p>حددي الوقت المتاح لاستقبال الحجوزات.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-settings-grid">
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingOpenTime">
+                                بداية الدوام
+                            </label>
+
+                            <input type="time" id="settingOpenTime">
+
+                        </div>
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingCloseTime">
+                                نهاية الدوام
+                            </label>
+
+                            <input type="time" id="settingCloseTime">
+
+                        </div>
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingWorkingDays">
+                                أيام العمل
+                            </label>
+
+                            <select id="settingWorkingDays">
+
+                                <option value="sat-thu">
+                                    السبت إلى الخميس
+                                </option>
+
+                                <option value="sun-thu">
+                                    الأحد إلى الخميس
+                                </option>
+
+                                <option value="all">
+                                    جميع أيام الأسبوع
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingSlotDuration">
+                                الفاصل بين المواعيد
+                            </label>
+
+                            <select id="settingSlotDuration">
+
+                                <option value="15">
+                                    15 دقيقة
+                                </option>
+
+                                <option value="30">
+                                    30 دقيقة
+                                </option>
+
+                                <option value="45">
+                                    45 دقيقة
+                                </option>
+
+                                <option value="60">
+                                    60 دقيقة
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- الحجز -->
+
+                <section class="admin-settings-card">
+
+                    <div class="admin-settings-card-header">
+
+                        <div class="admin-settings-card-icon">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+
+                        <div>
+                            <h2>إعدادات الحجز</h2>
+                            <p>تحكمي بطريقة استقبال المواعيد.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-settings-grid">
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingAdvanceDays">
+                                الحجز المسبق
+                            </label>
+
+                            <select id="settingAdvanceDays">
+
+                                <option value="7">
+                                    حتى 7 أيام
+                                </option>
+
+                                <option value="14">
+                                    حتى 14 يوم
+                                </option>
+
+                                <option value="30">
+                                    حتى 30 يوم
+                                </option>
+
+                                <option value="60">
+                                    حتى 60 يوم
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="admin-form-group">
+
+                            <label for="settingCancelHours">
+                                السماح بالإلغاء قبل الموعد
+                            </label>
+
+                            <select id="settingCancelHours">
+
+                                <option value="2">
+                                    ساعتين
+                                </option>
+
+                                <option value="6">
+                                    6 ساعات
+                                </option>
+
+                                <option value="12">
+                                    12 ساعة
+                                </option>
+
+                                <option value="24">
+                                    24 ساعة
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="admin-form-group admin-form-full">
+
+                            <label for="settingCancellationPolicy">
+                                سياسة الإلغاء
+                            </label>
+
+                            <textarea id="settingCancellationPolicy" class="admin-service-textarea"
+                                placeholder="مثال: يرجى إلغاء أو تعديل الموعد قبل الموعد بوقت كافٍ."></textarea>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- BUTTONS -->
+
+                <div class="admin-settings-actions">
+
+                    <span id="adminSettingsStatus"></span>
+
+                    <button type="submit" class="admin-settings-save-btn">
+
+                        <i class="fa-regular fa-floppy-disk"></i>
+
+                        حفظ الإعدادات
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+    </main>
+
+
+    <!-- TOAST -->
+
+    <div class="admin-success-toast" id="adminSettingsToast">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <span id="adminSettingsToastText">
+            تم حفظ الإعدادات
+        </span>
+
+    </div>
+
+
+    <script src="admin-settings.js"></script>
+
+</body>
+
+</html>

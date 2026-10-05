@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // =========================
-    // عرض الخدمة المختارة
-    // =========================
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
 
-    const serviceName =
-        localStorage.getItem("selectedServiceName");
+    const staffList =
+        document.getElementById("customerStaffList");
 
-    const servicePrice =
-        localStorage.getItem("selectedServicePrice");
+    const emptyState =
+        document.getElementById("customerStaffEmpty");
 
     const serviceNameElement =
         document.getElementById("selectedServiceName");
@@ -17,67 +17,335 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("selectedServicePrice");
 
 
+    // =====================================================
+    // SERVICE INFO
+    // =====================================================
+
+    const serviceName =
+        localStorage.getItem("selectedServiceName");
+
+    const servicePrice =
+        localStorage.getItem("selectedServicePrice");
+
+
     if (serviceNameElement) {
+
         serviceNameElement.textContent =
-            serviceName || "لم يتم اختيار خدمة";
+            serviceName ||
+            "لم يتم اختيار خدمة";
     }
 
 
     if (servicePriceElement) {
 
         if (servicePrice) {
+
             servicePriceElement.textContent =
                 servicePrice + " ر.س";
+
         } else {
+
             servicePriceElement.textContent = "";
         }
-
     }
 
 
-    // =========================
-    // اختيار الموظفة
-    // =========================
+    // =====================================================
+    // LOAD STAFF
+    // =====================================================
 
-    const staffCards =
-        document.querySelectorAll(".staff-card");
+    function loadStaff() {
 
+        try {
 
-    staffCards.forEach(function (card) {
-
-        card.addEventListener("click", function () {
-
-            // إزالة التحديد من الجميع
-            staffCards.forEach(function (item) {
-                item.classList.remove("selected");
-            });
+            const saved =
+                localStorage.getItem("lumiereStaff");
 
 
-            // تحديد الموظفة
-            card.classList.add("selected");
+            if (saved === null) {
+
+                return [];
+            }
 
 
-            // معرفة اسم الموظفة
-            const selectedStaff =
-                card.getAttribute("data-staff");
+            const parsed =
+                JSON.parse(saved);
 
 
-            // حفظ اسم الموظفة
-            localStorage.setItem(
-                "selectedStaff",
-                selectedStaff
+            return Array.isArray(parsed)
+                ? parsed
+                : [];
+
+        } catch (error) {
+
+            console.error(
+                "خطأ في قراءة الموظفات:",
+                error
+            );
+
+            return [];
+        }
+    }
+
+
+    // =====================================================
+    // ESCAPE HTML
+    // =====================================================
+
+    function escapeHTML(value) {
+
+        const element =
+            document.createElement("div");
+
+
+        element.textContent =
+            value === undefined ||
+            value === null
+                ? ""
+                : String(value);
+
+
+        return element.innerHTML;
+    }
+
+
+    // =====================================================
+    // STAFF STATUS
+    // =====================================================
+
+    function isStaffActive(staff) {
+
+        /*
+            ندعم أكثر من شكل للحالة
+            حتى لو كانت البيانات قديمة
+        */
+
+        const status =
+            String(
+                staff.status || "active"
+            ).toLowerCase();
+
+
+        return (
+            status !== "inactive" &&
+            status !== "متوقفة" &&
+            status !== "غير نشطة"
+        );
+    }
+
+
+    // =====================================================
+    // RENDER STAFF
+    // =====================================================
+
+    function renderStaff() {
+
+        if (!staffList) {
+            return;
+        }
+
+
+        const allStaff =
+            loadStaff();
+
+
+        const activeStaff =
+            allStaff.filter(
+                isStaffActive
             );
 
 
-            // الانتقال لصفحة اختيار الموعد
-            setTimeout(function () {
+        // تنظيف القائمة
+        staffList.innerHTML = "";
 
-                window.location.href = "datetime.html";
 
-            }, 250);
+        // =========================================
+        // NO STAFF
+        // =========================================
 
-        });
+        if (activeStaff.length === 0) {
 
-    });
+            staffList.style.display =
+                "none";
+
+
+            if (emptyState) {
+
+                emptyState.style.display =
+                    "block";
+            }
+
+
+            return;
+        }
+
+
+        // =========================================
+        // SHOW LIST
+        // =========================================
+
+        staffList.style.display = "";
+
+
+        if (emptyState) {
+
+            emptyState.style.display =
+                "none";
+        }
+
+
+        // =========================================
+        // CREATE STAFF CARDS
+        // =========================================
+
+        activeStaff.forEach(
+            function (staff) {
+
+                const name =
+                    staff.name ||
+                    "موظفة LUMIÈRE";
+
+
+                const specialty =
+                    staff.specialty ||
+                    "أخصائية تجميل";
+
+
+                const staffId =
+                    staff.id || "";
+
+
+                const card =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                card.type =
+                    "button";
+
+
+                card.className =
+                    "staff-card";
+
+
+                card.setAttribute(
+                    "data-staff",
+                    name
+                );
+
+
+                card.setAttribute(
+                    "data-staff-id",
+                    staffId
+                );
+
+
+                card.innerHTML = `
+
+                    <div class="staff-avatar">
+
+                        <i class="fa-regular fa-user"></i>
+
+                    </div>
+
+
+                    <div class="staff-info">
+
+                        <h3>
+                            ${escapeHTML(name)}
+                        </h3>
+
+                        <span>
+                            ${escapeHTML(specialty)}
+                        </span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                `;
+
+
+                // =================================
+                // CLICK STAFF
+                // =================================
+
+                card.addEventListener(
+                    "click",
+                    function () {
+
+                        const allCards =
+                            staffList.querySelectorAll(
+                                ".staff-card"
+                            );
+
+
+                        allCards.forEach(
+                            function (item) {
+
+                                item.classList.remove(
+                                    "selected"
+                                );
+                            }
+                        );
+
+
+                        card.classList.add(
+                            "selected"
+                        );
+
+
+                        // حفظ اسم الموظفة
+                        localStorage.setItem(
+                            "selectedStaff",
+                            name
+                        );
+
+
+                        // حفظ ID
+                        if (staffId) {
+
+                            localStorage.setItem(
+                                "selectedStaffId",
+                                staffId
+                            );
+
+                        } else {
+
+                            localStorage.removeItem(
+                                "selectedStaffId"
+                            );
+                        }
+
+
+                        // الانتقال للموعد
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "datetime.html";
+
+                            },
+                            250
+                        );
+                    }
+                );
+
+
+                staffList.appendChild(
+                    card
+                );
+            }
+        );
+    }
+
+
+    // =====================================================
+    // START
+    // =====================================================
+
+    renderStaff();
 
 });
