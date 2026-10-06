@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // =====================================================
-    // معرفة القسم المختار
+    // القسم المختار
     // =====================================================
 
-    const params =
-        new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
 
     const categoryFromUrl =
-        params.get("service");
+        params.get("service") ||
+        params.get("category");
 
     const categoryFromStorage =
         localStorage.getItem("selectedService");
@@ -18,9 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         categoryFromStorage ||
         "الشعر";
 
-
     if (categoryFromUrl) {
-
         localStorage.setItem(
             "selectedService",
             categoryFromUrl
@@ -40,51 +38,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (categoryTitle) {
-
-        categoryTitle.textContent =
-            selectedCategory;
+        categoryTitle.textContent = selectedCategory;
     }
 
 
     // =====================================================
-    // الخدمات الافتراضية
-    // تظهر تلقائياً لأول زيارة على أي جهاز / رابط جديد
+    // الخدمات الأساسية
     // =====================================================
 
     const defaultServices = [
 
+        // =========================
+        // الشعر
+        // =========================
+
         {
-            id: "service-hair-cut",
+            id: "hair-cut",
             name: "قص الشعر",
             category: "الشعر",
             price: 80,
             duration: 45,
             status: "active",
-            description: "قص احترافي يناسب شكل الوجه وإطلالتك"
+            description: "قص وتنسيق الشعر باحترافية"
         },
 
         {
-            id: "service-blowdry",
-            name: "استشوار",
+            id: "hair-style",
+            name: "استشوار وتصفيف",
             category: "الشعر",
             price: 70,
             duration: 45,
             status: "active",
-            description: "تصفيف ناعم وأنيق للشعر"
+            description: "تصفيف أنيق يناسب إطلالتك"
         },
 
         {
-            id: "service-hair-color",
+            id: "hair-color",
             name: "صبغة شعر",
             category: "الشعر",
             price: 250,
             duration: 120,
             status: "active",
-            description: "صبغة احترافية بلون يناسب إطلالتك"
+            description: "صبغة شعر احترافية بلون يناسب إطلالتك"
         },
 
+
+        // =========================
+        // الأظافر
+        // =========================
+
         {
-            id: "service-manicure",
+            id: "manicure",
             name: "مانيكير",
             category: "الأظافر",
             price: 80,
@@ -94,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
 
         {
-            id: "service-pedicure",
+            id: "pedicure",
             name: "بديكير",
             category: "الأظافر",
             price: 100,
@@ -103,51 +107,61 @@ document.addEventListener("DOMContentLoaded", function () {
             description: "عناية متكاملة بالقدمين والأظافر"
         },
 
+
+        // =========================
+        // البشرة
+        // =========================
+
         {
-            id: "service-facial",
+            id: "facial-cleaning",
             name: "تنظيف البشرة",
             category: "البشرة",
             price: 150,
             duration: 60,
             status: "active",
-            description: "تنظيف لطيف وعميق يمنح البشرة انتعاشاً"
+            description: "تنظيف وعناية متكاملة بالبشرة"
         },
 
         {
-            id: "service-glow",
+            id: "facial-glow",
             name: "جلسة نضارة",
             category: "البشرة",
             price: 180,
             duration: 60,
             status: "active",
-            description: "جلسة عناية تمنح البشرة إشراقة ونضارة"
+            description: "جلسة تمنح البشرة إشراقة ونضارة"
         },
 
+
+        // =========================
+        // المكياج
+        // =========================
+
         {
-            id: "service-soft-makeup",
+            id: "soft-makeup",
             name: "مكياج ناعم",
             category: "المكياج",
             price: 180,
             duration: 60,
             status: "active",
-            description: "إطلالة ناعمة وأنيقة تناسب يومك"
+            description: "مكياج ناعم وأنيق لإطلالة طبيعية"
         },
 
         {
-            id: "service-evening-makeup",
+            id: "evening-makeup",
             name: "مكياج سهرة",
             category: "المكياج",
             price: 250,
             duration: 75,
             status: "active",
-            description: "مكياج متكامل لإطلالة أكثر فخامة"
+            description: "مكياج متكامل للمناسبات والسهرات"
         }
 
     ];
 
 
     // =====================================================
-    // قراءة الخدمات
+    // قراءة الخدمات من Local Storage
     // =====================================================
 
     function getAdminServices() {
@@ -157,24 +171,24 @@ document.addEventListener("DOMContentLoaded", function () {
             const saved =
                 localStorage.getItem("lumiereServices");
 
+            let parsed = [];
 
-            // أول زيارة للموقع
-            if (saved === null) {
 
-                localStorage.setItem(
-                    "lumiereServices",
-                    JSON.stringify(defaultServices)
-                );
+            if (saved) {
 
-                return [...defaultServices];
+                parsed = JSON.parse(saved);
+
             }
 
 
-            const parsed =
-                JSON.parse(saved);
+            // إذا ما فيه بيانات
+            // أو البيانات ليست Array
+            // أو القائمة موجودة لكنها فاضية []
 
-
-            if (!Array.isArray(parsed)) {
+            if (
+                !Array.isArray(parsed) ||
+                parsed.length === 0
+            ) {
 
                 localStorage.setItem(
                     "lumiereServices",
@@ -194,10 +208,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 error
             );
 
+
             localStorage.setItem(
                 "lumiereServices",
                 JSON.stringify(defaultServices)
             );
+
 
             return [...defaultServices];
         }
@@ -205,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // هل الخدمة نشطة؟
+    // التأكد من أن الخدمة نشطة
     // =====================================================
 
     function isServiceActive(service) {
@@ -214,14 +230,16 @@ document.addEventListener("DOMContentLoaded", function () {
             String(
                 service.status || "active"
             )
-            .trim()
-            .toLowerCase();
+                .trim()
+                .toLowerCase();
 
 
         return (
             status !== "inactive" &&
             status !== "غير نشطة" &&
-            status !== "متوقفة"
+            status !== "غير نشط" &&
+            status !== "متوقفة" &&
+            status !== "disabled"
         );
     }
 
@@ -240,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // جميع الخدمات
+    // قراءة جميع الخدمات
     // =====================================================
 
     const allServices =
@@ -248,19 +266,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // خدمات القسم المختار
+    // فلترة خدمات القسم المختار
     // =====================================================
 
     const currentServices =
         allServices.filter(function (service) {
 
-            const sameCategory =
-                normalizeCategory(service.category) ===
+            const serviceCategory =
+                normalizeCategory(service.category);
+
+            const currentCategory =
                 normalizeCategory(selectedCategory);
 
 
             return (
-                sameCategory &&
+                serviceCategory === currentCategory &&
                 isServiceActive(service)
             );
         });
@@ -288,6 +308,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
+    // تنسيق السعر
+    // =====================================================
+
+    function formatPrice(price) {
+
+        const number =
+            Number(price || 0);
+
+
+        if (Number.isNaN(number)) {
+            return "0";
+        }
+
+
+        return number.toLocaleString("en-US");
+    }
+
+
+    // =====================================================
     // قراءة المفضلة
     // =====================================================
 
@@ -295,12 +334,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
 
+            const saved =
+                localStorage.getItem("favoriteServices");
+
+
+            if (!saved) {
+                return [];
+            }
+
+
             const favorites =
-                JSON.parse(
-                    localStorage.getItem(
-                        "favoriteServices"
-                    )
-                );
+                JSON.parse(saved);
 
 
             return Array.isArray(favorites)
@@ -309,13 +353,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } catch (error) {
 
+            console.error(
+                "خطأ في قراءة المفضلة:",
+                error
+            );
+
             return [];
         }
     }
 
 
     // =====================================================
-    // هل الخدمة بالمفضلة؟
+    // هل الخدمة موجودة في المفضلة؟
     // =====================================================
 
     function isFavorite(serviceName) {
@@ -358,10 +407,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (index !== -1) {
 
-            favorites.splice(
-                index,
-                1
-            );
+            favorites.splice(index, 1);
 
         } else {
 
@@ -378,9 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     service.name,
 
                 price:
-                    Number(
-                        service.price || 0
-                    ),
+                    Number(service.price || 0),
 
                 offer:
                     false
@@ -397,35 +441,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // تنسيق السعر
-    // =====================================================
-
-    function formatPrice(price) {
-
-        const number =
-            Number(price || 0);
-
-
-        if (Number.isNaN(number)) {
-
-            return "0";
-        }
-
-
-        return number.toLocaleString(
-            "en-US"
-        );
-    }
-
-
-    // =====================================================
-    // رسالة عدم وجود خدمات
+    // إذا لم توجد خدمات
     // =====================================================
 
     function showEmptyState() {
 
         if (!servicesList) {
-
             return;
         }
 
@@ -477,6 +498,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!servicesList) {
 
+            console.error(
+                "عنصر servicesList غير موجود في الصفحة"
+            );
+
             return;
         }
 
@@ -484,7 +509,8 @@ document.addEventListener("DOMContentLoaded", function () {
         servicesList.innerHTML = "";
 
 
-        // لا توجد خدمات
+        // إذا القسم لا يحتوي خدمات
+
         if (currentServices.length === 0) {
 
             showEmptyState();
@@ -507,54 +533,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 const price =
-                    Number(
-                        service.price || 0
-                    );
+                    Number(service.price || 0);
+
+
+                const duration =
+                    Number(service.duration || 0);
 
 
                 const serviceCard =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
 
                 serviceCard.className =
                     "service-item";
 
 
-                // =================================================
-                // المفضلة
-                // =================================================
+                // =========================================
+                // حالة المفضلة
+                // =========================================
 
                 const favorite =
                     isFavorite(serviceName);
 
 
-                const favoriteClass =
+                const favoriteIconClass =
                     favorite
                         ? "fa-solid"
                         : "fa-regular";
 
 
-                const activeClass =
+                const favoriteActiveClass =
                     favorite
                         ? "active"
                         : "";
 
 
-                // =================================================
-                // تصميم الخدمة
-                // =================================================
+                // =========================================
+                // بطاقة الخدمة
+                // =========================================
 
                 serviceCard.innerHTML = `
 
                     <button
                         type="button"
-                        class="service-favorite-btn ${activeClass}"
-                        aria-label="المفضلة"
+                        class="service-favorite-btn ${favoriteActiveClass}"
+                        aria-label="إضافة إلى المفضلة"
                     >
 
-                        <i class="${favoriteClass} fa-heart"></i>
+                        <i class="${favoriteIconClass} fa-heart"></i>
 
                     </button>
 
@@ -569,6 +595,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p>
                             ${escapeHTML(description)}
                         </p>
+
+
+                        ${
+                            duration > 0
+                                ? `
+                                    <span class="service-duration">
+                                        <i class="fa-regular fa-clock"></i>
+                                        ${duration} دقيقة
+                                    </span>
+                                `
+                                : ""
+                        }
 
 
                         <strong class="service-normal-price">
@@ -592,9 +630,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
 
-                // =================================================
+                // =========================================
                 // زر المفضلة
-                // =================================================
+                // =========================================
 
                 const favoriteButton =
                     serviceCard.querySelector(
@@ -603,9 +641,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 const favoriteIcon =
-                    favoriteButton.querySelector(
-                        "i"
-                    );
+                    favoriteButton.querySelector("i");
 
 
                 favoriteButton.addEventListener(
@@ -617,16 +653,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         event.stopPropagation();
 
 
-                        toggleFavorite(
-                            service
-                        );
+                        toggleFavorite(service);
 
 
-                        if (
-                            isFavorite(
-                                serviceName
-                            )
-                        ) {
+                        if (isFavorite(serviceName)) {
 
                             favoriteIcon.classList.remove(
                                 "fa-regular"
@@ -658,9 +688,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                // =================================================
+                // =========================================
                 // اختيار الخدمة
-                // =================================================
+                // =========================================
 
                 const selectButton =
                     serviceCard.querySelector(
@@ -673,6 +703,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     function () {
 
                         // القسم
+
                         localStorage.setItem(
                             "selectedService",
                             service.category ||
@@ -681,6 +712,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                         // اسم الخدمة
+
                         localStorage.setItem(
                             "selectedServiceName",
                             serviceName
@@ -688,18 +720,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                         // السعر
+
                         localStorage.setItem(
                             "selectedServicePrice",
                             String(price)
                         );
 
 
+                        // مدة الخدمة
+
+                        localStorage.setItem(
+                            "selectedServiceDuration",
+                            String(duration)
+                        );
+
+
                         // ID الخدمة
+
                         if (service.id) {
 
                             localStorage.setItem(
                                 "selectedServiceId",
-                                service.id
+                                String(service.id)
                             );
 
                         } else {
@@ -710,7 +752,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        // ليست عرضاً
+                        // الخدمة ليست عرضاً
+
                         localStorage.removeItem(
                             "selectedOffer"
                         );
@@ -723,8 +766,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             "selectedOfferName"
                         );
 
+                        localStorage.removeItem(
+                            "selectedOfferPrice"
+                        );
 
-                        // تنظيف بيانات الحجز السابق
+
+                        // تنظيف الاختيارات القديمة
+
                         localStorage.removeItem(
                             "selectedStaff"
                         );
@@ -751,11 +799,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                         // الانتقال لاختيار الموظفة
+
                         window.location.href =
                             "staff.html";
                     }
                 );
 
+
+                // =========================================
+                // إضافة البطاقة
+                // =========================================
 
                 servicesList.appendChild(
                     serviceCard
