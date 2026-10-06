@@ -1913,3 +1913,35 @@ document.addEventListener("DOMContentLoaded", function () {
     refreshPage();
 
 });
+// =============================================
+// MOBILE ADMIN MENU FIX
+// =============================================
+
+const mobileMenuFix = document.getElementById("adminMobileMenu");
+const sidebarFix = document.getElementById("adminSidebar");
+const sidebarOverlayFix = document.getElementById("adminSidebarOverlay");
+
+if (mobileMenuFix && sidebarFix) {
+
+    mobileMenuFix.addEventListener("click", function () {
+
+        sidebarFix.classList.toggle("open");
+
+        if (sidebarOverlayFix) {
+            sidebarOverlayFix.classList.toggle("show");
+        }
+
+    });
+
+}
+
+if (sidebarOverlayFix && sidebarFix) {
+
+    sidebarOverlayFix.addEventListener("click", function () {
+
+        sidebarFix.classList.remove("open");
+        sidebarOverlayFix.classList.remove("show");
+
+    });
+
+}

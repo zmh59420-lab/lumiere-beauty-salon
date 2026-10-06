@@ -15796,3 +15796,94 @@ box-shadow: 0 10px 25px rgba(98, 72, 54, 0.10);
     }
 
 }
+/* =========================================================
+   ADMIN MOBILE SIDEBAR - FINAL RESPONSIVE FIX
+========================================================= */
+
+@media screen and (max-width: 900px) {
+
+    body.admin-body .admin-sidebar {
+        position: fixed !important;
+
+        top: 0 !important;
+        right: -340px !important;
+
+        width: 300px !important;
+        max-width: 85vw !important;
+        height: 100vh !important;
+
+        z-index: 9999 !important;
+
+        transition: right 0.3s ease !important;
+
+        background: #ffffff !important;
+    }
+
+
+    body.admin-body .admin-sidebar.open {
+        right: 0 !important;
+    }
+
+
+    body.admin-body .admin-main {
+        width: 100% !important;
+
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+
+    body.admin-body .admin-mobile-menu {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        width: 48px !important;
+        height: 48px !important;
+
+        border: 1px solid #eadfd6 !important;
+        border-radius: 14px !important;
+
+        background: #ffffff !important;
+        color: #9a7254 !important;
+
+        font-size: 18px !important;
+
+        cursor: pointer !important;
+    }
+
+
+    body.admin-body .admin-sidebar-overlay {
+        display: none !important;
+
+        position: fixed !important;
+        inset: 0 !important;
+
+        background: rgba(48, 37, 29, 0.28) !important;
+
+        z-index: 9998 !important;
+    }
+
+
+    body.admin-body .admin-sidebar-overlay.show {
+        display: block !important;
+    }
+
+}
+
+
+/* أصغر شاشات الجوال */
+
+@media screen and (max-width: 600px) {
+
+    body.admin-body .admin-content {
+        padding: 20px 16px !important;
+    }
+
+
+    body.admin-body .admin-topbar {
+        padding: 18px 16px !important;
+    }
+
+}
