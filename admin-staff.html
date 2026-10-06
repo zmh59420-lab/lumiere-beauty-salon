@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>إدارة الخدمات | LUMIÈRE</title>
+    <title>إدارة الموظفات | LUMIÈRE</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -18,12 +18,83 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+    <style>
+        .admin-staff-filter {
+            border: 0;
+            cursor: pointer;
+        }
+
+        .admin-staff-name-button {
+            background: none;
+            border: 0;
+            padding: 0;
+            text-align: right;
+            font: inherit;
+            color: inherit;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .admin-staff-details-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 18px 0;
+        }
+
+        .admin-staff-details-stats article {
+            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .admin-staff-details-stats span {
+            display: block;
+            font-size: 13px;
+            opacity: 0.7;
+            margin-bottom: 6px;
+        }
+
+        .admin-staff-details-stats strong {
+            font-size: 20px;
+        }
+
+        .admin-staff-history-title {
+            margin: 20px 0 10px;
+        }
+
+        #adminStaffBookingHistory {
+            display: grid;
+            gap: 10px;
+            max-height: 280px;
+            overflow: auto;
+        }
+
+        .admin-modal-overlay {
+            display: none;
+        }
+
+        .admin-modal-overlay.show {
+            display: block;
+        }
+
+        @media (max-width: 700px) {
+
+            .admin-staff-details-stats {
+                grid-template-columns: 1fr;
+            }
+
+        }
+    </style>
 </head>
 
 <body class="admin-body">
 
 
+    <!-- ============================= -->
     <!-- SIDEBAR -->
+    <!-- ============================= -->
 
     <aside class="admin-sidebar" id="adminSidebar">
 
@@ -31,7 +102,9 @@
 
             <h1>LUMIÈRE</h1>
 
-            <span>BEAUTY SALON</span>
+            <span>
+                BEAUTY SALON
+            </span>
 
         </div>
 
@@ -39,7 +112,9 @@
         <div class="admin-user-card">
 
             <div class="admin-user-icon">
+
                 <i class="fa-solid fa-user-shield"></i>
+
             </div>
 
             <div>
@@ -63,7 +138,9 @@
 
                 <i class="fa-solid fa-chart-pie"></i>
 
-                <span>الرئيسية</span>
+                <span>
+                    الرئيسية
+                </span>
 
             </a>
 
@@ -72,7 +149,9 @@
 
                 <i class="fa-regular fa-calendar-check"></i>
 
-                <span>الحجوزات</span>
+                <span>
+                    الحجوزات
+                </span>
 
                 <small id="sidebarBookingsCount">
                     0
@@ -85,25 +164,31 @@
 
                 <i class="fa-regular fa-user"></i>
 
-                <span>العملاء</span>
+                <span>
+                    العملاء
+                </span>
 
             </a>
 
 
-            <a href="admin-staff.html" class="admin-nav-item">
+            <a href="admin-staff.html" class="admin-nav-item active">
 
                 <i class="fa-solid fa-user-group"></i>
 
-                <span>الموظفات</span>
+                <span>
+                    الموظفات
+                </span>
 
             </a>
 
 
-            <a href="admin-services.html" class="admin-nav-item active">
+            <a href="admin-services.html" class="admin-nav-item">
 
                 <i class="fa-solid fa-scissors"></i>
 
-                <span>الخدمات</span>
+                <span>
+                    الخدمات
+                </span>
 
             </a>
 
@@ -112,7 +197,9 @@
 
                 <i class="fa-solid fa-tags"></i>
 
-                <span>العروض</span>
+                <span>
+                    العروض
+                </span>
 
             </a>
 
@@ -121,7 +208,9 @@
 
                 <i class="fa-solid fa-gear"></i>
 
-                <span>الإعدادات</span>
+                <span>
+                    الإعدادات
+                </span>
 
             </a>
 
@@ -152,15 +241,17 @@
     </aside>
 
 
-    <div class="admin-sidebar-overlay" id="adminSidebarOverlay"></div>
+    <div class="admin-sidebar-overlay" id="adminSidebarOverlay">
+    </div>
 
 
+
+    <!-- ============================= -->
     <!-- MAIN -->
+    <!-- ============================= -->
 
     <main class="admin-main">
 
-
-        <!-- TOP BAR -->
 
         <header class="admin-topbar">
 
@@ -171,7 +262,7 @@
                 </span>
 
                 <h2>
-                    إدارة الخدمات
+                    إدارة الموظفات
                 </h2>
 
             </div>
@@ -192,39 +283,41 @@
         </header>
 
 
+
         <div class="admin-content">
 
 
-            <!-- HEADER CARD -->
+            <!-- HEADER -->
 
             <section class="admin-page-intro">
 
                 <div>
 
                     <span>
-                        خدمات LUMIÈRE
+                        فريق LUMIÈRE
                     </span>
 
                     <h1>
-                        إدارة الخدمات
+                        إدارة الموظفات
                     </h1>
 
                     <p>
-                        أضيفي وعدلي الخدمات والأسعار التي تظهر للعملاء.
+                        أضيفي الموظفات وعدلي بياناتهن وتابعي الحجوزات والإيرادات.
                     </p>
 
                 </div>
 
 
-                <button type="button" id="adminAddServiceBtn" class="admin-primary-btn">
+                <button type="button" id="adminAddStaffBtn" class="admin-primary-btn">
 
                     <i class="fa-solid fa-plus"></i>
 
-                    إضافة خدمة
+                    إضافة موظفة
 
                 </button>
 
             </section>
+
 
 
             <!-- STATS -->
@@ -234,10 +327,10 @@
                 <article>
 
                     <span>
-                        إجمالي الخدمات
+                        إجمالي الموظفات
                     </span>
 
-                    <strong id="adminServicesTotal">
+                    <strong id="adminStaffTotal">
                         0
                     </strong>
 
@@ -247,10 +340,10 @@
                 <article>
 
                     <span>
-                        الخدمات النشطة
+                        الموظفات النشطات
                     </span>
 
-                    <strong id="adminServicesActive">
+                    <strong id="adminStaffActive">
                         0
                     </strong>
 
@@ -260,10 +353,10 @@
                 <article>
 
                     <span>
-                        غير النشطة
+                        المواعيد القادمة
                     </span>
 
-                    <strong id="adminServicesInactive">
+                    <strong id="adminStaffUpcoming">
                         0
                     </strong>
 
@@ -273,12 +366,19 @@
                 <article>
 
                     <span>
-                        متوسط السعر
+                        إجمالي الإيرادات
                     </span>
 
                     <strong>
-                        <span id="adminServicesAverage">0</span>
-                        <small>ر.س</small>
+
+                        <span id="adminStaffRevenue">
+                            0
+                        </span>
+
+                        <small>
+                            ر.س
+                        </small>
+
                     </strong>
 
                 </article>
@@ -286,35 +386,44 @@
             </section>
 
 
-            <!-- TOOLBAR -->
+
+            <!-- MANAGEMENT -->
 
             <section class="admin-management-card">
 
+
                 <div class="admin-management-toolbar">
+
 
                     <div class="admin-management-search">
 
                         <i class="fa-solid fa-magnifying-glass"></i>
 
-                        <input type="text" id="adminServiceSearch" placeholder="ابحثي عن خدمة..." autocomplete="off">
+                        <input type="text" id="adminStaffSearch" placeholder="ابحثي عن موظفة..." autocomplete="off">
 
                     </div>
 
 
                     <div class="admin-management-filters">
 
-                        <button type="button" class="admin-service-filter-btn active" data-filter="all">
+                        <button type="button" class="admin-staff-filter active" data-filter="all">
+
                             الكل
+
                         </button>
 
 
-                        <button type="button" class="admin-service-filter-btn" data-filter="active">
+                        <button type="button" class="admin-staff-filter" data-filter="active">
+
                             نشطة
+
                         </button>
 
 
-                        <button type="button" class="admin-service-filter-btn" data-filter="inactive">
-                            غير نشطة
+                        <button type="button" class="admin-staff-filter" data-filter="inactive">
+
+                            متوقفة
+
                         </button>
 
                     </div>
@@ -322,16 +431,22 @@
                 </div>
 
 
+
                 <div class="admin-results-line">
 
-                    <span id="adminServiceResultsCount">
-                        0 خدمة
+                    <span>
+
+                        <span id="adminStaffResultsCount">
+                            0
+                        </span>
+
+                        موظفة
+
                     </span>
 
                 </div>
 
 
-                <!-- TABLE -->
 
                 <div class="admin-table-wrap">
 
@@ -341,13 +456,17 @@
 
                             <tr>
 
-                                <th>الخدمة</th>
+                                <th>الموظفة</th>
 
-                                <th>القسم</th>
+                                <th>التخصص</th>
 
-                                <th>السعر</th>
+                                <th>الحجوزات</th>
 
-                                <th>المدة</th>
+                                <th>القادمة</th>
+
+                                <th>المكتملة</th>
+
+                                <th>الإيرادات</th>
 
                                 <th>الحالة</th>
 
@@ -358,21 +477,23 @@
                         </thead>
 
 
-                        <tbody id="adminServicesTableBody"></tbody>
+                        <tbody id="adminStaffTableBody">
+                        </tbody>
 
                     </table>
 
 
-                    <div id="adminServicesEmpty" class="admin-management-empty">
 
-                        <i class="fa-solid fa-scissors"></i>
+                    <div id="adminStaffEmpty" class="admin-management-empty">
+
+                        <i class="fa-solid fa-user-group"></i>
 
                         <h3>
-                            لا توجد خدمات
+                            لا توجد موظفات
                         </h3>
 
                         <p>
-                            أضيفي أول خدمة للصالون.
+                            اضغطي إضافة موظفة لإضافة أول موظفة.
                         </p>
 
                     </div>
@@ -381,21 +502,22 @@
 
             </section>
 
-
         </div>
 
     </main>
 
 
 
-    <!-- =============================================
-         ADD / EDIT SERVICE MODAL
-    ============================================== -->
+    <!-- ============================= -->
+    <!-- ADD / EDIT STAFF -->
+    <!-- ============================= -->
 
-    <div class="admin-modal-overlay" id="adminServiceFormOverlay"></div>
+    <div class="admin-modal-overlay" id="adminStaffFormOverlay">
+    </div>
 
 
-    <div class="admin-modal" id="adminServiceFormModal">
+    <div class="admin-modal" id="adminStaffFormModal">
+
 
         <div class="admin-service-modal-box">
 
@@ -408,14 +530,14 @@
                         LUMIÈRE
                     </span>
 
-                    <h2 id="adminServiceFormTitle">
-                        إضافة خدمة
+                    <h2 id="adminStaffFormTitle">
+                        إضافة موظفة
                     </h2>
 
                 </div>
 
 
-                <button type="button" id="adminServiceFormClose" class="admin-modal-close">
+                <button type="button" id="adminStaffFormClose" class="admin-modal-close">
 
                     <i class="fa-solid fa-xmark"></i>
 
@@ -424,7 +546,8 @@
             </div>
 
 
-            <form id="adminServiceForm">
+
+            <form id="adminStaffForm">
 
 
                 <div class="admin-form-grid">
@@ -432,25 +555,26 @@
 
                     <div class="admin-form-group">
 
-                        <label for="adminServiceName">
-                            اسم الخدمة *
+                        <label for="adminStaffName">
+                            اسم الموظفة *
                         </label>
 
-                        <input type="text" id="adminServiceName" placeholder="مثال: قص الشعر">
+                        <input type="text" id="adminStaffName" placeholder="مثال: سارة" autocomplete="off">
 
                     </div>
 
 
+
                     <div class="admin-form-group">
 
-                        <label for="adminServiceCategory">
-                            القسم *
+                        <label for="adminStaffSpecialty">
+                            التخصص *
                         </label>
 
-                        <select id="adminServiceCategory">
+                        <select id="adminStaffSpecialty">
 
                             <option value="">
-                                اختاري القسم
+                                اختاري التخصص
                             </option>
 
                             <option value="الشعر">
@@ -469,76 +593,64 @@
                                 المكياج
                             </option>
 
+                            <option value="متعددة التخصصات">
+                                متعددة التخصصات
+                            </option>
+
                         </select>
 
                     </div>
 
 
+
                     <div class="admin-form-group">
 
-                        <label for="adminServicePrice">
-                            السعر *
+                        <label for="adminStaffPhone">
+                            رقم الجوال
                         </label>
 
-                        <input type="number" id="adminServicePrice" min="0" placeholder="0">
+                        <input type="tel" id="adminStaffPhone" inputmode="numeric" maxlength="10"
+                            placeholder="05xxxxxxxx">
 
                     </div>
 
 
-                    <div class="admin-form-group">
-
-                        <label for="adminServiceDuration">
-                            المدة بالدقائق
-                        </label>
-
-                        <input type="number" id="adminServiceDuration" min="0" placeholder="60">
-
-                    </div>
-
 
                     <div class="admin-form-group">
 
-                        <label for="adminServiceStatus">
+                        <label for="adminStaffStatus">
                             الحالة
                         </label>
 
-                        <select id="adminServiceStatus">
+                        <select id="adminStaffStatus">
 
                             <option value="active">
                                 نشطة
                             </option>
 
                             <option value="inactive">
-                                غير نشطة
+                                متوقفة
                             </option>
 
                         </select>
 
                     </div>
 
-
-                    <div class="admin-form-group admin-form-full">
-
-                        <label for="adminServiceDescription">
-                            وصف الخدمة
-                        </label>
-
-                        <textarea id="adminServiceDescription" class="admin-service-textarea"
-                            placeholder="اكتبي وصفاً مختصراً للخدمة..."></textarea>
-
-                    </div>
-
-
                 </div>
 
 
-                <p id="adminServiceFormError" class="admin-form-error"></p>
+
+                <p id="adminStaffFormError" class="admin-form-error">
+                </p>
+
 
 
                 <div class="admin-modal-footer">
 
-                    <button type="button" id="adminServiceFormCancel" class="admin-secondary-btn">
+                    <button type="button" id="adminStaffFormCancel" class="admin-secondary-btn">
+
                         إلغاء
+
                     </button>
 
 
@@ -546,7 +658,7 @@
 
                         <i class="fa-solid fa-check"></i>
 
-                        حفظ الخدمة
+                        حفظ الموظفة
 
                     </button>
 
@@ -560,16 +672,141 @@
 
 
 
-    <!-- =============================================
-         DELETE MODAL
-    ============================================== -->
+    <!-- ============================= -->
+    <!-- STAFF DETAILS -->
+    <!-- ============================= -->
 
-    <div class="admin-modal-overlay" id="adminDeleteServiceOverlay"></div>
+    <div class="admin-modal-overlay" id="adminStaffDetailsOverlay">
+    </div>
 
 
-    <div class="admin-modal" id="adminDeleteServiceModal">
+    <div class="admin-modal" id="adminStaffDetailsModal">
+
+
+        <div class="admin-service-modal-box">
+
+
+            <div class="admin-modal-header">
+
+                <div>
+
+                    <span>
+                        بيانات الموظفة
+                    </span>
+
+                    <h2 id="adminModalStaffName">
+                        الموظفة
+                    </h2>
+
+                    <p id="adminModalStaffSpecialty">
+                    </p>
+
+                </div>
+
+
+                <button type="button" id="adminStaffDetailsClose" class="admin-modal-close">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+
+            <div class="admin-staff-details-stats">
+
+
+                <article>
+
+                    <span>
+                        كل الحجوزات
+                    </span>
+
+                    <strong id="adminModalStaffBookings">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        المواعيد القادمة
+                    </span>
+
+                    <strong id="adminModalStaffUpcoming">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        الإيرادات
+                    </span>
+
+                    <strong id="adminModalStaffRevenue">
+                        0 ر.س
+                    </strong>
+
+                </article>
+
+            </div>
+
+
+
+            <h3 class="admin-staff-history-title">
+                سجل الحجوزات
+            </h3>
+
+
+            <div id="adminStaffBookingHistory">
+            </div>
+
+
+            <div id="adminStaffHistoryEmpty" class="admin-management-empty">
+
+                <p>
+                    لا توجد حجوزات لهذه الموظفة.
+                </p>
+
+            </div>
+
+
+
+            <div class="admin-modal-footer">
+
+                <button type="button" id="adminStaffDetailsDone" class="admin-primary-btn">
+
+                    تم
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- DELETE -->
+    <!-- ============================= -->
+
+    <div class="admin-modal-overlay" id="adminDeleteStaffOverlay">
+    </div>
+
+
+    <div class="admin-modal" id="adminDeleteStaffModal">
+
 
         <div class="admin-delete-modal-box">
+
 
             <div class="admin-delete-icon">
 
@@ -579,24 +816,28 @@
 
 
             <h2>
-                حذف الخدمة؟
+                حذف الموظفة؟
             </h2>
 
 
             <p>
-                سيتم حذف الخدمة ولن تظهر للعملاء بعد ذلك.
+                سيتم حذف الموظفة من قائمة الموظفات.
             </p>
 
 
             <div class="admin-delete-actions">
 
-                <button type="button" id="adminDeleteServiceCancel" class="admin-secondary-btn">
+                <button type="button" id="adminDeleteStaffCancel" class="admin-secondary-btn">
+
                     إلغاء
+
                 </button>
 
 
-                <button type="button" id="adminDeleteServiceConfirm" class="admin-danger-btn">
+                <button type="button" id="adminDeleteStaffConfirm" class="admin-danger-btn">
+
                     حذف
+
                 </button>
 
             </div>
@@ -609,18 +850,19 @@
 
     <!-- TOAST -->
 
-    <div id="adminServiceToast" class="admin-success-toast">
+    <div id="adminStaffToast" class="admin-success-toast">
 
         <i class="fa-solid fa-circle-check"></i>
 
-        <span id="adminServiceToastText">
+        <span id="adminStaffToastText">
             تم الحفظ
         </span>
 
     </div>
 
 
-    <script src="admin-services.js"></script>
+
+    <script src="admin-staff.js"></script>
 
 </body>
 

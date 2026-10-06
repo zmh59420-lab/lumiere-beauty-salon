@@ -1,21 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // =====================================================
-    // حماية صفحة الإدارة
-    // =====================================================
+    // ==========================================
+    // LOGIN CHECK
+    // ==========================================
 
-    const isAdminLoggedIn =
+    const isLoggedIn =
         sessionStorage.getItem("lumiereAdminLoggedIn");
 
-    if (isAdminLoggedIn !== "true") {
-        window.location.href = "admin-login.html";
+    if (isLoggedIn !== "true") {
+
+        window.location.href =
+            "admin-login.html";
+
         return;
     }
 
 
-    // =====================================================
-    // عناصر الصفحة
-    // =====================================================
+    // ==========================================
+    // ELEMENTS
+    // ==========================================
 
     const staffTotal =
         document.getElementById("adminStaffTotal");
@@ -48,17 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("adminCurrentDate");
 
 
-    // =====================================================
-    // الفلاتر
-    // =====================================================
-
-    const staffFilterButtons =
+    const filterButtons =
         document.querySelectorAll(".admin-staff-filter");
 
-
-    // =====================================================
-    // إضافة / تعديل
-    // =====================================================
 
     const addStaffBtn =
         document.getElementById("adminAddStaffBtn");
@@ -71,6 +66,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const staffFormClose =
         document.getElementById("adminStaffFormClose");
+
+    const staffFormCancel =
+        document.getElementById("adminStaffFormCancel");
 
     const staffFormTitle =
         document.getElementById("adminStaffFormTitle");
@@ -94,20 +92,16 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("adminStaffFormError");
 
 
-    // =====================================================
-    // تفاصيل الموظفة
-    // =====================================================
-
-    const staffDetailsModal =
+    const detailsModal =
         document.getElementById("adminStaffDetailsModal");
 
-    const staffDetailsOverlay =
+    const detailsOverlay =
         document.getElementById("adminStaffDetailsOverlay");
 
-    const staffDetailsClose =
+    const detailsClose =
         document.getElementById("adminStaffDetailsClose");
 
-    const staffDetailsDone =
+    const detailsDone =
         document.getElementById("adminStaffDetailsDone");
 
     const modalStaffName =
@@ -132,58 +126,46 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("adminStaffHistoryEmpty");
 
 
-    // =====================================================
-    // حذف
-    // =====================================================
-
-    const deleteStaffModal =
+    const deleteModal =
         document.getElementById("adminDeleteStaffModal");
 
-    const deleteStaffOverlay =
+    const deleteOverlay =
         document.getElementById("adminDeleteStaffOverlay");
 
-    const deleteStaffCancel =
+    const deleteCancel =
         document.getElementById("adminDeleteStaffCancel");
 
-    const deleteStaffConfirm =
+    const deleteConfirm =
         document.getElementById("adminDeleteStaffConfirm");
 
 
-    // =====================================================
-    // Toast
-    // =====================================================
-
-    const staffToast =
+    const toast =
         document.getElementById("adminStaffToast");
 
-    const staffToastText =
+    const toastText =
         document.getElementById("adminStaffToastText");
 
 
-    // =====================================================
-    // Sidebar
-    // =====================================================
-
-    const adminLogoutBtn =
+    const logoutBtn =
         document.getElementById("adminLogoutBtn");
 
-    const adminMobileMenu =
+    const mobileMenu =
         document.getElementById("adminMobileMenu");
 
-    const adminSidebar =
+    const sidebar =
         document.getElementById("adminSidebar");
 
-    const adminSidebarOverlay =
+    const sidebarOverlay =
         document.getElementById("adminSidebarOverlay");
 
 
-    // =====================================================
-    // المتغيرات
-    // =====================================================
-
-    let bookings = [];
+    // ==========================================
+    // VARIABLES
+    // ==========================================
 
     let staffMembers = [];
+
+    let bookings = [];
 
     let currentFilter = "all";
 
@@ -194,32 +176,82 @@ document.addEventListener("DOMContentLoaded", function () {
     let toastTimer = null;
 
 
-    // =====================================================
-    // التاريخ
-    // =====================================================
+    // ==========================================
+    // DEFAULT STAFF
+    // ==========================================
 
-    const now = new Date();
+    const defaultStaff = [
+
+        {
+            id: "staff-1",
+            name: "سارة",
+            specialty: "الشعر",
+            phone: "",
+            status: "active"
+        },
+
+        {
+            id: "staff-2",
+            name: "نورة",
+            specialty: "متعددة التخصصات",
+            phone: "",
+            status: "active"
+        },
+
+        {
+            id: "staff-3",
+            name: "ريم",
+            specialty: "الأظافر",
+            phone: "",
+            status: "active"
+        },
+
+        {
+            id: "staff-4",
+            name: "ليان",
+            specialty: "البشرة",
+            phone: "",
+            status: "active"
+        }
+
+    ];
 
 
-    function formatDateKey(date) {
+    // ==========================================
+    // DATE
+    // ==========================================
+
+    const now =
+        new Date();
+
+
+    function getDateKey(date) {
 
         const year =
             date.getFullYear();
 
         const month =
-            String(date.getMonth() + 1)
-                .padStart(2, "0");
+            String(
+                date.getMonth() + 1
+            ).padStart(2, "0");
 
         const day =
-            String(date.getDate())
-                .padStart(2, "0");
+            String(
+                date.getDate()
+            ).padStart(2, "0");
 
-        return `${year}-${month}-${day}`;
+        return (
+            year +
+            "-" +
+            month +
+            "-" +
+            day
+        );
     }
 
 
     const todayKey =
-        formatDateKey(now);
+        getDateKey(now);
 
 
     if (adminCurrentDate) {
@@ -237,18 +269,60 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
-    // قراءة الحجوزات
-    // =====================================================
+    // ==========================================
+    // ESCAPE
+    // ==========================================
+
+    function escapeHTML(value) {
+
+        const element =
+            document.createElement("div");
+
+        element.textContent =
+            value === undefined ||
+            value === null
+                ? ""
+                : String(value);
+
+        return element.innerHTML;
+    }
+
+
+    // ==========================================
+    // PRICE
+    // ==========================================
+
+    function getPrice(value) {
+
+        const number =
+            Number(
+                String(value || 0)
+                    .replace(/[^\d.]/g, "")
+            );
+
+        return Number.isFinite(number)
+            ? number
+            : 0;
+    }
+
+
+    // ==========================================
+    // LOAD BOOKINGS
+    // ==========================================
 
     function loadBookings() {
 
         try {
 
-            bookings =
+            const saved =
                 JSON.parse(
                     localStorage.getItem("bookings")
-                ) || [];
+                );
+
+            bookings =
+                Array.isArray(saved)
+                    ? saved
+                    : [];
 
         } catch (error) {
 
@@ -256,254 +330,97 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // تحديث المواعيد القديمة إلى مكتمل
+        if (sidebarBookingsCount) {
 
-        bookings =
-            bookings.map(function (booking) {
-
-                if (
-                    booking.date &&
-                    booking.date < todayKey &&
-                    booking.status !== "ملغي"
-                ) {
-
-                    booking.status =
-                        "مكتمل";
-                }
-
-                return booking;
-            });
-
-
-        localStorage.setItem(
-            "bookings",
-            JSON.stringify(bookings)
-        );
+            sidebarBookingsCount.textContent =
+                bookings.length;
+        }
     }
 
 
-    loadBookings();
-
-
-    // =====================================================
-    // السعر إلى رقم
-    // =====================================================
-
-    function getNumericPrice(price) {
-
-        const number =
-            Number(
-                String(price || 0)
-                    .replace(/[^\d.]/g, "")
-            );
-
-
-        return Number.isNaN(number)
-            ? 0
-            : number;
-    }
-
-
-    // =====================================================
-    // إنشاء ID
-    // =====================================================
-
-    function generateStaffId() {
-
-        return (
-            "STF-" +
-            Date.now() +
-            "-" +
-            Math.floor(Math.random() * 10000)
-        );
-    }
-
-
-    // =====================================================
-    // تخمين تخصص الموظفة من حجوزاتها
-    // =====================================================
-
-    function guessStaffSpecialty(staffName) {
-
-        const staffBookings =
-            bookings.filter(function (booking) {
-
-                return (
-                    String(booking.staff || "").trim() ===
-                    String(staffName || "").trim()
-                );
-            });
-
-
-        const text =
-            staffBookings
-                .map(function (booking) {
-                    return booking.service || "";
-                })
-                .join(" ")
-                .toLowerCase();
-
-
-        if (
-            text.includes("مانيكير") ||
-            text.includes("بديكير") ||
-            text.includes("أظافر") ||
-            text.includes("اظافر") ||
-            text.includes("جل")
-        ) {
-            return "الأظافر";
-        }
-
-
-        if (
-            text.includes("شعر") ||
-            text.includes("استشوار") ||
-            text.includes("قص") ||
-            text.includes("تصفيف") ||
-            text.includes("تسريحة") ||
-            text.includes("صبغة")
-        ) {
-            return "الشعر";
-        }
-
-
-        if (
-            text.includes("مكياج") ||
-            text.includes("ميكب")
-        ) {
-            return "المكياج";
-        }
-
-
-        if (
-            text.includes("بشرة") ||
-            text.includes("فيشل") ||
-            text.includes("تنظيف")
-        ) {
-            return "البشرة";
-        }
-
-
-        return "متعددة التخصصات";
-    }
-
-
-    // =====================================================
-    // قراءة الموظفات
-    // =====================================================
+    // ==========================================
+    // LOAD STAFF
+    // ==========================================
 
     function loadStaff() {
 
-        let savedStaff = [];
-
-
         try {
 
-            savedStaff =
+            const saved =
                 JSON.parse(
                     localStorage.getItem("lumiereStaff")
-                ) || [];
+                );
+
+
+            if (
+                Array.isArray(saved) &&
+                saved.length > 0
+            ) {
+
+                staffMembers =
+                    saved.map(
+                        function (staff) {
+
+                            return {
+
+                                id:
+                                    staff.id ||
+                                    generateStaffId(),
+
+                                name:
+                                    staff.name ||
+                                    "موظفة",
+
+                                specialty:
+                                    staff.specialty ||
+                                    "متعددة التخصصات",
+
+                                phone:
+                                    staff.phone || "",
+
+                                status:
+                                    staff.status === "inactive"
+                                        ? "inactive"
+                                        : "active"
+                            };
+                        }
+                    );
+
+            } else {
+
+                staffMembers =
+                    defaultStaff.map(
+                        function (staff) {
+
+                            return {
+                                ...staff
+                            };
+                        }
+                    );
+
+                saveStaff();
+            }
 
         } catch (error) {
 
-            savedStaff = [];
-        }
+            staffMembers =
+                defaultStaff.map(
+                    function (staff) {
 
-
-        // إذا ما عندنا موظفات محفوظات
-        // نستخرجهن من الحجوزات القديمة
-
-        if (savedStaff.length === 0) {
-
-            const staffMap =
-                new Map();
-
-
-            bookings.forEach(function (booking) {
-
-                const name =
-                    String(booking.staff || "").trim();
-
-
-                if (!name) {
-                    return;
-                }
-
-
-                if (!staffMap.has(name)) {
-
-                    staffMap.set(
-                        name,
-                        {
-                            id:
-                                generateStaffId(),
-
-                            name:
-                                name,
-
-                            specialty:
-                                guessStaffSpecialty(name),
-
-                            phone:
-                                "",
-
-                            status:
-                                "active"
-                        }
-                    );
-                }
-            });
-
-
-            savedStaff =
-                Array.from(staffMap.values());
-
-
-            if (savedStaff.length > 0) {
-
-                localStorage.setItem(
-                    "lumiereStaff",
-                    JSON.stringify(savedStaff)
+                        return {
+                            ...staff
+                        };
+                    }
                 );
-            }
+
+            saveStaff();
         }
-
-
-        staffMembers =
-            savedStaff.map(function (staff) {
-
-                return {
-
-                    id:
-                        staff.id ||
-                        generateStaffId(),
-
-                    name:
-                        staff.name ||
-                        "موظفة",
-
-                    specialty:
-                        staff.specialty ||
-                        "متعددة التخصصات",
-
-                    phone:
-                        staff.phone || "",
-
-                    status:
-                        staff.status === "inactive"
-                            ? "inactive"
-                            : "active"
-                };
-            });
-
-
-        saveStaff();
     }
 
 
-    // =====================================================
-    // حفظ الموظفات
-    // =====================================================
+    // ==========================================
+    // SAVE STAFF
+    // ==========================================
 
     function saveStaff() {
 
@@ -514,71 +431,114 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    loadStaff();
+    // ==========================================
+    // ID
+    // ==========================================
 
+    function generateStaffId() {
 
-    // =====================================================
-    // حجوزات موظفة
-    // =====================================================
-
-    function getStaffBookings(staffName) {
-
-        return bookings.filter(function (booking) {
-
-            return (
-                String(booking.staff || "").trim() ===
-                String(staffName || "").trim()
-            );
-        });
+        return (
+            "staff-" +
+            Date.now() +
+            "-" +
+            Math.floor(
+                Math.random() * 10000
+            )
+        );
     }
 
 
-    // =====================================================
-    // إحصائيات موظفة
-    // =====================================================
+    // ==========================================
+    // STAFF BOOKINGS
+    // ==========================================
 
-    function getStaffStats(staffName) {
+    function getStaffBookings(staff) {
 
-        const employeeBookings =
-            getStaffBookings(staffName);
+        return bookings.filter(
+            function (booking) {
+
+                const bookingStaffId =
+                    String(
+                        booking.staffId || ""
+                    );
+
+                const bookingStaffName =
+                    String(
+                        booking.staff || ""
+                    ).trim();
+
+
+                if (
+                    bookingStaffId &&
+                    String(staff.id) ===
+                    bookingStaffId
+                ) {
+
+                    return true;
+                }
+
+
+                return (
+                    bookingStaffName ===
+                    String(
+                        staff.name || ""
+                    ).trim()
+                );
+            }
+        );
+    }
+
+
+    // ==========================================
+    // STAFF STATS
+    // ==========================================
+
+    function getStaffStats(staff) {
+
+        const staffBookings =
+            getStaffBookings(staff);
 
 
         const upcoming =
-            employeeBookings.filter(function (booking) {
+            staffBookings.filter(
+                function (booking) {
 
-                return (
-                    booking.status === "مؤكد" &&
-                    booking.date &&
-                    booking.date >= todayKey
-                );
-            }).length;
+                    return (
+                        booking.status !== "ملغي" &&
+                        booking.date &&
+                        booking.date >= todayKey
+                    );
+                }
+            ).length;
 
 
         const completed =
-            employeeBookings.filter(function (booking) {
+            staffBookings.filter(
+                function (booking) {
 
-                return booking.status === "مكتمل";
-            }).length;
-
-
-        const cancelled =
-            employeeBookings.filter(function (booking) {
-
-                return booking.status === "ملغي";
-            }).length;
+                    return (
+                        booking.status === "مكتمل"
+                    );
+                }
+            ).length;
 
 
         const revenue =
-            employeeBookings.reduce(
+            staffBookings.reduce(
                 function (total, booking) {
 
-                    if (booking.status === "ملغي") {
+                    if (
+                        booking.status === "ملغي"
+                    ) {
+
                         return total;
                     }
 
                     return (
                         total +
-                        getNumericPrice(booking.price)
+                        getPrice(
+                            booking.price
+                        )
                     );
                 },
                 0
@@ -587,8 +547,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return {
 
-            bookings:
-                employeeBookings.length,
+            total:
+                staffBookings.length,
 
             upcoming:
                 upcoming,
@@ -596,96 +556,65 @@ document.addEventListener("DOMContentLoaded", function () {
             completed:
                 completed,
 
-            cancelled:
-                cancelled,
-
             revenue:
                 revenue
         };
     }
 
 
-    // =====================================================
-    // حماية النصوص
-    // =====================================================
-
-    function escapeHTML(value) {
-
-        const div =
-            document.createElement("div");
-
-        div.textContent =
-            value === undefined ||
-            value === null ||
-            value === ""
-                ? "-"
-                : String(value);
-
-        return div.innerHTML;
-    }
-
-
-    // =====================================================
-    // الإحصائيات العامة
-    // =====================================================
+    // ==========================================
+    // GLOBAL STATS
+    // ==========================================
 
     function updateStatistics() {
 
         const activeCount =
-            staffMembers.filter(function (staff) {
-
-                return staff.status === "active";
-            }).length;
-
-
-        const upcomingCount =
-            bookings.filter(function (booking) {
-
-                return (
-                    booking.status === "مؤكد" &&
-                    booking.date &&
-                    booking.date >= todayKey
-                );
-            }).length;
-
-
-        const revenue =
-            bookings.reduce(
-                function (total, booking) {
-
-                    if (booking.status === "ملغي") {
-                        return total;
-                    }
+            staffMembers.filter(
+                function (staff) {
 
                     return (
-                        total +
-                        getNumericPrice(booking.price)
+                        staff.status === "active"
                     );
-                },
-                0
-            );
+                }
+            ).length;
 
 
-        const confirmedCount =
-            bookings.filter(function (booking) {
+        let upcomingCount = 0;
 
-                return booking.status === "مؤكد";
-            }).length;
+        let revenueTotal = 0;
+
+
+        staffMembers.forEach(
+            function (staff) {
+
+                const stats =
+                    getStaffStats(staff);
+
+                upcomingCount +=
+                    stats.upcoming;
+
+                revenueTotal +=
+                    stats.revenue;
+            }
+        );
 
 
         if (staffTotal) {
+
             staffTotal.textContent =
                 staffMembers.length;
         }
 
 
         if (staffActive) {
+
             staffActive.textContent =
                 activeCount;
         }
 
 
         if (staffUpcoming) {
+
             staffUpcoming.textContent =
                 upcomingCount;
         }
@@ -694,25 +623,20 @@ document.addEventListener("DOMContentLoaded", function () {
         if (staffRevenue) {
 
             staffRevenue.textContent =
-                revenue.toLocaleString("en-US");
-        }
-
-
-        if (sidebarBookingsCount) {
-
-            sidebarBookingsCount.textContent =
-                confirmedCount;
+                revenueTotal.toLocaleString(
+                    "en-US"
+                );
         }
     }
 
 
-    // =====================================================
-    // فلترة الموظفات
-    // =====================================================
+    // ==========================================
+    // FILTER STAFF
+    // ==========================================
 
     function getFilteredStaff() {
 
-        const searchValue =
+        const searchText =
             staffSearch
                 ? staffSearch.value
                     .trim()
@@ -723,54 +647,51 @@ document.addEventListener("DOMContentLoaded", function () {
         return staffMembers.filter(
             function (staff) {
 
-                if (
-                    currentFilter !== "all" &&
-                    staff.status !== currentFilter
-                ) {
-                    return false;
-                }
+                const matchesFilter =
+                    currentFilter === "all" ||
+                    staff.status === currentFilter;
 
 
-                if (searchValue) {
-
-                    const searchableText =
-                        (
-                            staff.name +
-                            " " +
-                            staff.specialty +
-                            " " +
-                            staff.phone
-                        ).toLowerCase();
+                const text =
+                    (
+                        staff.name +
+                        " " +
+                        staff.specialty +
+                        " " +
+                        staff.phone
+                    ).toLowerCase();
 
 
-                    if (
-                        !searchableText.includes(
-                            searchValue
-                        )
-                    ) {
-                        return false;
-                    }
-                }
+                const matchesSearch =
+                    !searchText ||
+                    text.includes(
+                        searchText
+                    );
 
 
-                return true;
+                return (
+                    matchesFilter &&
+                    matchesSearch
+                );
             }
         );
     }
 
 
-    // =====================================================
-    // عرض الموظفات
-    // =====================================================
+    // ==========================================
+    // DISPLAY STAFF
+    // ==========================================
 
     function displayStaff() {
 
         if (!staffTableBody) {
+
             return;
         }
 
 
-        staffTableBody.innerHTML = "";
+        staffTableBody.innerHTML =
+            "";
 
 
         const filteredStaff =
@@ -784,7 +705,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        if (filteredStaff.length === 0) {
+        if (
+            filteredStaff.length === 0
+        ) {
 
             if (staffEmpty) {
 
@@ -807,15 +730,25 @@ document.addEventListener("DOMContentLoaded", function () {
             function (staff) {
 
                 const stats =
-                    getStaffStats(staff.name);
-
-
-                const isActive =
-                    staff.status === "active";
+                    getStaffStats(staff);
 
 
                 const row =
-                    document.createElement("tr");
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                const statusText =
+                    staff.status === "active"
+                        ? "نشطة"
+                        : "متوقفة";
+
+
+                const statusClass =
+                    staff.status === "active"
+                        ? "active"
+                        : "inactive";
 
 
                 row.innerHTML = `
@@ -832,13 +765,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div class="admin-customer-table-profile">
 
                                 <div class="admin-customer-table-avatar">
-
                                     ${escapeHTML(
                                         staff.name.charAt(0)
                                     )}
-
                                 </div>
-
 
                                 <div>
 
@@ -866,38 +796,30 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>
 
                         <span class="admin-service-category">
-
                             ${escapeHTML(staff.specialty)}
-
                         </span>
 
                     </td>
 
 
                     <td>
-
                         <strong>
-                            ${stats.bookings}
+                            ${stats.total}
                         </strong>
-
                     </td>
 
 
                     <td>
-
                         <strong>
                             ${stats.upcoming}
                         </strong>
-
                     </td>
 
 
                     <td>
-
                         <strong>
                             ${stats.completed}
                         </strong>
-
                     </td>
 
 
@@ -916,20 +838,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     <td>
 
-                        <span
-                            class="admin-customer-status ${
-                                isActive
-                                    ? "active"
-                                    : "previous"
-                            }"
-                        >
-
-                            ${
-                                isActive
-                                    ? "مفعلة"
-                                    : "متوقفة"
-                            }
-
+                        <span class="admin-customer-status ${statusClass}">
+                            ${statusText}
                         </span>
 
                     </td>
@@ -958,15 +868,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                 class="admin-service-action-btn toggle"
                                 data-action="toggle"
                                 data-id="${escapeHTML(staff.id)}"
-                                title="${
-                                    isActive
-                                        ? "إيقاف"
-                                        : "تفعيل"
-                                }"
+                                title="تفعيل / إيقاف"
                             >
 
                                 <i class="fa-solid ${
-                                    isActive
+                                    staff.status === "active"
                                         ? "fa-toggle-on"
                                         : "fa-toggle-off"
                                 }"></i>
@@ -986,25 +892,99 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             </button>
 
-
                         </div>
 
                     </td>
                 `;
 
 
-                staffTableBody.appendChild(row);
+                staffTableBody.appendChild(
+                    row
+                );
             }
         );
-
-
-        setupStaffButtons();
     }
 
 
-    // =====================================================
-    // البحث
-    // =====================================================
+    // ==========================================
+    // TABLE ACTIONS
+    // ==========================================
+
+    if (staffTableBody) {
+
+        staffTableBody.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(
+                        "[data-action]"
+                    );
+
+
+                if (!button) {
+
+                    return;
+                }
+
+
+                const action =
+                    button.getAttribute(
+                        "data-action"
+                    );
+
+                const staffId =
+                    button.getAttribute(
+                        "data-id"
+                    );
+
+
+                if (
+                    action === "details"
+                ) {
+
+                    openStaffDetails(
+                        staffId
+                    );
+                }
+
+
+                if (
+                    action === "edit"
+                ) {
+
+                    openEditStaff(
+                        staffId
+                    );
+                }
+
+
+                if (
+                    action === "toggle"
+                ) {
+
+                    toggleStaff(
+                        staffId
+                    );
+                }
+
+
+                if (
+                    action === "delete"
+                ) {
+
+                    openDeleteStaff(
+                        staffId
+                    );
+                }
+            }
+        );
+    }
+
+
+    // ==========================================
+    // SEARCH
+    // ==========================================
 
     if (staffSearch) {
 
@@ -1015,31 +995,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
-    // الفلاتر
-    // =====================================================
+    // ==========================================
+    // FILTER BUTTONS
+    // ==========================================
 
-    staffFilterButtons.forEach(
+    filterButtons.forEach(
         function (button) {
 
             button.addEventListener(
                 "click",
                 function () {
 
-                    currentFilter =
-                        button.getAttribute("data-filter") ||
-                        "all";
-
-
-                    staffFilterButtons.forEach(
+                    filterButtons.forEach(
                         function (item) {
 
-                            item.classList.remove("active");
+                            item.classList.remove(
+                                "active"
+                            );
                         }
                     );
 
 
-                    button.classList.add("active");
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    currentFilter =
+                        button.getAttribute(
+                            "data-filter"
+                        ) || "all";
+
 
                     displayStaff();
                 }
@@ -1048,19 +1034,84 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    // =====================================================
-    // فتح إضافة موظفة
-    // =====================================================
+    // ==========================================
+    // SHOW FORM
+    // ==========================================
 
-    function openAddStaffModal() {
+    function showStaffForm() {
+
+        if (staffFormModal) {
+
+            staffFormModal.classList.add(
+                "show"
+            );
+        }
+
+
+        if (staffFormOverlay) {
+
+            staffFormOverlay.classList.add(
+                "show"
+            );
+        }
+
+
+        document.body.style.overflow =
+            "hidden";
+    }
+
+
+    // ==========================================
+    // CLOSE FORM
+    // ==========================================
+
+    function closeStaffForm() {
+
+        if (staffFormModal) {
+
+            staffFormModal.classList.remove(
+                "show"
+            );
+        }
+
+
+        if (staffFormOverlay) {
+
+            staffFormOverlay.classList.remove(
+                "show"
+            );
+        }
+
 
         editingStaffId = null;
+
+
+        if (staffFormError) {
+
+            staffFormError.textContent =
+                "";
+        }
+
+
+        document.body.style.overflow =
+            "";
+    }
+
+
+    // ==========================================
+    // ADD STAFF
+    // ==========================================
+
+    function openAddStaff() {
+
+        editingStaffId =
+            null;
 
 
         if (staffFormTitle) {
 
             staffFormTitle.textContent =
-                "إضافة موظفة جديدة";
+                "إضافة موظفة";
         }
 
 
@@ -1079,11 +1130,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (staffFormError) {
 
-            staffFormError.textContent = "";
+            staffFormError.textContent =
+                "";
         }
 
 
-        openStaffFormModal();
+        showStaffForm();
+
+
+        setTimeout(
+            function () {
+
+                if (staffNameInput) {
+
+                    staffNameInput.focus();
+                }
+
+            },
+            100
+        );
     }
 
 
@@ -1091,25 +1156,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
         addStaffBtn.addEventListener(
             "click",
-            openAddStaffModal
+            openAddStaff
         );
     }
 
 
-    // =====================================================
-    // فتح تعديل موظفة
-    // =====================================================
+    // ==========================================
+    // EDIT STAFF
+    // ==========================================
 
-    function openEditStaffModal(staffId) {
+    function openEditStaff(staffId) {
 
         const staff =
-            staffMembers.find(function (item) {
+            staffMembers.find(
+                function (item) {
 
-                return item.id === staffId;
-            });
+                    return (
+                        String(item.id) ===
+                        String(staffId)
+                    );
+                }
+            );
 
 
         if (!staff) {
+
             return;
         }
 
@@ -1121,7 +1192,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (staffFormTitle) {
 
             staffFormTitle.textContent =
-                "تعديل بيانات الموظفة";
+                "تعديل الموظفة";
         }
 
 
@@ -1142,7 +1213,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (staffPhoneInput) {
 
             staffPhoneInput.value =
-                staff.phone;
+                staff.phone || "";
         }
 
 
@@ -1155,100 +1226,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (staffFormError) {
 
-            staffFormError.textContent = "";
+            staffFormError.textContent =
+                "";
         }
 
 
-        openStaffFormModal();
+        showStaffForm();
     }
 
 
-    // =====================================================
-    // فتح نافذة النموذج
-    // =====================================================
+    // ==========================================
+    // VALID PHONE
+    // ==========================================
 
-    function openStaffFormModal() {
-
-        if (!staffFormModal) {
-            return;
-        }
-
-
-        staffFormModal.classList.add("show");
-
-        document.body.style.overflow =
-            "hidden";
-
-
-        setTimeout(
-            function () {
-
-                if (staffNameInput) {
-                    staffNameInput.focus();
-                }
-
-            },
-            100
-        );
-    }
-
-
-    // =====================================================
-    // إغلاق النموذج
-    // =====================================================
-
-    function closeStaffFormModal() {
-
-        if (staffFormModal) {
-
-            staffFormModal.classList.remove(
-                "show"
-            );
-        }
-
-
-        editingStaffId = null;
-
-        document.body.style.overflow = "";
-    }
-
-
-    if (staffFormClose) {
-
-        staffFormClose.addEventListener(
-            "click",
-            closeStaffFormModal
-        );
-    }
-
-
-    if (staffFormOverlay) {
-
-        staffFormOverlay.addEventListener(
-            "click",
-            closeStaffFormModal
-        );
-    }
-
-
-    // =====================================================
-    // التحقق من الجوال
-    // =====================================================
-
-    function isValidPhone(phone) {
+    function validPhone(phone) {
 
         if (!phone) {
+
             return true;
         }
 
 
-        return /^05\d{8}$/.test(phone);
+        return /^05\d{8}$/.test(
+            phone
+        );
     }
 
 
-    // =====================================================
-    // حفظ الموظفة
-    // =====================================================
+    // ==========================================
+    // SAVE FORM
+    // ==========================================
 
     if (staffForm) {
 
@@ -1305,7 +1312,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                if (!isValidPhone(phone)) {
+                if (
+                    !validPhone(phone)
+                ) {
 
                     showFormError(
                         "رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام."
@@ -1315,63 +1324,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                // =========================================
-                // تعديل موظفة
-                // =========================================
-
                 if (editingStaffId) {
 
-                    const staffIndex =
+                    const index =
                         staffMembers.findIndex(
                             function (staff) {
 
                                 return (
-                                    staff.id ===
-                                    editingStaffId
+                                    String(staff.id) ===
+                                    String(editingStaffId)
                                 );
                             }
                         );
 
 
-                    if (staffIndex === -1) {
+                    if (index === -1) {
+
                         return;
                     }
 
 
                     const oldName =
-                        staffMembers[staffIndex].name;
+                        staffMembers[index].name;
 
 
-                    const duplicate =
-                        staffMembers.some(
-                            function (staff) {
+                    staffMembers[index] = {
 
-                                return (
-                                    staff.id !== editingStaffId &&
-                                    staff.name
-                                        .trim()
-                                        .toLowerCase() ===
-                                    name
-                                        .trim()
-                                        .toLowerCase()
-                                );
-                            }
-                        );
-
-
-                    if (duplicate) {
-
-                        showFormError(
-                            "يوجد موظفة بهذا الاسم بالفعل."
-                        );
-
-                        return;
-                    }
-
-
-                    staffMembers[staffIndex] = {
-
-                        ...staffMembers[staffIndex],
+                        ...staffMembers[index],
 
                         name:
                             name,
@@ -1387,105 +1366,66 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
 
 
-                    // إذا تغير الاسم
-                    // نحدث اسم الموظفة في حجوزاتها أيضًا
+                    // تحديث اسم الموظفة في الحجوزات القديمة
 
-                    if (oldName !== name) {
+                    bookings.forEach(
+                        function (booking) {
 
-                        bookings =
-                            bookings.map(
-                                function (booking) {
+                            if (
+                                String(
+                                    booking.staffId || ""
+                                ) ===
+                                String(editingStaffId) ||
+                                String(
+                                    booking.staff || ""
+                                ).trim() === oldName
+                            ) {
 
-                                    if (
-                                        String(
-                                            booking.staff || ""
-                                        ).trim() === oldName
-                                    ) {
+                                booking.staff =
+                                    name;
 
-                                        booking.staff =
-                                            name;
-                                    }
-
-                                    return booking;
-                                }
-                            );
-
-
-                        localStorage.setItem(
-                            "bookings",
-                            JSON.stringify(bookings)
-                        );
-                    }
-
-
-                    saveStaff();
-
-                    updateStatistics();
-
-                    displayStaff();
-
-                    closeStaffFormModal();
-
-                    showToast(
-                        "تم تعديل بيانات الموظفة بنجاح"
-                    );
-
-                    return;
-                }
-
-
-                // =========================================
-                // إضافة موظفة
-                // =========================================
-
-                const duplicate =
-                    staffMembers.some(
-                        function (staff) {
-
-                            return (
-                                staff.name
-                                    .trim()
-                                    .toLowerCase() ===
-                                name
-                                    .trim()
-                                    .toLowerCase()
-                            );
+                                booking.staffId =
+                                    editingStaffId;
+                            }
                         }
                     );
 
 
-                if (duplicate) {
-
-                    showFormError(
-                        "هذه الموظفة موجودة بالفعل."
+                    localStorage.setItem(
+                        "bookings",
+                        JSON.stringify(bookings)
                     );
 
-                    return;
+
+                    showToast(
+                        "تم تعديل بيانات الموظفة"
+                    );
+
+                } else {
+
+                    staffMembers.push({
+
+                        id:
+                            generateStaffId(),
+
+                        name:
+                            name,
+
+                        specialty:
+                            specialty,
+
+                        phone:
+                            phone,
+
+                        status:
+                            status
+                    });
+
+
+                    showToast(
+                        "تمت إضافة الموظفة"
+                    );
                 }
-
-
-                const newStaff = {
-
-                    id:
-                        generateStaffId(),
-
-                    name:
-                        name,
-
-                    specialty:
-                        specialty,
-
-                    phone:
-                        phone,
-
-                    status:
-                        status
-                };
-
-
-                staffMembers.unshift(
-                    newStaff
-                );
 
 
                 saveStaff();
@@ -1494,110 +1434,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 displayStaff();
 
-                closeStaffFormModal();
-
-                showToast(
-                    "تمت إضافة الموظفة بنجاح"
-                );
+                closeStaffForm();
             }
         );
     }
 
-
-    // =====================================================
-    // رسالة الخطأ
-    // =====================================================
 
     function showFormError(message) {
 
-        if (!staffFormError) {
-            return;
+        if (staffFormError) {
+
+            staffFormError.textContent =
+                message;
         }
-
-
-        staffFormError.textContent =
-            message;
     }
 
 
-    // =====================================================
-    // أزرار الجدول
-    // =====================================================
+    // ==========================================
+    // CLOSE FORM EVENTS
+    // ==========================================
 
-    function setupStaffButtons() {
+    if (staffFormClose) {
 
-        const buttons =
-            document.querySelectorAll(
-                "[data-action][data-id]"
-            );
-
-
-        buttons.forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        const action =
-                            button.getAttribute(
-                                "data-action"
-                            );
-
-
-                        const staffId =
-                            button.getAttribute(
-                                "data-id"
-                            );
-
-
-                        if (action === "details") {
-
-                            openStaffDetails(
-                                staffId
-                            );
-
-                            return;
-                        }
-
-
-                        if (action === "edit") {
-
-                            openEditStaffModal(
-                                staffId
-                            );
-
-                            return;
-                        }
-
-
-                        if (action === "toggle") {
-
-                            toggleStaff(
-                                staffId
-                            );
-
-                            return;
-                        }
-
-
-                        if (action === "delete") {
-
-                            openDeleteStaffModal(
-                                staffId
-                            );
-                        }
-
-                    }
-                );
-            }
+        staffFormClose.addEventListener(
+            "click",
+            closeStaffForm
         );
     }
 
 
-    // =====================================================
-    // تفعيل / إيقاف
-    // =====================================================
+    if (staffFormCancel) {
+
+        staffFormCancel.addEventListener(
+            "click",
+            closeStaffForm
+        );
+    }
+
+
+    if (staffFormOverlay) {
+
+        staffFormOverlay.addEventListener(
+            "click",
+            closeStaffForm
+        );
+    }
+
+
+    // ==========================================
+    // TOGGLE STAFF
+    // ==========================================
 
     function toggleStaff(staffId) {
 
@@ -1605,17 +1491,23 @@ document.addEventListener("DOMContentLoaded", function () {
             staffMembers.find(
                 function (item) {
 
-                    return item.id === staffId;
+                    return (
+                        String(item.id) ===
+                        String(staffId)
+                    );
                 }
             );
 
 
         if (!staff) {
+
             return;
         }
 
 
-        if (staff.status === "active") {
+        if (
+            staff.status === "active"
+        ) {
 
             staff.status =
                 "inactive";
@@ -1643,9 +1535,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
-    // تفاصيل الموظفة
-    // =====================================================
+    // ==========================================
+    // DETAILS
+    // ==========================================
 
     function openStaffDetails(staffId) {
 
@@ -1653,18 +1545,22 @@ document.addEventListener("DOMContentLoaded", function () {
             staffMembers.find(
                 function (item) {
 
-                    return item.id === staffId;
+                    return (
+                        String(item.id) ===
+                        String(staffId)
+                    );
                 }
             );
 
 
         if (!staff) {
+
             return;
         }
 
 
         const stats =
-            getStaffStats(staff.name);
+            getStaffStats(staff);
 
 
         if (modalStaffName) {
@@ -1678,9 +1574,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             modalStaffSpecialty.textContent =
                 staff.phone
-                    ? staff.specialty +
-                      " • " +
-                      staff.phone
+                    ? (
+                        staff.specialty +
+                        " • " +
+                        staff.phone
+                    )
                     : staff.specialty;
         }
 
@@ -1688,7 +1586,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (modalStaffBookings) {
 
             modalStaffBookings.textContent =
-                stats.bookings;
+                stats.total;
         }
 
 
@@ -1702,56 +1600,75 @@ document.addEventListener("DOMContentLoaded", function () {
         if (modalStaffRevenue) {
 
             modalStaffRevenue.textContent =
-                stats.revenue.toLocaleString("en-US") +
+                stats.revenue.toLocaleString(
+                    "en-US"
+                ) +
                 " ر.س";
         }
 
 
         displayStaffHistory(
-            staff.name
+            staff
         );
 
 
-        if (staffDetailsModal) {
+        if (detailsModal) {
 
-            staffDetailsModal.classList.add(
+            detailsModal.classList.add(
                 "show"
             );
-
-            document.body.style.overflow =
-                "hidden";
         }
+
+
+        if (detailsOverlay) {
+
+            detailsOverlay.classList.add(
+                "show"
+            );
+        }
+
+
+        document.body.style.overflow =
+            "hidden";
     }
 
 
-    // =====================================================
-    // تاريخ حجوزات الموظفة
-    // =====================================================
+    // ==========================================
+    // HISTORY
+    // ==========================================
 
-    function displayStaffHistory(staffName) {
+    function displayStaffHistory(staff) {
 
         if (!staffBookingHistory) {
+
             return;
         }
 
 
-        staffBookingHistory.innerHTML = "";
+        staffBookingHistory.innerHTML =
+            "";
 
 
-        const employeeBookings =
-            getStaffBookings(staffName)
+        const history =
+            getStaffBookings(staff)
                 .slice()
-                .sort(function (a, b) {
+                .sort(
+                    function (a, b) {
 
-                    return String(
-                        b.date || ""
-                    ).localeCompare(
-                        String(a.date || "")
-                    );
-                });
+                        return String(
+                            b.date || ""
+                        ).localeCompare(
+                            String(
+                                a.date || ""
+                            )
+                        );
+                    }
+                );
 
 
-        if (employeeBookings.length === 0) {
+        if (
+            history.length === 0
+        ) {
 
             if (staffHistoryEmpty) {
 
@@ -1770,11 +1687,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        employeeBookings.forEach(
+        history.forEach(
             function (booking) {
 
                 const item =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
                 item.className =
@@ -1787,17 +1706,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         <strong>
                             ${escapeHTML(
-                                booking.service || "خدمة"
+                                booking.service ||
+                                "خدمة"
                             )}
                         </strong>
 
                         <span>
                             ${escapeHTML(
-                                booking.date || "-"
+                                booking.date ||
+                                "-"
                             )}
                             •
                             ${escapeHTML(
-                                booking.time || "-"
+                                booking.time ||
+                                "-"
                             )}
                         </span>
 
@@ -1807,7 +1729,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div>
 
                         <strong>
-                            ${getNumericPrice(
+                            ${getPrice(
                                 booking.price
                             ).toLocaleString("en-US")}
                             ر.س
@@ -1815,7 +1737,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         <span>
                             ${escapeHTML(
-                                booking.status || "مؤكد"
+                                booking.status ||
+                                "مؤكد"
                             )}
                         </span>
 
@@ -1831,114 +1754,144 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
-    // إغلاق التفاصيل
-    // =====================================================
+    // ==========================================
+    // CLOSE DETAILS
+    // ==========================================
 
-    function closeStaffDetails() {
+    function closeDetails() {
 
-        if (staffDetailsModal) {
+        if (detailsModal) {
 
-            staffDetailsModal.classList.remove(
+            detailsModal.classList.remove(
                 "show"
             );
         }
 
 
-        document.body.style.overflow = "";
+        if (detailsOverlay) {
+
+            detailsOverlay.classList.remove(
+                "show"
+            );
+        }
+
+
+        document.body.style.overflow =
+            "";
     }
 
 
-    if (staffDetailsClose) {
+    if (detailsClose) {
 
-        staffDetailsClose.addEventListener(
+        detailsClose.addEventListener(
             "click",
-            closeStaffDetails
+            closeDetails
         );
     }
 
 
-    if (staffDetailsDone) {
+    if (detailsDone) {
 
-        staffDetailsDone.addEventListener(
+        detailsDone.addEventListener(
             "click",
-            closeStaffDetails
+            closeDetails
         );
     }
 
 
-    if (staffDetailsOverlay) {
+    if (detailsOverlay) {
 
-        staffDetailsOverlay.addEventListener(
+        detailsOverlay.addEventListener(
             "click",
-            closeStaffDetails
+            closeDetails
         );
     }
 
 
-    // =====================================================
-    // حذف موظفة
-    // =====================================================
+    // ==========================================
+    // DELETE
+    // ==========================================
 
-    function openDeleteStaffModal(staffId) {
+    function openDeleteStaff(staffId) {
 
         deletingStaffId =
             staffId;
 
 
-        if (deleteStaffModal) {
+        if (deleteModal) {
 
-            deleteStaffModal.classList.add(
-                "show"
-            );
-
-            document.body.style.overflow =
-                "hidden";
-        }
-    }
-
-
-    function closeDeleteStaffModal() {
-
-        if (deleteStaffModal) {
-
-            deleteStaffModal.classList.remove(
+            deleteModal.classList.add(
                 "show"
             );
         }
 
 
-        deletingStaffId = null;
+        if (deleteOverlay) {
 
-        document.body.style.overflow = "";
+            deleteOverlay.classList.add(
+                "show"
+            );
+        }
+
+
+        document.body.style.overflow =
+            "hidden";
     }
 
 
-    if (deleteStaffCancel) {
+    function closeDeleteStaff() {
 
-        deleteStaffCancel.addEventListener(
+        deletingStaffId =
+            null;
+
+
+        if (deleteModal) {
+
+            deleteModal.classList.remove(
+                "show"
+            );
+        }
+
+
+        if (deleteOverlay) {
+
+            deleteOverlay.classList.remove(
+                "show"
+            );
+        }
+
+
+        document.body.style.overflow =
+            "";
+    }
+
+
+    if (deleteCancel) {
+
+        deleteCancel.addEventListener(
             "click",
-            closeDeleteStaffModal
+            closeDeleteStaff
         );
     }
 
 
-    if (deleteStaffOverlay) {
+    if (deleteOverlay) {
 
-        deleteStaffOverlay.addEventListener(
+        deleteOverlay.addEventListener(
             "click",
-            closeDeleteStaffModal
+            closeDeleteStaff
         );
     }
 
 
-    if (deleteStaffConfirm) {
+    if (deleteConfirm) {
 
-        deleteStaffConfirm.addEventListener(
+        deleteConfirm.addEventListener(
             "click",
             function () {
 
                 if (!deletingStaffId) {
+
                     return;
                 }
 
@@ -1948,8 +1901,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         function (staff) {
 
                             return (
-                                staff.id !==
-                                deletingStaffId
+                                String(staff.id) !==
+                                String(deletingStaffId)
                             );
                         }
                     );
@@ -1961,7 +1914,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 displayStaff();
 
-                closeDeleteStaffModal();
+                closeDeleteStaff();
 
                 showToast(
                     "تم حذف الموظفة"
@@ -1971,32 +1924,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
-    // Toast
-    // =====================================================
+    // ==========================================
+    // TOAST
+    // ==========================================
 
     function showToast(message) {
 
         if (
-            !staffToast ||
-            !staffToastText
+            !toast ||
+            !toastText
         ) {
+
             return;
         }
 
 
-        staffToastText.textContent =
+        toastText.textContent =
             message;
 
 
-        staffToast.classList.add(
+        toast.classList.add(
             "show"
         );
 
 
         if (toastTimer) {
 
-            clearTimeout(toastTimer);
+            clearTimeout(
+                toastTimer
+            );
         }
 
 
@@ -2004,7 +1960,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(
                 function () {
 
-                    staffToast.classList.remove(
+                    toast.classList.remove(
                         "show"
                     );
 
@@ -2014,20 +1970,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
-    // تسجيل الخروج
-    // =====================================================
+    // ==========================================
+    // LOGOUT
+    // ==========================================
 
-    if (adminLogoutBtn) {
+    if (logoutBtn) {
 
-        adminLogoutBtn.addEventListener(
+        logoutBtn.addEventListener(
             "click",
             function () {
 
                 sessionStorage.removeItem(
                     "lumiereAdminLoggedIn"
                 );
-
 
                 window.location.href =
                     "admin-login.html";
@@ -2036,23 +1991,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
-    // القائمة الجانبية للجوال
-    // =====================================================
+    // ==========================================
+    // MOBILE SIDEBAR
+    // ==========================================
 
     function openSidebar() {
 
-        if (adminSidebar) {
+        if (sidebar) {
 
-            adminSidebar.classList.add(
+            sidebar.classList.add(
                 "show"
             );
         }
 
 
-        if (adminSidebarOverlay) {
+        if (sidebarOverlay) {
 
-            adminSidebarOverlay.classList.add(
+            sidebarOverlay.classList.add(
                 "show"
             );
         }
@@ -2065,98 +2020,79 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function closeSidebar() {
 
-        if (adminSidebar) {
+        if (sidebar) {
 
-            adminSidebar.classList.remove(
+            sidebar.classList.remove(
                 "show"
             );
         }
 
 
-        if (adminSidebarOverlay) {
+        if (sidebarOverlay) {
 
-            adminSidebarOverlay.classList.remove(
+            sidebarOverlay.classList.remove(
                 "show"
             );
         }
 
 
-        document.body.style.overflow = "";
+        document.body.style.overflow =
+            "";
     }
 
 
-    if (adminMobileMenu) {
+    if (mobileMenu) {
 
-        adminMobileMenu.addEventListener(
+        mobileMenu.addEventListener(
             "click",
             openSidebar
         );
     }
 
 
-    if (adminSidebarOverlay) {
+    if (sidebarOverlay) {
 
-        adminSidebarOverlay.addEventListener(
+        sidebarOverlay.addEventListener(
             "click",
             closeSidebar
         );
     }
 
 
-    // =====================================================
+    // ==========================================
     // ESC
-    // =====================================================
+    // ==========================================
 
     document.addEventListener(
         "keydown",
         function (event) {
 
-            if (event.key !== "Escape") {
-                return;
-            }
-
-
             if (
-                deleteStaffModal &&
-                deleteStaffModal.classList.contains("show")
+                event.key !== "Escape"
             ) {
 
-                closeDeleteStaffModal();
-
                 return;
             }
 
 
-            if (
-                staffFormModal &&
-                staffFormModal.classList.contains("show")
-            ) {
+            closeStaffForm();
 
-                closeStaffFormModal();
+            closeDetails();
 
-                return;
-            }
-
-
-            if (
-                staffDetailsModal &&
-                staffDetailsModal.classList.contains("show")
-            ) {
-
-                closeStaffDetails();
-
-                return;
-            }
-
+            closeDeleteStaff();
 
             closeSidebar();
         }
     );
 
 
-    // =====================================================
-    // تشغيل الصفحة
-    // =====================================================
+    // ==========================================
+    // START
+    // ==========================================
+
+    loadBookings();
+
+    loadStaff();
 
     updateStatistics();
 

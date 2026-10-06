@@ -1,37 +1,50 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // =====================================================
+    // ==========================================
     // ELEMENTS
-    // =====================================================
+    // ==========================================
 
     const staffList =
-        document.getElementById("customerStaffList");
+        document.getElementById(
+            "customerStaffList"
+        );
 
     const emptyState =
-        document.getElementById("customerStaffEmpty");
+        document.getElementById(
+            "customerStaffEmpty"
+        );
 
     const serviceNameElement =
-        document.getElementById("selectedServiceName");
+        document.getElementById(
+            "selectedServiceName"
+        );
 
     const servicePriceElement =
-        document.getElementById("selectedServicePrice");
+        document.getElementById(
+            "selectedServicePrice"
+        );
 
 
-    // =====================================================
-    // SERVICE INFO
-    // =====================================================
+    // ==========================================
+    // SELECTED SERVICE
+    // ==========================================
 
     const serviceName =
-        localStorage.getItem("selectedServiceName");
+        localStorage.getItem(
+            "selectedServiceName"
+        );
 
     const servicePrice =
-        localStorage.getItem("selectedServicePrice");
+        localStorage.getItem(
+            "selectedServicePrice"
+        );
 
 
     if (serviceNameElement) {
 
         serviceNameElement.textContent =
-            serviceName || "الخدمة المختارة";
+            serviceName ||
+            "الخدمة المختارة";
     }
 
 
@@ -40,63 +53,70 @@ document.addEventListener("DOMContentLoaded", function () {
         if (servicePrice) {
 
             servicePriceElement.textContent =
-                servicePrice + " ر.س";
+                servicePrice +
+                " ر.س";
 
         } else {
 
-            servicePriceElement.textContent = "";
+            servicePriceElement.textContent =
+                "";
         }
     }
 
 
-    // =====================================================
+    // ==========================================
     // DEFAULT STAFF
-    // تظهر إذا Netlify ما عنده بيانات محفوظة
-    // =====================================================
+    // ==========================================
 
     const defaultStaff = [
 
         {
             id: "staff-1",
             name: "سارة",
-            specialty: "أخصائية شعر",
+            specialty: "الشعر",
+            phone: "",
             status: "active"
         },
 
         {
             id: "staff-2",
             name: "نورة",
-            specialty: "أخصائية تجميل",
+            specialty: "متعددة التخصصات",
+            phone: "",
             status: "active"
         },
 
         {
             id: "staff-3",
             name: "ريم",
-            specialty: "أخصائية أظافر",
+            specialty: "الأظافر",
+            phone: "",
             status: "active"
         },
 
         {
             id: "staff-4",
             name: "ليان",
-            specialty: "أخصائية بشرة ومكياج",
+            specialty: "البشرة",
+            phone: "",
             status: "active"
         }
 
     ];
 
 
-    // =====================================================
+    // ==========================================
     // LOAD STAFF
-    // =====================================================
+    // ==========================================
 
     function loadStaff() {
 
         try {
 
             const saved =
-                localStorage.getItem("lumiereStaff");
+                localStorage.getItem(
+                    "lumiereStaff"
+                );
 
 
             let parsed = [];
@@ -105,14 +125,11 @@ document.addEventListener("DOMContentLoaded", function () {
             if (saved) {
 
                 parsed =
-                    JSON.parse(saved);
+                    JSON.parse(
+                        saved
+                    );
             }
 
-
-            // =============================================
-            // إذا البيانات غير موجودة أو القائمة فاضية
-            // نحفظ الموظفات الافتراضيات
-            // =============================================
 
             if (
                 !Array.isArray(parsed) ||
@@ -121,16 +138,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 localStorage.setItem(
                     "lumiereStaff",
-                    JSON.stringify(defaultStaff)
+                    JSON.stringify(
+                        defaultStaff
+                    )
                 );
 
 
-                return [...defaultStaff];
+                return defaultStaff.map(
+                    function (staff) {
+
+                        return {
+                            ...staff
+                        };
+                    }
+                );
             }
 
 
             return parsed;
-
 
         } catch (error) {
 
@@ -142,23 +167,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
             localStorage.setItem(
                 "lumiereStaff",
-                JSON.stringify(defaultStaff)
+                JSON.stringify(
+                    defaultStaff
+                )
             );
 
 
-            return [...defaultStaff];
+            return defaultStaff.map(
+                function (staff) {
+
+                    return {
+                        ...staff
+                    };
+                }
+            );
         }
     }
 
 
-    // =====================================================
-    // ESCAPE HTML
-    // =====================================================
+    // ==========================================
+    // ESCAPE
+    // ==========================================
 
     function escapeHTML(value) {
 
         const element =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         element.textContent =
@@ -172,15 +208,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
-    // STAFF STATUS
-    // =====================================================
+    // ==========================================
+    // ACTIVE STATUS
+    // ==========================================
 
     function isStaffActive(staff) {
 
         const status =
             String(
-                staff.status || "active"
+                staff.status ||
+                "active"
             )
                 .trim()
                 .toLowerCase();
@@ -196,9 +233,71 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
+    // ==========================================
+    // SPECIALTY DISPLAY
+    // ==========================================
+
+    function getSpecialtyText(
+        specialty
+    ) {
+
+        const value =
+            String(
+                specialty || ""
+            ).trim();
+
+
+        if (
+            value === "الشعر"
+        ) {
+
+            return "أخصائية شعر";
+        }
+
+
+        if (
+            value === "الأظافر"
+        ) {
+
+            return "أخصائية أظافر";
+        }
+
+
+        if (
+            value === "البشرة"
+        ) {
+
+            return "أخصائية بشرة";
+        }
+
+
+        if (
+            value === "المكياج"
+        ) {
+
+            return "أخصائية مكياج";
+        }
+
+
+        if (
+            value ===
+            "متعددة التخصصات"
+        ) {
+
+            return "أخصائية تجميل";
+        }
+
+
+        return (
+            value ||
+            "أخصائية تجميل"
+        );
+    }
+
+
+    // ==========================================
     // RENDER STAFF
-    // =====================================================
+    // ==========================================
 
     function renderStaff() {
 
@@ -216,22 +315,23 @@ document.addEventListener("DOMContentLoaded", function () {
             loadStaff();
 
 
-        const activeStaff =
+        let activeStaff =
             allStaff.filter(
                 isStaffActive
             );
 
 
-        // تنظيف القائمة
+        // حماية إضافية:
+        // إذا كانت كل البيانات القديمة متوقفة
+        // نظهر رسالة بدل الصفحة الفاضية
 
-        staffList.innerHTML = "";
+        staffList.innerHTML =
+            "";
 
 
-        // =================================================
-        // NO STAFF
-        // =================================================
-
-        if (activeStaff.length === 0) {
+        if (
+            activeStaff.length === 0
+        ) {
 
             staffList.style.display =
                 "none";
@@ -248,10 +348,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // =================================================
-        // SHOW STAFF
-        // =================================================
-
         staffList.style.display =
             "";
 
@@ -263,10 +359,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // =================================================
-        // CREATE STAFF CARDS
-        // =================================================
-
         activeStaff.forEach(
             function (staff) {
 
@@ -276,8 +368,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 const specialty =
-                    staff.specialty ||
-                    "أخصائية تجميل";
+                    getSpecialtyText(
+                        staff.specialty
+                    );
 
 
                 const staffId =
@@ -333,13 +426,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     <i class="fa-solid fa-chevron-left"></i>
-
                 `;
 
-
-                // =========================================
-                // CLICK STAFF
-                // =========================================
 
                 card.addEventListener(
                     "click",
@@ -366,9 +454,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
 
-                        // =================================
-                        // SAVE STAFF NAME
-                        // =================================
+                        // حفظ اسم الموظفة
 
                         localStorage.setItem(
                             "selectedStaff",
@@ -376,9 +462,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
 
-                        // =================================
-                        // SAVE STAFF ID
-                        // =================================
+                        // حفظ ID الموظفة
 
                         if (staffId) {
 
@@ -395,9 +479,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        // =================================
-                        // CLEAN OLD DATE/TIME
-                        // =================================
+                        // حذف موعد سابق
 
                         localStorage.removeItem(
                             "selectedDate"
@@ -408,9 +490,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
 
-                        // =================================
-                        // GO TO DATE & TIME
-                        // =================================
+                        // الانتقال للتاريخ والوقت
 
                         setTimeout(
                             function () {
@@ -419,7 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "datetime.html";
 
                             },
-                            200
+                            150
                         );
                     }
                 );
@@ -433,9 +513,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================================
+    // ==========================================
     // START
-    // =====================================================
+    // ==========================================
 
     renderStaff();
 
