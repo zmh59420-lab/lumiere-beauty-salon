@@ -47,7 +47,107 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // قراءة الخدمات من لوحة الإدارة
+    // الخدمات الافتراضية
+    // تظهر تلقائياً لأول زيارة على أي جهاز / رابط جديد
+    // =====================================================
+
+    const defaultServices = [
+
+        {
+            id: "service-hair-cut",
+            name: "قص الشعر",
+            category: "الشعر",
+            price: 80,
+            duration: 45,
+            status: "active",
+            description: "قص احترافي يناسب شكل الوجه وإطلالتك"
+        },
+
+        {
+            id: "service-blowdry",
+            name: "استشوار",
+            category: "الشعر",
+            price: 70,
+            duration: 45,
+            status: "active",
+            description: "تصفيف ناعم وأنيق للشعر"
+        },
+
+        {
+            id: "service-hair-color",
+            name: "صبغة شعر",
+            category: "الشعر",
+            price: 250,
+            duration: 120,
+            status: "active",
+            description: "صبغة احترافية بلون يناسب إطلالتك"
+        },
+
+        {
+            id: "service-manicure",
+            name: "مانيكير",
+            category: "الأظافر",
+            price: 80,
+            duration: 45,
+            status: "active",
+            description: "عناية وتنظيف وتجميل الأظافر"
+        },
+
+        {
+            id: "service-pedicure",
+            name: "بديكير",
+            category: "الأظافر",
+            price: 100,
+            duration: 60,
+            status: "active",
+            description: "عناية متكاملة بالقدمين والأظافر"
+        },
+
+        {
+            id: "service-facial",
+            name: "تنظيف البشرة",
+            category: "البشرة",
+            price: 150,
+            duration: 60,
+            status: "active",
+            description: "تنظيف لطيف وعميق يمنح البشرة انتعاشاً"
+        },
+
+        {
+            id: "service-glow",
+            name: "جلسة نضارة",
+            category: "البشرة",
+            price: 180,
+            duration: 60,
+            status: "active",
+            description: "جلسة عناية تمنح البشرة إشراقة ونضارة"
+        },
+
+        {
+            id: "service-soft-makeup",
+            name: "مكياج ناعم",
+            category: "المكياج",
+            price: 180,
+            duration: 60,
+            status: "active",
+            description: "إطلالة ناعمة وأنيقة تناسب يومك"
+        },
+
+        {
+            id: "service-evening-makeup",
+            name: "مكياج سهرة",
+            category: "المكياج",
+            price: 250,
+            duration: 75,
+            status: "active",
+            description: "مكياج متكامل لإطلالة أكثر فخامة"
+        }
+
+    ];
+
+
+    // =====================================================
+    // قراءة الخدمات
     // =====================================================
 
     function getAdminServices() {
@@ -58,8 +158,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.getItem("lumiereServices");
 
 
+            // أول زيارة للموقع
             if (saved === null) {
-                return [];
+
+                localStorage.setItem(
+                    "lumiereServices",
+                    JSON.stringify(defaultServices)
+                );
+
+                return [...defaultServices];
             }
 
 
@@ -67,9 +174,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 JSON.parse(saved);
 
 
-            return Array.isArray(parsed)
-                ? parsed
-                : [];
+            if (!Array.isArray(parsed)) {
+
+                localStorage.setItem(
+                    "lumiereServices",
+                    JSON.stringify(defaultServices)
+                );
+
+                return [...defaultServices];
+            }
+
+
+            return parsed;
 
         } catch (error) {
 
@@ -78,7 +194,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 error
             );
 
-            return [];
+            localStorage.setItem(
+                "lumiereServices",
+                JSON.stringify(defaultServices)
+            );
+
+            return [...defaultServices];
         }
     }
 
@@ -93,8 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
             String(
                 service.status || "active"
             )
-                .trim()
-                .toLowerCase();
+            .trim()
+            .toLowerCase();
 
 
         return (
@@ -106,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // مقارنة الأقسام
+    // توحيد أسماء الأقسام
     // =====================================================
 
     function normalizeCategory(value) {
@@ -119,12 +240,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // خدمات القسم الحالي
+    // جميع الخدمات
     // =====================================================
 
     const allServices =
         getAdminServices();
 
+
+    // =====================================================
+    // خدمات القسم المختار
+    // =====================================================
 
     const currentServices =
         allServices.filter(function (service) {
@@ -190,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // هل الخدمة في المفضلة؟
+    // هل الخدمة بالمفضلة؟
     // =====================================================
 
     function isFavorite(serviceName) {
@@ -231,7 +356,6 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-        // حذف من المفضلة
         if (index !== -1) {
 
             favorites.splice(
@@ -240,8 +364,6 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
         } else {
-
-            // إضافة للمفضلة
 
             favorites.push({
 
@@ -285,6 +407,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (Number.isNaN(number)) {
+
             return "0";
         }
 
@@ -296,12 +419,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // عرض رسالة عدم وجود خدمات
+    // رسالة عدم وجود خدمات
     // =====================================================
 
     function showEmptyState() {
 
         if (!servicesList) {
+
             return;
         }
 
@@ -352,6 +476,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderServices() {
 
         if (!servicesList) {
+
             return;
         }
 
@@ -359,10 +484,7 @@ document.addEventListener("DOMContentLoaded", function () {
         servicesList.innerHTML = "";
 
 
-        // =============================================
         // لا توجد خدمات
-        // =============================================
-
         if (currentServices.length === 0) {
 
             showEmptyState();
@@ -370,10 +492,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-
-        // =============================================
-        // إنشاء الخدمات
-        // =============================================
 
         currentServices.forEach(
             function (service) {
@@ -404,9 +522,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     "service-item";
 
 
-                // =====================================
+                // =================================================
                 // المفضلة
-                // =====================================
+                // =================================================
 
                 const favorite =
                     isFavorite(serviceName);
@@ -424,9 +542,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         : "";
 
 
-                // =====================================
-                // محتوى الخدمة
-                // =====================================
+                // =================================================
+                // تصميم الخدمة
+                // =================================================
 
                 serviceCard.innerHTML = `
 
@@ -474,9 +592,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
 
-                // =====================================
+                // =================================================
                 // زر المفضلة
-                // =====================================
+                // =================================================
 
                 const favoriteButton =
                     serviceCard.querySelector(
@@ -540,9 +658,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                // =====================================
+                // =================================================
                 // اختيار الخدمة
-                // =====================================
+                // =================================================
 
                 const selectButton =
                     serviceCard.querySelector(
@@ -592,7 +710,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        // هذه خدمة عادية وليست عرض
+                        // ليست عرضاً
                         localStorage.removeItem(
                             "selectedOffer"
                         );
@@ -606,7 +724,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
 
-                        // تنظيف الحجز السابق
+                        // تنظيف بيانات الحجز السابق
                         localStorage.removeItem(
                             "selectedStaff"
                         );
@@ -648,7 +766,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
-    // START
+    // تشغيل الصفحة
     // =====================================================
 
     renderServices();
