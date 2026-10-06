@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ========================================
+    // =====================================================
     // بيانات الحجز الحالية
-    // ========================================
+    // =====================================================
 
     const serviceName =
         localStorage.getItem("selectedServiceName");
@@ -10,8 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const servicePrice =
         localStorage.getItem("selectedServicePrice");
 
+    const serviceId =
+        localStorage.getItem("selectedServiceId");
+
     const staffName =
         localStorage.getItem("selectedStaff");
+
+    const staffId =
+        localStorage.getItem("selectedStaffId");
 
     const selectedDate =
         localStorage.getItem("selectedDate");
@@ -20,17 +26,17 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.getItem("selectedTime");
 
 
-    // ========================================
+    // =====================================================
     // هل نحن في وضع تعديل حجز؟
-    // ========================================
+    // =====================================================
 
     const editingBookingNumber =
         localStorage.getItem("editingBookingNumber");
 
 
-    // ========================================
+    // =====================================================
     // عناصر الصفحة
-    // ========================================
+    // =====================================================
 
     const confirmService =
         document.getElementById("confirmService");
@@ -57,79 +63,113 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("notesCounter");
 
 
-    // ========================================
+    // =====================================================
     // عرض بيانات الحجز
-    // ========================================
+    // =====================================================
 
     if (confirmService) {
         confirmService.textContent =
             serviceName || "-";
     }
 
-
     if (confirmStaff) {
         confirmStaff.textContent =
             staffName || "-";
     }
-
 
     if (confirmDate) {
         confirmDate.textContent =
             selectedDate || "-";
     }
 
-
     if (confirmTime) {
         confirmTime.textContent =
             selectedTime || "-";
     }
 
-
     if (confirmPrice) {
-        confirmPrice.textContent =
-            servicePrice || "0";
+
+        if (servicePrice) {
+
+            confirmPrice.textContent =
+                servicePrice + " ر.س";
+
+        } else {
+
+            confirmPrice.textContent =
+                "0 ر.س";
+        }
     }
 
 
-    // ========================================
-    // جلب الحجوزات السابقة
-    // ========================================
+    // =====================================================
+    // جلب الحجوزات السابقة بأمان
+    // =====================================================
+
+    function loadBookings() {
+
+        try {
+
+            const saved =
+                localStorage.getItem("bookings");
+
+            if (!saved) {
+                return [];
+            }
+
+            const parsed =
+                JSON.parse(saved);
+
+            return Array.isArray(parsed)
+                ? parsed
+                : [];
+
+        } catch (error) {
+
+            console.error(
+                "خطأ في قراءة الحجوزات:",
+                error
+            );
+
+            return [];
+        }
+    }
+
 
     let bookings =
-        JSON.parse(localStorage.getItem("bookings")) || [];
+        loadBookings();
 
 
-    // ========================================
+    // =====================================================
     // إذا كان تعديل حجز
     // نعرض الملاحظة القديمة
-    // ========================================
+    // =====================================================
 
     if (editingBookingNumber) {
 
         const oldBooking =
-            bookings.find(function (booking) {
+            bookings.find(
+                function (booking) {
 
-                return (
-                    booking.bookingNumber ===
-                    editingBookingNumber
-                );
-
-            });
+                    return (
+                        booking.bookingNumber ===
+                        editingBookingNumber
+                    );
+                }
+            );
 
 
         if (oldBooking && bookingNotes) {
 
             bookingNotes.value =
                 oldBooking.notes || "";
-
         }
-
     }
 
 
-    // ========================================
+    // =====================================================
     // عداد الملاحظات
-    // ========================================
+    // =====================================================
 
     function updateNotesCounter() {
 
@@ -138,49 +178,197 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        const currentLength =
-            bookingNotes.value.length;
+        // منع أكثر من 250 حرف
+        if (bookingNotes.value.length > 250) {
+
+            bookingNotes.value =
+                bookingNotes.value.substring(
+                    0,
+                    250
+                );
+        }
 
 
         notesCounter.textContent =
-            currentLength + " / 250";
-
+            bookingNotes.value.length +
+            " / 250";
     }
 
 
     if (bookingNotes) {
 
+        bookingNotes.setAttribute(
+            "maxlength",
+            "250"
+        );
+
         bookingNotes.addEventListener(
             "input",
             updateNotesCounter
         );
-
     }
 
 
     updateNotesCounter();
 
 
-    // ========================================
+    // =====================================================
+    // التحقق من اكتمال بيانات الحجز
+    // =====================================================
+
+    function validateBooking() {
+
+        if (!serviceName) {
+
+            alert(
+                "يرجى اختيار الخدمة أولاً"
+            );
+
+            window.location.href =
+                "booking.html";
+
+            return false;
+        }
+
+
+        if (!staffName) {
+
+            alert(
+                "يرجى اختيار الموظفة أولاً"
+            );
+
+            window.location.href =
+                "staff.html";
+
+            return false;
+        }
+
+
+        if (!selectedDate) {
+
+            alert(
+                "يرجى اختيار تاريخ الموعد"
+            );
+
+            window.location.href =
+                "datetime.html";
+
+            return false;
+        }
+
+
+        if (!selectedTime) {
+
+            alert(
+                "يرجى اختيار وقت الموعد"
+            );
+
+            window.location.href =
+                "datetime.html";
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    // =====================================================
+    // إنشاء رقم حجز غير مكرر
+    // =====================================================
+
+    function generateBookingNumber() {
+
+        let bookingNumber;
+
+        let exists = true;
+
+
+        while (exists) {
+
+            bookingNumber =
+                "LUM-" +
+                Math.floor(
+                    100000 +
+                    Math.random() * 900000
+                );
+
+
+            exists =
+                bookings.some(
+                    function (booking) {
+
+                        return (
+                            booking.bookingNumber ===
+                            bookingNumber
+                        );
+                    }
+                );
+        }
+
+
+        return bookingNumber;
+    }
+
+
+    // =====================================================
     // زر تأكيد الحجز
-    // ========================================
+    // =====================================================
 
     if (confirmButton) {
 
-        // إذا كان تعديل نغير النص
+        // ================================================
+        // إذا كان تعديل
+        // ================================================
+
         if (editingBookingNumber) {
 
             confirmButton.innerHTML = `
                 حفظ تعديل الموعد
                 <i class="fa-solid fa-check"></i>
             `;
-
         }
 
 
         confirmButton.addEventListener(
             "click",
             function () {
+
+                // منع الضغط مرتين بسرعة
+                if (
+                    confirmButton.dataset.processing ===
+                    "true"
+                ) {
+                    return;
+                }
+
+
+                // ========================================
+                // التحقق من البيانات
+                // ========================================
+
+                if (!validateBooking()) {
+                    return;
+                }
+
+
+                confirmButton.dataset.processing =
+                    "true";
+
+
+                const oldButtonHTML =
+                    confirmButton.innerHTML;
+
+
+                confirmButton.disabled =
+                    true;
+
+
+                confirmButton.innerHTML = `
+                    جاري تأكيد الحجز...
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                `;
 
 
                 // ========================================
@@ -189,12 +377,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const notes =
                     bookingNotes
-                    ? bookingNotes.value.trim()
-                    : "";
+                        ? bookingNotes.value
+                            .trim()
+                            .substring(0, 250)
+                        : "";
 
 
                 // ========================================
-                // وضع تعديل الحجز
+                // تعديل حجز موجود
                 // ========================================
 
                 if (editingBookingNumber) {
@@ -207,38 +397,49 @@ document.addEventListener("DOMContentLoaded", function () {
                                     booking.bookingNumber ===
                                     editingBookingNumber
                                 );
-
                             }
                         );
 
 
                     if (bookingIndex !== -1) {
 
-                        // نحافظ على رقم الحجز نفسه
+                        bookings[bookingIndex] = {
 
-                        bookings[bookingIndex].service =
-                            serviceName || "";
+                            ...bookings[bookingIndex],
 
-                        bookings[bookingIndex].price =
-                            servicePrice || "";
+                            service:
+                                serviceName || "",
 
-                        bookings[bookingIndex].staff =
-                            staffName || "";
+                            serviceId:
+                                serviceId || "",
 
-                        bookings[bookingIndex].date =
-                            selectedDate || "";
+                            price:
+                                servicePrice || "",
 
-                        bookings[bookingIndex].time =
-                            selectedTime || "";
+                            staff:
+                                staffName || "",
 
-                        bookings[bookingIndex].notes =
-                            notes;
+                            staffId:
+                                staffId || "",
 
-                        bookings[bookingIndex].status =
-                            "مؤكد";
+                            date:
+                                selectedDate || "",
 
+                            time:
+                                selectedTime || "",
 
-                        // حفظ التعديل
+                            notes:
+                                notes,
+
+                            status:
+                                "مؤكد",
+
+                            updatedAt:
+                                new Date()
+                                    .toISOString()
+
+                        };
+
 
                         localStorage.setItem(
                             "bookings",
@@ -246,58 +447,52 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
 
-                        // نخلي صفحة النجاح تعرف
-                        // أي حجز تعرض
-
                         localStorage.setItem(
                             "currentBookingNumber",
                             editingBookingNumber
                         );
 
 
-                        // إنهاء وضع التعديل
-
                         localStorage.removeItem(
                             "editingBookingNumber"
                         );
 
 
-                        // الانتقال لصفحة النجاح
-
                         window.location.href =
                             "success.html";
 
                         return;
-
                     }
-
                 }
 
 
                 // ========================================
-                // حجز جديد
+                // إنشاء حجز جديد
                 // ========================================
 
                 const bookingNumber =
-                    "LUM-" +
-                    Math.floor(
-                        100000 +
-                        Math.random() * 900000
-                    );
+                    generateBookingNumber();
 
 
                 const booking = {
 
-                    bookingNumber: bookingNumber,
+                    bookingNumber:
+                        bookingNumber,
 
                     service:
                         serviceName || "",
+
+                    serviceId:
+                        serviceId || "",
 
                     price:
                         servicePrice || "",
 
                     staff:
                         staffName || "",
+
+                    staffId:
+                        staffId || "",
 
                     date:
                         selectedDate || "",
@@ -309,47 +504,82 @@ document.addEventListener("DOMContentLoaded", function () {
                         notes,
 
                     status:
-                        "مؤكد"
+                        "مؤكد",
+
+                    createdAt:
+                        new Date()
+                            .toISOString()
 
                 };
 
 
+                // ========================================
                 // إضافة الحجز
+                // ========================================
 
-                bookings.push(booking);
+                bookings.push(
+                    booking
+                );
 
 
+                // ========================================
                 // حفظ الحجوزات
+                // ========================================
 
-                localStorage.setItem(
-                    "bookings",
-                    JSON.stringify(bookings)
-                );
+                try {
 
-
-                // حفظ رقم الحجز الحالي
-
-                localStorage.setItem(
-                    "currentBookingNumber",
-                    bookingNumber
-                );
+                    localStorage.setItem(
+                        "bookings",
+                        JSON.stringify(bookings)
+                    );
 
 
-                // تنظيف وضع التعديل احتياطياً
+                    localStorage.setItem(
+                        "currentBookingNumber",
+                        bookingNumber
+                    );
 
-                localStorage.removeItem(
-                    "editingBookingNumber"
-                );
+
+                    localStorage.removeItem(
+                        "editingBookingNumber"
+                    );
 
 
-                // الانتقال لصفحة النجاح
+                    // ====================================
+                    // الانتقال لصفحة نجاح الحجز
+                    // ====================================
 
-                window.location.href =
-                    "success.html";
+                    window.location.href =
+                        "success.html";
+
+
+                } catch (error) {
+
+                    console.error(
+                        "خطأ في حفظ الحجز:",
+                        error
+                    );
+
+
+                    alert(
+                        "حدث خطأ أثناء حفظ الحجز، حاولي مرة أخرى."
+                    );
+
+
+                    confirmButton.disabled =
+                        false;
+
+
+                    confirmButton.dataset.processing =
+                        "false";
+
+
+                    confirmButton.innerHTML =
+                        oldButtonHTML;
+                }
 
             }
         );
-
     }
 
 });

@@ -31,8 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (serviceNameElement) {
 
         serviceNameElement.textContent =
-            serviceName ||
-            "لم يتم اختيار خدمة";
+            serviceName || "الخدمة المختارة";
     }
 
 
@@ -51,6 +50,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================================
+    // DEFAULT STAFF
+    // تظهر إذا Netlify ما عنده بيانات محفوظة
+    // =====================================================
+
+    const defaultStaff = [
+
+        {
+            id: "staff-1",
+            name: "سارة",
+            specialty: "أخصائية شعر",
+            status: "active"
+        },
+
+        {
+            id: "staff-2",
+            name: "نورة",
+            specialty: "أخصائية تجميل",
+            status: "active"
+        },
+
+        {
+            id: "staff-3",
+            name: "ريم",
+            specialty: "أخصائية أظافر",
+            status: "active"
+        },
+
+        {
+            id: "staff-4",
+            name: "ليان",
+            specialty: "أخصائية بشرة ومكياج",
+            status: "active"
+        }
+
+    ];
+
+
+    // =====================================================
     // LOAD STAFF
     // =====================================================
 
@@ -62,19 +99,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.getItem("lumiereStaff");
 
 
-            if (saved === null) {
+            let parsed = [];
 
-                return [];
+
+            if (saved) {
+
+                parsed =
+                    JSON.parse(saved);
             }
 
 
-            const parsed =
-                JSON.parse(saved);
+            // =============================================
+            // إذا البيانات غير موجودة أو القائمة فاضية
+            // نحفظ الموظفات الافتراضيات
+            // =============================================
+
+            if (
+                !Array.isArray(parsed) ||
+                parsed.length === 0
+            ) {
+
+                localStorage.setItem(
+                    "lumiereStaff",
+                    JSON.stringify(defaultStaff)
+                );
 
 
-            return Array.isArray(parsed)
-                ? parsed
-                : [];
+                return [...defaultStaff];
+            }
+
+
+            return parsed;
+
 
         } catch (error) {
 
@@ -83,7 +139,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 error
             );
 
-            return [];
+
+            localStorage.setItem(
+                "lumiereStaff",
+                JSON.stringify(defaultStaff)
+            );
+
+
+            return [...defaultStaff];
         }
     }
 
@@ -115,21 +178,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function isStaffActive(staff) {
 
-        /*
-            ندعم أكثر من شكل للحالة
-            حتى لو كانت البيانات قديمة
-        */
-
         const status =
             String(
                 staff.status || "active"
-            ).toLowerCase();
+            )
+                .trim()
+                .toLowerCase();
 
 
         return (
             status !== "inactive" &&
+            status !== "disabled" &&
             status !== "متوقفة" &&
-            status !== "غير نشطة"
+            status !== "غير نشطة" &&
+            status !== "غير نشط"
         );
     }
 
@@ -141,6 +203,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderStaff() {
 
         if (!staffList) {
+
+            console.error(
+                "customerStaffList غير موجود في staff.html"
+            );
+
             return;
         }
 
@@ -156,12 +223,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         // تنظيف القائمة
+
         staffList.innerHTML = "";
 
 
-        // =========================================
+        // =================================================
         // NO STAFF
-        // =========================================
+        // =================================================
 
         if (activeStaff.length === 0) {
 
@@ -180,11 +248,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // =========================================
-        // SHOW LIST
-        // =========================================
+        // =================================================
+        // SHOW STAFF
+        // =================================================
 
-        staffList.style.display = "";
+        staffList.style.display =
+            "";
 
 
         if (emptyState) {
@@ -194,9 +263,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // =========================================
+        // =================================================
         // CREATE STAFF CARDS
-        // =========================================
+        // =================================================
 
         activeStaff.forEach(
             function (staff) {
@@ -268,9 +337,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
 
-                // =================================
+                // =========================================
                 // CLICK STAFF
-                // =================================
+                // =========================================
 
                 card.addEventListener(
                     "click",
@@ -297,19 +366,25 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
 
-                        // حفظ اسم الموظفة
+                        // =================================
+                        // SAVE STAFF NAME
+                        // =================================
+
                         localStorage.setItem(
                             "selectedStaff",
                             name
                         );
 
 
-                        // حفظ ID
+                        // =================================
+                        // SAVE STAFF ID
+                        // =================================
+
                         if (staffId) {
 
                             localStorage.setItem(
                                 "selectedStaffId",
-                                staffId
+                                String(staffId)
                             );
 
                         } else {
@@ -320,7 +395,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        // الانتقال للموعد
+                        // =================================
+                        // CLEAN OLD DATE/TIME
+                        // =================================
+
+                        localStorage.removeItem(
+                            "selectedDate"
+                        );
+
+                        localStorage.removeItem(
+                            "selectedTime"
+                        );
+
+
+                        // =================================
+                        // GO TO DATE & TIME
+                        // =================================
+
                         setTimeout(
                             function () {
 
@@ -328,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "datetime.html";
 
                             },
-                            250
+                            200
                         );
                     }
                 );
